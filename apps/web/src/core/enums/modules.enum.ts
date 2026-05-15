@@ -1,0 +1,15 @@
+export enum ModuleKey {
+  Dashboard = 'dashboard',
+  Crm = 'crm',
+  Analytics = 'analytics',
+  AiAssistant = 'ai-assistant',
+  Campaigns = 'campaigns',
+  Documents = 'documents',
+  Scoring = 'scoring',
+  Qr = 'qr',
+  Notifications = 'notifications',
+  Users = 'users',
+  Roles = 'roles',
+  Settings = 'settings',
+  Workflows = 'workflows',
+}

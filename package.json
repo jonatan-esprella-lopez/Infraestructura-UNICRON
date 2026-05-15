@@ -1,6 +1,12 @@
 {
   "name": "hackathon-base",
   "private": true,
+  "scripts": {
+    "dev:web": "npm run dev --workspace @unicron/web",
+    "build:web": "npm run build --workspace @unicron/web",
+    "typecheck:web": "npm run typecheck --workspace @unicron/web",
+    "lint:web": "npm run lint --workspace @unicron/web"
+  },
   "workspaces": [
     "apps/*",
     "packages/*"
