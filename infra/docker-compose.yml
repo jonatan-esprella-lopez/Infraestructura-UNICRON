@@ -1,2 +1,2 @@
-version: '3'
-services: {}
+include:
+  - docker/local/docker-compose.yml

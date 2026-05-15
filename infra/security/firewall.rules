@@ -1,0 +1,5 @@
+# Example firewall policy. Apply with your cloud/network provider, not directly in local dev.
+allow tcp 80
+allow tcp 443
+allow tcp 4000 from private-network
+deny all

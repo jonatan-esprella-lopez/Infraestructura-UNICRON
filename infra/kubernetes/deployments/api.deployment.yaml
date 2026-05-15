@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: unicron
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: unicron/api:latest
+          ports:
+            - containerPort: 4000
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 4000
+          livenessProbe:
+            httpGet:
+              path: /live
+              port: 4000

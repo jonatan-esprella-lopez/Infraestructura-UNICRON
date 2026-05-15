@@ -1,0 +1,9 @@
+services:
+  api:
+    environment:
+      NODE_ENV: development
+      FEATURE_AI_ENABLED: "true"
+
+  web:
+    environment:
+      NODE_ENV: development

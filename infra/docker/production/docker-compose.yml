@@ -1,0 +1,16 @@
+name: unicron-production
+
+services:
+  api:
+    image: ${API_IMAGE:-unicron/api:production}
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+
+  web:
+    image: ${WEB_IMAGE:-unicron/web:production}
+    restart: unless-stopped
+    ports:
+      - "5173:5173"

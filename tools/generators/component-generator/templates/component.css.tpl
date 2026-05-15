@@ -1,0 +1,5 @@
+.{{kebabName}} {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+}
