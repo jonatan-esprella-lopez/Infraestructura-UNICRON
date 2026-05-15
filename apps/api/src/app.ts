@@ -39,7 +39,17 @@ export class ApiApplication {
     const requestId = String(req.headers[REQUEST_ID_HEADER] ?? randomUUID());
     const requestUrl = new URL(req.url ?? '/', `http://${req.headers.host ?? this.config.host}`);
     const method = normalizeMethod(req.method);
-    const matched = this.matchRoute(method, requestUrl.pathname);
+    const matched =
+      method === 'OPTIONS'
+        ? {
+            params: {},
+            route: {
+              handler: () => ({ statusCode: 204, body: null }),
+              method,
+              path: requestUrl.pathname,
+            },
+          }
+        : this.matchRoute(method, requestUrl.pathname);
 
     const context: RequestContext = {
       req,
