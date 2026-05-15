@@ -1,0 +1,8 @@
+{
+  "name": "hackathon-base",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
