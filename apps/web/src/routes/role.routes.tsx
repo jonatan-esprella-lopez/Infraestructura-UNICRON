@@ -11,8 +11,8 @@ import {
   Users,
   WalletCards,
   Workflow,
+  type LucideIcon,
 } from 'lucide-react';
-import type { ComponentType } from 'react';
 import type { FeatureFlagKey } from '@bootstrap/environment';
 import { Permission } from '@core/enums/permissions.enum';
 import { Role } from '@core/enums/roles.enum';
@@ -23,7 +23,7 @@ export interface RoleRoute {
   key: ModuleKey;
   label: string;
   path: string;
-  icon: ComponentType<{ size?: number }>;
+  icon: LucideIcon;
   featureFlag?: FeatureFlagKey;
   permissions: Permission[];
   roles: Role[];
