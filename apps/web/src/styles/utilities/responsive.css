@@ -1,0 +1,9 @@
+@media (max-width: 768px) {
+  .u-md-hidden {
+    display: none;
+  }
+
+  .u-md-block {
+    display: block;
+  }
+}

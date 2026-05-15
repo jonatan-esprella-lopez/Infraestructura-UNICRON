@@ -3,7 +3,7 @@ import { Button } from '@shared/components/ui/button';
 
 export function MobileNav() {
   return (
-    <div className="mobile-nav">
+    <div className="dashboard-layout__mobile-nav">
       <Button variant="ghost" aria-label="Abrir menu">
         <Menu size={18} />
       </Button>

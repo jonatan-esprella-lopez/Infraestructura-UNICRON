@@ -1,0 +1,11 @@
+.u-text-muted {
+  color: var(--color-text-secondary);
+}
+
+.u-text-primary {
+  color: var(--color-text-primary);
+}
+
+.u-text-strong {
+  font-weight: var(--font-weight-bold);
+}

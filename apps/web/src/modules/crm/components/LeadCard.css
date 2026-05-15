@@ -1,0 +1,15 @@
+.crm-lead-card {
+  display: grid;
+  gap: 7px;
+  padding: var(--space-3);
+  border-radius: var(--radius-xs);
+  background: var(--color-surface-muted);
+}
+
+.crm-lead-card__company {
+  color: var(--color-text-secondary);
+}
+
+.crm-lead-card--hot {
+  border-left: 3px solid var(--color-primary);
+}

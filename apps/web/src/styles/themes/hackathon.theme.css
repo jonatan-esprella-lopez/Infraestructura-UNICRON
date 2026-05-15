@@ -1,0 +1,7 @@
+[data-theme='hackathon'] {
+  --color-primary: #ff6b00;
+  --color-primary-hover: #e95f00;
+  --color-secondary: #1f2937;
+  --color-accent: #14b8a6;
+  --color-focus-ring: rgba(255, 107, 0, 0.35);
+}

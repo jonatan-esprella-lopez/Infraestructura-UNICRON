@@ -1,0 +1,15 @@
+.feedback-state {
+  padding: var(--space-4);
+  border-radius: var(--radius-xs);
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+}
+
+.feedback-state--loading {
+  animation: loading-pulse 1.2s ease-in-out infinite;
+}
+
+.feedback-state--error {
+  border: 1px solid var(--color-danger);
+  color: var(--color-danger);
+}

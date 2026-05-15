@@ -1,4 +1,5 @@
 import { Badge } from '@shared/components/ui/badge';
+import '@modules/_shared/module-summary/ModuleSummary.css';
 import { MARKETPLACES_MODULE } from '../constants/marketplaces.constants';
 
 export function MarketplacesSummary() {

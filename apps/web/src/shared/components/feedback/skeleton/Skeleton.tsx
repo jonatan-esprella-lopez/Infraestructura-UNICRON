@@ -1,3 +1,5 @@
+import '../FeedbackState.css';
+
 export function Skeleton() {
-  return <div className="feedback-state">Cargando contenido...</div>;
+  return <div className="feedback-state feedback-state--loading">Cargando contenido...</div>;
 }

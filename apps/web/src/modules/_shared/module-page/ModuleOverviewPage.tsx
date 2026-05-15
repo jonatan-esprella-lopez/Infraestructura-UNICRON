@@ -1,5 +1,6 @@
 import { Badge } from '@shared/components/ui/badge';
 import { Button } from '@shared/components/ui/button';
+import './ModuleOverviewPage.css';
 
 interface ModuleMetric {
   label: string;
@@ -16,29 +17,29 @@ interface ModuleOverviewPageProps {
 
 export function ModuleOverviewPage({ title, description, capabilities, metrics }: ModuleOverviewPageProps) {
   return (
-    <section className="module-page">
-      <div className="module-hero">
+    <section className="module-overview">
+      <div className="module-overview__hero">
         <div>
-          <p className="eyebrow">Feature-driven domain</p>
-          <h2>{title}</h2>
-          <p>{description}</p>
+          <p className="module-overview__eyebrow">Feature-driven domain</p>
+          <h2 className="module-overview__title">{title}</h2>
+          <p className="module-overview__description">{description}</p>
         </div>
         <Button>Crear registro</Button>
       </div>
 
-      <div className="metric-grid">
+      <div className="module-overview__metrics">
         {metrics.map((metric) => (
-          <article className="metric-card" key={metric.label}>
-            <span>{metric.label}</span>
-            <strong>{metric.value}</strong>
-            <small>{metric.trend}</small>
+          <article className="module-overview__metric-card" key={metric.label}>
+            <span className="module-overview__metric-label">{metric.label}</span>
+            <strong className="module-overview__metric-value">{metric.value}</strong>
+            <small className="module-overview__metric-trend">{metric.trend}</small>
           </article>
         ))}
       </div>
 
-      <div className="capability-panel">
+      <div className="module-overview__capabilities">
         <h3>Capacidades listas</h3>
-        <div className="module-summary">
+        <div className="module-overview__summary">
           {capabilities.map((capability) => (
             <Badge key={capability}>{capability}</Badge>
           ))}

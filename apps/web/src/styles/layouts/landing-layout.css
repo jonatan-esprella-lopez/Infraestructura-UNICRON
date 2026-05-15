@@ -1,0 +1,9 @@
+.landing-layout {
+  min-height: 100vh;
+  background: var(--color-background);
+}
+
+.landing-layout__nav,
+.landing-layout__footer {
+  padding: var(--space-4) var(--space-5);
+}

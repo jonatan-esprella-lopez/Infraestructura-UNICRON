@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import { App } from './App';
 import { AppProviders } from './bootstrap/providers';
 import { initializeServices } from './bootstrap/initialize-services';
-import './styles/globals.css';
+import '@styles/index.css';
 
 initializeServices();
 

@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { cx } from '@shared/utils/class-name.utils';
+import './Avatar.css';
 
 export interface AvatarProps {
   children?: ReactNode;
@@ -6,5 +8,5 @@ export interface AvatarProps {
 }
 
 export function Avatar({ children, className = '' }: AvatarProps) {
-  return <span className={className}>{children}</span>;
+  return <span className={cx('ui-avatar', className)}>{children}</span>;
 }

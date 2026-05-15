@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { cx } from '@shared/utils/class-name.utils';
+import './Modal.css';
 
 export interface ModalProps {
   children?: ReactNode;
@@ -6,5 +8,5 @@ export interface ModalProps {
 }
 
 export function Modal({ children, className = '' }: ModalProps) {
-  return <dialog className={className}>{children}</dialog>;
+  return <dialog className={cx('ui-modal', className)}>{children}</dialog>;
 }

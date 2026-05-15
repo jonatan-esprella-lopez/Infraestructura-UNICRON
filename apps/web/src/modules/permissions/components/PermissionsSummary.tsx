@@ -1,4 +1,5 @@
 import { Badge } from '@shared/components/ui/badge';
+import '@modules/_shared/module-summary/ModuleSummary.css';
 import { PERMISSIONS_MODULE } from '../constants/permissions.constants';
 
 export function PermissionsSummary() {

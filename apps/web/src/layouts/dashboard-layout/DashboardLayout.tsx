@@ -7,10 +7,10 @@ export function DashboardLayout() {
   return (
     <div className="dashboard-layout">
       <Sidebar />
-      <div className="dashboard-shell">
+      <div className="dashboard-layout__shell">
         <MobileNav />
         <Header />
-        <main className="dashboard-content">
+        <main className="dashboard-layout__content">
           <Outlet />
         </main>
       </div>

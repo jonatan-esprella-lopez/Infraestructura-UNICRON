@@ -13,19 +13,25 @@ export function Sidebar() {
   });
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-brand">
-        <span className="brand-mark">U</span>
+    <aside className="dashboard-layout__sidebar">
+      <div className="dashboard-layout__brand">
+        <span className="dashboard-layout__brand-mark">U</span>
         <div>
           <strong>{appConfig.name}</strong>
           <small>Hackathon base</small>
         </div>
       </div>
-      <nav className="sidebar-nav" aria-label="Modulos">
+      <nav className="dashboard-layout__nav" aria-label="Modulos">
         {visibleRoutes.map((route) => {
           const Icon = route.icon;
           return (
-            <NavLink key={route.path} to={route.path} className={({ isActive }) => (isActive ? 'active' : '')}>
+            <NavLink
+              key={route.path}
+              to={route.path}
+              className={({ isActive }) =>
+                isActive ? 'dashboard-layout__nav-link is-active' : 'dashboard-layout__nav-link'
+              }
+            >
               <Icon size={18} />
               <span>{route.label}</span>
             </NavLink>

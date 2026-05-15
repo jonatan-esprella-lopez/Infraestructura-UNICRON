@@ -1,4 +1,5 @@
 import { Badge } from '@shared/components/ui/badge';
+import '@modules/_shared/module-summary/ModuleSummary.css';
 import { ROLES_MODULE } from '../constants/roles.constants';
 
 export function RolesSummary() {

@@ -1,0 +1,4 @@
+.data-grid {
+  display: grid;
+  gap: var(--space-3);
+}

@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { cx } from '@shared/utils/class-name.utils';
+import './Switch.css';
 
 export interface SwitchProps {
   children?: ReactNode;
@@ -6,5 +8,5 @@ export interface SwitchProps {
 }
 
 export function Switch({ children, className = '' }: SwitchProps) {
-  return <label className={className}>{children}</label>;
+  return <label className={cx('form-switch', className)}>{children}</label>;
 }

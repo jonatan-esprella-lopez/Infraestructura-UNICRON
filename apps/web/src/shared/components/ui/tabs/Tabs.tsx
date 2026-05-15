@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { cx } from '@shared/utils/class-name.utils';
+import './Tabs.css';
 
 export interface TabsProps {
   children?: ReactNode;
@@ -6,5 +8,5 @@ export interface TabsProps {
 }
 
 export function Tabs({ children, className = '' }: TabsProps) {
-  return <div className={className}>{children}</div>;
+  return <div className={cx('ui-tabs', className)}>{children}</div>;
 }

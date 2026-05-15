@@ -1,0 +1,12 @@
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-background: #10141f;
+  --color-surface: #171d2b;
+  --color-surface-muted: #20283a;
+  --color-text-primary: #f4f7fb;
+  --color-text-secondary: #a8b3c7;
+  --color-border: #303a52;
+  --color-sidebar: #070b12;
+  --color-sidebar-text: #f8fafc;
+  --color-sidebar-muted: #8ea0ba;
+}

@@ -1,0 +1,15 @@
+.u-block {
+  display: block;
+}
+
+.u-inline {
+  display: inline;
+}
+
+.u-inline-flex {
+  display: inline-flex;
+}
+
+.u-hidden {
+  display: none;
+}

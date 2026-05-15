@@ -1,4 +1,5 @@
 import { Badge } from '@shared/components/ui/badge';
+import '@modules/_shared/module-summary/ModuleSummary.css';
 import { USERS_MODULE } from '../constants/users.constants';
 
 export function UsersSummary() {

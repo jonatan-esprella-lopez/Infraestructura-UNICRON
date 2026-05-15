@@ -1,0 +1,12 @@
+.ui-modal {
+  width: min(520px, calc(100vw - var(--space-5)));
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-md);
+}
+
+.ui-modal::backdrop {
+  background: rgba(15, 23, 42, 0.45);
+}

@@ -1,4 +1,5 @@
 import { Badge } from '@shared/components/ui/badge';
+import '@modules/_shared/module-summary/ModuleSummary.css';
 import { GAMIFICATION_MODULE } from '../constants/gamification.constants';
 
 export function GamificationSummary() {

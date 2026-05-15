@@ -1,0 +1,11 @@
+.auth-layout {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: var(--space-5);
+}
+
+.auth-layout__header,
+.auth-layout__footer {
+  color: var(--color-text-secondary);
+}

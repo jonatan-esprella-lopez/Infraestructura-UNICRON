@@ -7,19 +7,19 @@ export function Header() {
   const { currentUser } = useRootStore();
 
   return (
-    <header className="dashboard-header">
+    <header className="dashboard-layout__header">
       <div>
         <Breadcrumb />
-        <h1>Command center</h1>
+        <h1 className="dashboard-layout__title">Command center</h1>
       </div>
-      <div className="header-actions">
+      <div className="dashboard-layout__header-actions">
         <Button variant="ghost" aria-label="Buscar">
           <Search size={18} />
         </Button>
         <Button variant="ghost" aria-label="Notificaciones">
           <Bell size={18} />
         </Button>
-        <div className="user-chip">{currentUser.name}</div>
+        <div className="dashboard-layout__user-chip">{currentUser.name}</div>
       </div>
     </header>
   );

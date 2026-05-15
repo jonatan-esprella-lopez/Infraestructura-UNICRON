@@ -1,0 +1,7 @@
+[data-theme='corporate'] {
+  --color-primary: #0f4c81;
+  --color-primary-hover: #0a3760;
+  --color-secondary: #263241;
+  --color-background: #f6f8fb;
+  --color-surface-muted: #edf2f7;
+}
