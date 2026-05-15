@@ -1,6 +1,6 @@
 .crm-lead-card {
   display: grid;
-  gap: 7px;
+  gap: var(--space-2);
   padding: var(--space-3);
   border-radius: var(--radius-xs);
   background: var(--color-surface-muted);

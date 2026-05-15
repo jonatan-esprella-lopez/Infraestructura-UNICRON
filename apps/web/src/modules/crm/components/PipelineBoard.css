@@ -6,9 +6,9 @@
 
 .crm-pipeline-board__column {
   display: grid;
-  min-height: 220px;
-  gap: 10px;
-  padding: 14px;
+  min-height: var(--size-pipeline-column-min);
+  gap: var(--space-3);
+  padding: var(--space-3);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: var(--color-surface);

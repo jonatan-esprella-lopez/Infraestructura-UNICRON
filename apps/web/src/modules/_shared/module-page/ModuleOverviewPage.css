@@ -31,7 +31,7 @@
 }
 
 .module-overview__description {
-  max-width: 720px;
+  max-width: var(--size-content-measure);
 }
 
 .module-overview__metrics {
@@ -42,7 +42,7 @@
 
 .module-overview__metric-card,
 .module-overview__capabilities {
-  padding: 18px;
+  padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: var(--color-surface);

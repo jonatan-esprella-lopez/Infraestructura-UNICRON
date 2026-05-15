@@ -1,6 +1,6 @@
 .form-textarea {
   width: 100%;
-  min-height: 120px;
+  min-height: var(--size-textarea-min);
   padding: var(--space-3);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xs);

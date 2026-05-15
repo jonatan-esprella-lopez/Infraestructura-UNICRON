@@ -31,12 +31,12 @@
 }
 
 .crm-page__description {
-  max-width: 720px;
+  max-width: var(--size-content-measure);
 }
 
 .crm-page__stat {
-  min-width: 180px;
-  padding: 18px;
+  min-width: var(--size-stat-min);
+  padding: var(--space-4);
   border-radius: var(--radius-sm);
   background: var(--color-surface-muted);
 }
@@ -47,7 +47,7 @@
 }
 
 .crm-page__panel {
-  padding: 18px;
+  padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: var(--color-surface);

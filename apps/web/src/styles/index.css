@@ -9,6 +9,7 @@
 @import './tokens/typography.css';
 @import './tokens/shadows.css';
 @import './tokens/radius.css';
+@import './tokens/sizes.css';
 @import './tokens/z-index.css';
 @import './tokens/transitions.css';
 @import './tokens/breakpoints.css';
