@@ -116,7 +116,7 @@ export function LandingPage() {
       <section className="lp-hero">
         <div className="lp-hero-bg" />
         <div className="lp-hero-content">
-          <span className="lp-hero-badge">🏡 La plataforma inmobiliaria #1 de Bolivia</span>
+          {/* <span className="lp-hero-badge">🏡 La plataforma inmobiliaria #1 de Bolivia</span> */}
           <h1 className="lp-hero-title">
             Encuentra el hogar<br />
             <span className="lp-hero-accent">que mereces</span>
