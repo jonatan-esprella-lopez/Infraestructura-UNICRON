@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { authService } from '../services/auth.service';
 import { useRootStore } from '@store/root-store';
 import { ROUTES } from '@core/constants/routes.constants';
-import { Home, Brain, FileText, BarChart3, Users, Mail, Lock, User } from 'lucide-react';
+import { Home, Brain, FileText, BarChart3, Users, Mail, Lock, User, Briefcase, Phone, Building } from 'lucide-react';
 import './AuthPage.css';
 
 const DEMO_ACCOUNTS = [
@@ -20,8 +20,11 @@ export function AuthPage() {
   
   const isRegister = location.pathname.includes('register');
 
+  const [role, setRole] = useState<'agent' | 'owner' | 'client'>('client');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [agency, setAgency] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -90,6 +93,38 @@ export function AuthPage() {
 
           <form className="auth-form" onSubmit={(e) => { void handleSubmit(e); }}>
             {isRegister && (
+              <div className="auth-role-selector">
+                <p className="auth-role-label">¿Qué tipo de cuenta deseas crear?</p>
+                <div className="auth-role-grid">
+                  <button
+                    type="button"
+                    className={`auth-role-card ${role === 'client' ? 'selected' : ''}`}
+                    onClick={() => setRole('client')}
+                  >
+                    <User className="auth-role-icon" size={24} />
+                    <span>Cliente</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`auth-role-card ${role === 'owner' ? 'selected' : ''}`}
+                    onClick={() => setRole('owner')}
+                  >
+                    <Home className="auth-role-icon" size={24} />
+                    <span>Propietario</span>
+                  </button>
+                  <button
+                    type="button"
+                    className={`auth-role-card ${role === 'agent' ? 'selected' : ''}`}
+                    onClick={() => setRole('agent')}
+                  >
+                    <Briefcase className="auth-role-icon" size={24} />
+                    <span>Agente</span>
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {isRegister && (
               <label className="auth-label">
                 Nombre Completo
                 <div className="auth-input-wrapper">
@@ -121,6 +156,39 @@ export function AuthPage() {
                 />
               </div>
             </label>
+
+            {isRegister && (
+              <label className="auth-label">
+                Teléfono / WhatsApp
+                <div className="auth-input-wrapper">
+                  <Phone size={18} className="auth-input-icon" />
+                  <input
+                    type="tel"
+                    className="auth-input with-icon"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Ej. +591 71234567"
+                    required={isRegister}
+                  />
+                </div>
+              </label>
+            )}
+
+            {isRegister && role === 'agent' && (
+              <label className="auth-label">
+                Empresa / Inmobiliaria (Opcional)
+                <div className="auth-input-wrapper">
+                  <Building size={18} className="auth-input-icon" />
+                  <input
+                    type="text"
+                    className="auth-input with-icon"
+                    value={agency}
+                    onChange={(e) => setAgency(e.target.value)}
+                    placeholder="Nombre de tu agencia"
+                  />
+                </div>
+              </label>
+            )}
 
             <label className="auth-label">
               Contraseña
