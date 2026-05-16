@@ -5,6 +5,7 @@ import type { FeatureFlagKey } from '@bootstrap/environment';
 
 const DashboardPage = lazy(() => import('@modules/dashboard/pages/DashboardPage').then((module) => ({ default: module.DashboardPage })));
 const MatcherPage = lazy(() => import('@modules/matcher/pages/MatcherPage').then((module) => ({ default: module.MatcherPage })));
+const ContractsPage = lazy(() => import('@modules/contracts/pages/ContractsPage').then((module) => ({ default: module.ContractsPage })));
 const CRMPage = lazy(() => import('@modules/crm/pages/CRMPage').then((module) => ({ default: module.CRMPage })));
 const AnalyticsPage = lazy(() => import('@modules/analytics/pages/AnalyticsPage').then((module) => ({ default: module.AnalyticsPage })));
 const AiAssistantPage = lazy(() => import('@modules/ai-assistant/pages/AiAssistantPage').then((module) => ({ default: module.AiAssistantPage })));
@@ -21,6 +22,7 @@ const WorkflowsPage = lazy(() => import('@modules/workflows/pages/WorkflowsPage'
 export const lazyModuleRoutes = [
   { path: 'dashboard', element: <DashboardPage />, permissions: [Permission.ViewDashboard], roles: [Role.Admin, Role.Manager, Role.Operator, Role.Viewer] },
   { path: 'matcher', element: <MatcherPage />, permissions: [], roles: [] },
+  { path: 'contracts', element: <ContractsPage />, permissions: [], roles: [] },
   { path: 'crm', element: <CRMPage />, featureFlag: 'crm' as FeatureFlagKey, permissions: [Permission.AccessCrm], roles: [Role.Admin, Role.Manager, Role.Operator] },
   { path: 'analytics', element: <AnalyticsPage />, featureFlag: 'analytics' as FeatureFlagKey, permissions: [Permission.AccessAnalytics], roles: [Role.Admin, Role.Manager, Role.Viewer] },
   { path: 'ai-assistant', element: <AiAssistantPage />, featureFlag: 'ai' as FeatureFlagKey, permissions: [Permission.AccessAi], roles: [Role.Admin, Role.Manager] },
