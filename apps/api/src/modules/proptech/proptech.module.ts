@@ -7,11 +7,14 @@ import { InMemoryPropertyVisitRepository } from './infrastructure/repositories/i
 import { InMemoryPropertyOfferRepository } from './infrastructure/repositories/in-memory-property-offer.repository.js';
 import { InMemoryPropertyContractRepository } from './infrastructure/repositories/in-memory-property-contract.repository.js';
 import { InMemoryPropertyMatchingRepository } from './infrastructure/repositories/in-memory-property-matching.repository.js';
+import { InMemoryPropertySaleRepository } from './infrastructure/repositories/in-memory-property-sale.repository.js';
 import { PropertyService } from './application/services/property.service.js';
 import { PropertyVisitService } from './application/services/property-visit.service.js';
 import { PropertyMatchingService } from './application/services/property-matching.service.js';
 import { PropertyContractService } from './application/services/property-contract.service.js';
 import { ProptechDashboardService } from './application/services/proptech-dashboard.service.js';
+import { SaleService } from './application/services/sale.service.js';
+import { ReportService } from './application/services/report.service.js';
 import { createProptechRoutes } from './presentation/routes/proptech.routes.js';
 import { ProptechDashboardController } from './presentation/controllers/proptech-dashboard.controller.js';
 import { createPropertyCreatedListener } from './listeners/property-created.listener.js';
@@ -26,6 +29,7 @@ export function createProptechModule(services: AppServices): ApplicationModule {
   const offerRepository = new InMemoryPropertyOfferRepository();
   const contractRepository = new InMemoryPropertyContractRepository();
   const matchingRepository = new InMemoryPropertyMatchingRepository();
+  const saleRepository = new InMemoryPropertySaleRepository();
 
   void mediaRepository;
   void documentRepository;
@@ -34,6 +38,8 @@ export function createProptechModule(services: AppServices): ApplicationModule {
   const visitService = new PropertyVisitService(visitRepository, services);
   const matchingService = new PropertyMatchingService(matchingRepository, propertyRepository, services);
   const contractService = new PropertyContractService(contractRepository, services);
+  const saleService = new SaleService(saleRepository);
+  const reportService = new ReportService(saleRepository);
   const dashboardService = new ProptechDashboardService(
     propertyRepository,
     visitRepository,
@@ -75,7 +81,7 @@ export function createProptechModule(services: AppServices): ApplicationModule {
         handler: () => ok({ module: ModuleName.Proptech, status: 'ready' }),
       },
       ...new ProptechDashboardController(dashboardService).routes(),
-      ...createProptechRoutes({ propertyService, visitService, matchingService, contractService }),
+      ...createProptechRoutes({ propertyService, visitService, matchingService, contractService, saleService, reportService }),
     ],
   };
 }
