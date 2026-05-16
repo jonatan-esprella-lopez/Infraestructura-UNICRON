@@ -4,6 +4,7 @@ import { authService } from '../services/auth.service';
 import { useRootStore } from '@store/root-store';
 import { ROUTES } from '@core/constants/routes.constants';
 import { Home, Brain, FileText, BarChart3, Users, Mail, Lock, User, Briefcase, Phone, Building } from 'lucide-react';
+import { LocationSelector, type LocationValue } from '@modules/proptech/shared/components/location-selector';
 import './AuthPage.css';
 
 const DEMO_ACCOUNTS = [
@@ -25,6 +26,7 @@ export function AuthPage() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [agency, setAgency] = useState('');
+  const [locationValue, setLocationValue] = useState<LocationValue>({});
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -37,6 +39,7 @@ export function AuthPage() {
       if (isRegister) {
         // Mock register for now or use actual service if available
         await new Promise((resolve) => setTimeout(resolve, 1000));
+        localStorage.setItem('intersim.registration-location', JSON.stringify(locationValue));
         const { token, user } = await authService.login(email.trim(), password); // Mock fallback
         localStorage.setItem('intersim.token', token);
         setCurrentUser(user);
@@ -172,6 +175,16 @@ export function AuthPage() {
                   />
                 </div>
               </label>
+            )}
+
+            {isRegister && (
+              <LocationSelector
+                autoDetect
+                className="auth-location"
+                label="Ubicacion principal"
+                value={locationValue}
+                onChange={setLocationValue}
+              />
             )}
 
             {isRegister && role === 'agent' && (
