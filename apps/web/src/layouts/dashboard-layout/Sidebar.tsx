@@ -86,6 +86,7 @@ const OWNER_GROUPS: NavGroup[] = [
     items: [
       { label: 'Mi panel', path: ROUTES.proptech, icon: Building2, featureFlag: 'proptech', end: true },
       { label: 'Perfil', path: ROUTES.proptechProfile, icon: UserRound, featureFlag: 'proptech' },
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
     ],
   },
@@ -96,6 +97,7 @@ const CLIENT_GROUPS: NavGroup[] = [
     items: [
       { label: 'Mi panel', path: ROUTES.proptech, icon: Building2, featureFlag: 'proptech', end: true },
       { label: 'Perfil', path: ROUTES.proptechProfile, icon: UserRound, featureFlag: 'proptech' },
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
     ],
   },

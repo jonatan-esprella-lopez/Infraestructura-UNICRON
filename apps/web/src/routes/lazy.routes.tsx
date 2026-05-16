@@ -70,7 +70,7 @@ export const lazyModuleRoutes = [
 
   // Proptech — AI matching & contracts
   { path: 'proptech/matching', element: <ProptechMatchingRouter />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropMatchingGenerate], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
-  { path: 'proptech/valuations', element: <AgentLandValuationPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
+  { path: 'proptech/valuations', element: <AgentLandValuationPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
   { path: 'proptech/contracts', element: <PropertyContractsPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropContractReviewAi], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.LegalReviewer] },
 
   // Proptech — analytics placeholder
