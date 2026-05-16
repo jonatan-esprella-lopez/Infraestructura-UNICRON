@@ -1,5 +1,6 @@
 import type { ApplicationModule, AppServices } from '../../core/types/api.types.js';
 import { ModuleName } from '../../core/enums/module.enum.js';
+import { TursoService } from '../../infrastructure/database/turso/turso.service.js';
 import { InMemoryPropertyRepository } from './infrastructure/repositories/in-memory-property.repository.js';
 import { InMemoryPropertyMediaRepository } from './infrastructure/repositories/in-memory-property-media.repository.js';
 import { InMemoryPropertyDocumentRepository } from './infrastructure/repositories/in-memory-property-document.repository.js';
@@ -8,6 +9,12 @@ import { InMemoryPropertyOfferRepository } from './infrastructure/repositories/i
 import { InMemoryPropertyContractRepository } from './infrastructure/repositories/in-memory-property-contract.repository.js';
 import { InMemoryPropertyMatchingRepository } from './infrastructure/repositories/in-memory-property-matching.repository.js';
 import { InMemoryPropertySaleRepository } from './infrastructure/repositories/in-memory-property-sale.repository.js';
+import { TursoPropertyRepository } from './infrastructure/repositories/turso/turso-property.repository.js';
+import { TursoPropertyVisitRepository } from './infrastructure/repositories/turso/turso-property-visit.repository.js';
+import { TursoPropertyOfferRepository } from './infrastructure/repositories/turso/turso-property-offer.repository.js';
+import { TursoPropertyContractRepository } from './infrastructure/repositories/turso/turso-property-contract.repository.js';
+import { TursoPropertyMatchingRepository } from './infrastructure/repositories/turso/turso-property-matching.repository.js';
+import { TursoPropertySaleRepository } from './infrastructure/repositories/turso/turso-property-sale.repository.js';
 import { PropertyService } from './application/services/property.service.js';
 import { PropertyVisitService } from './application/services/property-visit.service.js';
 import { PropertyMatchingService } from './application/services/property-matching.service.js';
@@ -22,14 +29,16 @@ import { createPropertyVisitScheduledListener } from './listeners/property-visit
 import { ok } from '../../shared/interceptors/response.interceptor.js';
 
 export function createProptechModule(services: AppServices): ApplicationModule {
-  const propertyRepository = new InMemoryPropertyRepository();
+  const db = services.turso as TursoService | undefined;
+
+  const propertyRepository = db ? new TursoPropertyRepository(db) : new InMemoryPropertyRepository();
   const mediaRepository = new InMemoryPropertyMediaRepository();
   const documentRepository = new InMemoryPropertyDocumentRepository();
-  const visitRepository = new InMemoryPropertyVisitRepository();
-  const offerRepository = new InMemoryPropertyOfferRepository();
-  const contractRepository = new InMemoryPropertyContractRepository();
-  const matchingRepository = new InMemoryPropertyMatchingRepository();
-  const saleRepository = new InMemoryPropertySaleRepository();
+  const visitRepository = db ? new TursoPropertyVisitRepository(db) : new InMemoryPropertyVisitRepository();
+  const offerRepository = db ? new TursoPropertyOfferRepository(db) : new InMemoryPropertyOfferRepository();
+  const contractRepository = db ? new TursoPropertyContractRepository(db) : new InMemoryPropertyContractRepository();
+  const matchingRepository = db ? new TursoPropertyMatchingRepository(db) : new InMemoryPropertyMatchingRepository();
+  const saleRepository = db ? new TursoPropertySaleRepository(db) : new InMemoryPropertySaleRepository();
 
   void mediaRepository;
   void documentRepository;

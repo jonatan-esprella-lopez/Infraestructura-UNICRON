@@ -4,7 +4,11 @@
       "Bash(dir \"C:\\\\Users\\\\usser\\\\Desktop\\\\Infraestructura UNICRON\\\\apps\\\\web\\\\src\\\\modules\\\\crm\" /S /B)",
       "Bash(dir C:\\\\Users\\\\usser\\\\Desktop\\\\Infraestructura UNICRON\\\\apps\\\\web\\\\src\\\\modules\\\\crm\\\\services *)",
       "Bash(npm run *)",
-      "Bash(Get-ChildItem *)"
+      "Bash(Get-ChildItem *)",
+      "Bash(curl *)",
+      "Bash(where turso *)",
+      "Bash(turso --version)",
+      "Bash(npm install *)"
     ]
   }
 }

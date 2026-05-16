@@ -73,6 +73,14 @@ export interface StorageLike {
   putObject(input: { key: string; body: Buffer | string; contentType?: string }): Promise<{ key: string }>;
 }
 
+export interface TursoLike {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  execute(sql: string, args?: Record<string, unknown>): Promise<any>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  batch(statements: Array<{ sql: string; args?: Record<string, unknown> }>): Promise<any[]>;
+  isReady(): boolean;
+}
+
 export interface AppServices {
   ai: AiProviderLike;
   cache: CacheLike;
@@ -84,6 +92,7 @@ export interface AppServices {
   metrics: MetricsLike;
   queue: QueueLike;
   storage: StorageLike;
+  turso?: TursoLike;
 }
 
 export interface RequestContext {

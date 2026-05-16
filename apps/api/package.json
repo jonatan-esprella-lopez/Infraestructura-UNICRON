@@ -8,5 +8,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "start": "node dist/main.js",
     "dev": "tsc -w -p tsconfig.json"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.17.3"
   }
 }
