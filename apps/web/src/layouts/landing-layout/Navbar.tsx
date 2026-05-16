@@ -59,7 +59,7 @@ export function Navbar() {
               <button className="lp-nav-btn-ghost" onClick={() => navigate(ROUTES.login)}>
                 Iniciar sesión
               </button>
-              <button className="lp-nav-btn-primary" onClick={() => navigate(ROUTES.login)}>
+              <button className="lp-nav-btn-primary" onClick={() => navigate(ROUTES.register)}>
                 Registrarse
               </button>
             </>

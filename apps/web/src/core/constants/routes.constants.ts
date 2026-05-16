@@ -4,6 +4,7 @@ export const ROUTES = {
   servicios: '/servicios',
   nosotros: '/nosotros',
   login: '/login',
+  register: '/register',
   app: '/app',
   dashboard: '/app/dashboard',
   crm: '/app/crm',
