@@ -35,9 +35,9 @@ export function Navbar() {
         </Link>
 
         <div className={`lp-nav-links ${menuOpen ? 'open' : ''}`}>
-          <a href="#propiedades" className="lp-nav-link" onClick={() => setMenuOpen(false)}>Propiedades</a>
-          <a href="#servicios" className="lp-nav-link" onClick={() => setMenuOpen(false)}>Servicios</a>
-          <a href="#nosotros" className="lp-nav-link" onClick={() => setMenuOpen(false)}>Nosotros</a>
+          <Link to={ROUTES.propiedades} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Propiedades</Link>
+          <Link to={ROUTES.servicios} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Servicios</Link>
+          <Link to={ROUTES.nosotros} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Nosotros</Link>
         </div>
 
         <div className="lp-nav-actions">

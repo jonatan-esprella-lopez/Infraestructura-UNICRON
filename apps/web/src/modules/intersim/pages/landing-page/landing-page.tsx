@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
-import { Building2, Key, Home, Briefcase } from 'lucide-react';
+import { Building2, Key, Home, Briefcase, Bot, FileSignature, ShieldCheck, BarChart3, CheckCircle2 } from 'lucide-react';
 import './landing-page.css';
 
 const FEATURED = [
@@ -234,7 +234,7 @@ export function LandingPage() {
             <ul className="lp-why-list">
               {WHY_ITEMS.map((item) => (
                 <li key={item}>
-                  <span className="lp-why-check">✓</span>
+                  <CheckCircle2 className="lp-why-check-icon" strokeWidth={2} size={20} />
                   {item}
                 </li>
               ))}
@@ -244,29 +244,29 @@ export function LandingPage() {
             </button>
           </div>
           <div className="lp-why-right">
-            <div className="lp-why-card lp-why-card--1">
-              <div className="lp-why-card-icon">🤖</div>
+            <div className="lp-why-card">
+              <div className="lp-why-icon-wrap icon-blue"><Bot size={28} strokeWidth={1.5} /></div>
               <div className="lp-why-card-body">
                 <strong>Matching con IA</strong>
                 <span>Encontramos la propiedad ideal según tu perfil y presupuesto</span>
               </div>
             </div>
-            <div className="lp-why-card lp-why-card--2">
-              <div className="lp-why-card-icon">📋</div>
+            <div className="lp-why-card">
+              <div className="lp-why-icon-wrap icon-purple"><FileSignature size={28} strokeWidth={1.5} /></div>
               <div className="lp-why-card-body">
                 <strong>Contratos inteligentes</strong>
                 <span>IA revisa y detecta cláusulas de riesgo en segundos</span>
               </div>
             </div>
-            <div className="lp-why-card lp-why-card--3">
-              <div className="lp-why-card-icon">🔒</div>
+            <div className="lp-why-card">
+              <div className="lp-why-icon-wrap icon-green"><ShieldCheck size={28} strokeWidth={1.5} /></div>
               <div className="lp-why-card-body">
                 <strong>Propiedades verificadas</strong>
                 <span>Documentación legal auditada antes de publicar</span>
               </div>
             </div>
-            <div className="lp-why-card lp-why-card--4">
-              <div className="lp-why-card-icon">📊</div>
+            <div className="lp-why-card">
+              <div className="lp-why-icon-wrap icon-amber"><BarChart3 size={28} strokeWidth={1.5} /></div>
               <div className="lp-why-card-body">
                 <strong>Reportes en tiempo real</strong>
                 <span>Agentes y administradores con datos actualizados siempre</span>

@@ -12,6 +12,15 @@ import { ProtectedRoute } from './protected.routes';
 const LandingPage = lazy(() =>
   import('@modules/intersim/pages/landing-page/landing-page').then((m) => ({ default: m.LandingPage })),
 );
+const PropertiesPage = lazy(() =>
+  import('@modules/intersim/pages/properties-page/properties-page').then((m) => ({ default: m.PropertiesPage })),
+);
+const ServicesPage = lazy(() =>
+  import('@modules/intersim/pages/services-page/services-page').then((m) => ({ default: m.ServicesPage })),
+);
+const AboutPage = lazy(() =>
+  import('@modules/intersim/pages/about-page/about-page').then((m) => ({ default: m.AboutPage })),
+);
 
 export function AppRoutes() {
   return (
@@ -20,6 +29,9 @@ export function AppRoutes() {
         {/* Public landing */}
         <Route element={<LandingLayout />}>
           <Route path="/" element={<LandingPage />} />
+          <Route path="/propiedades" element={<PropertiesPage />} />
+          <Route path="/servicios" element={<ServicesPage />} />
+          <Route path="/nosotros" element={<AboutPage />} />
         </Route>
 
         {/* Auth */}
