@@ -222,7 +222,7 @@ export function Sidebar() {
                   className={({ isActive }) => `sidebar__link${isActive ? ' sidebar__link--active' : ''}`}
                   title={collapsed ? item.label : undefined}
                 >
-                  <Icon size={17} className="sidebar__link-icon" />
+                  {collapsed && <Icon size={17} className="sidebar__link-icon" />}
                   <span className="sidebar__link-label">{item.label}</span>
                 </NavLink>
               );

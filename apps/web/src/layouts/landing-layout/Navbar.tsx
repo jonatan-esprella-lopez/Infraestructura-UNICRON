@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
 import { useRootStore } from '@store/root-store';
@@ -9,6 +9,13 @@ export function Navbar() {
   const { currentUser, logout } = useRootStore();
   const isLoggedIn = Boolean(currentUser.id);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -17,7 +24,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="lp-nav">
+    <nav className={`lp-nav ${scrolled ? 'scrolled' : ''}`}>
       <div className="lp-nav-inner">
         <Link to="/" className="lp-nav-brand">
           <div className="lp-nav-logo">IS</div>
