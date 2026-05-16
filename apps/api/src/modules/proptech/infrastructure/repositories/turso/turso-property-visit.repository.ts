@@ -15,6 +15,7 @@ function toVisit(row: Record<string, unknown>): PropertyVisit {
     notes: row['notes'] as string | undefined,
     clientFeedback: row['feedback'] as string | undefined,
     result: row['result'] as PropertyVisit['result'] | undefined,
+    agentFeedback: row['agent_feedback'] as string | undefined,
     createdAt: new Date(row['created_at'] as string),
     updatedAt: new Date(row['updated_at'] as string),
   };
@@ -49,8 +50,8 @@ export class TursoPropertyVisitRepository implements IPropertyVisitRepository {
     const now = new Date().toISOString();
     const id = randomUUID();
     await this.db.execute(
-      `INSERT INTO property_visits (id, property_id, client_id, agent_id, tenant_id, scheduled_at, status, notes, feedback, created_at, updated_at)
-       VALUES (:id, :propertyId, :clientId, :agentId, :tenantId, :scheduledAt, :status, :notes, :feedback, :createdAt, :updatedAt)`,
+      `INSERT INTO property_visits (id, property_id, client_id, agent_id, tenant_id, scheduled_at, status, visit_type, notes, feedback, created_at, updated_at)
+       VALUES (:id, :propertyId, :clientId, :agentId, :tenantId, :scheduledAt, :status, :visitType, :notes, :feedback, :createdAt, :updatedAt)`,
       {
         id,
         propertyId: data.propertyId,
@@ -59,6 +60,7 @@ export class TursoPropertyVisitRepository implements IPropertyVisitRepository {
         tenantId: '',
         scheduledAt: data.scheduledAt.toISOString(),
         status: data.status,
+        visitType: data.visitType ?? 'in_person',
         notes: data.notes ?? null,
         feedback: data.clientFeedback ?? null,
         createdAt: now,
@@ -76,11 +78,26 @@ export class TursoPropertyVisitRepository implements IPropertyVisitRepository {
     if (data.scheduledAt !== undefined) { fields.push('scheduled_at = :scheduledAt'); args['scheduledAt'] = data.scheduledAt.toISOString(); }
     if (data.notes !== undefined) { fields.push('notes = :notes'); args['notes'] = data.notes; }
     if (data.clientFeedback !== undefined) { fields.push('feedback = :feedback'); args['feedback'] = data.clientFeedback; }
+    if (data.result !== undefined) { fields.push('result = :result'); args['result'] = data.result; }
+    if (data.agentFeedback !== undefined) { fields.push('agent_feedback = :agentFeedback'); args['agentFeedback'] = data.agentFeedback; }
 
     fields.push('updated_at = :updatedAt');
     args['updatedAt'] = new Date().toISOString();
 
     await this.db.execute(`UPDATE property_visits SET ${fields.join(', ')} WHERE id = :id`, args);
     return (await this.findById(id))!;
+  }
+
+  async findByAgentId(agentId: string): Promise<PropertyVisit[]> {
+    const res = await this.db.execute(
+      'SELECT * FROM property_visits WHERE agent_id = :agentId ORDER BY scheduled_at DESC',
+      { agentId },
+    );
+    return res.rows.map((r) => toVisit(r as Record<string, unknown>));
+  }
+
+  async findAll(): Promise<PropertyVisit[]> {
+    const res = await this.db.execute('SELECT * FROM property_visits ORDER BY scheduled_at DESC');
+    return res.rows.map((r) => toVisit(r as Record<string, unknown>));
   }
 }

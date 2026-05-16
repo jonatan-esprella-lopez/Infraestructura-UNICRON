@@ -31,4 +31,12 @@ export class InMemoryPropertyVisitRepository implements IPropertyVisitRepository
     this.store.set(id, updated);
     return updated;
   }
+
+  async findByAgentId(agentId: string): Promise<PropertyVisit[]> {
+    return Array.from(this.store.values()).filter((v) => v.agentId === agentId);
+  }
+
+  async findAll(): Promise<PropertyVisit[]> {
+    return Array.from(this.store.values()).sort((a, b) => b.scheduledAt.getTime() - a.scheduledAt.getTime());
+  }
 }

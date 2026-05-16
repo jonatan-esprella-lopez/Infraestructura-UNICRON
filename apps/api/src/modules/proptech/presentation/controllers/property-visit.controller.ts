@@ -1,4 +1,4 @@
-import type { RouteDefinition, RequestContext, ApiResponse } from '../../../../core/types/api.types.js';
+import type { RouteDefinition, RequestContext, ApiResponse, AuthenticatedUser } from '../../../../core/types/api.types.js';
 import type { PropertyVisitService } from '../../application/services/property-visit.service.js';
 import { ok, created, notFound } from '../../../../shared/interceptors/response.interceptor.js';
 
@@ -18,6 +18,11 @@ export class PropertyVisitController {
         handler: (ctx) => this.schedule(ctx),
       },
       {
+        method: 'GET',
+        path: '/proptech/visits',
+        handler: (ctx) => this.listAll(ctx),
+      },
+      {
         method: 'PATCH',
         path: '/proptech/visits/:visitId/confirm',
         handler: (ctx) => this.confirm(ctx),
@@ -33,6 +38,22 @@ export class PropertyVisitController {
         handler: (ctx) => this.complete(ctx),
       },
     ];
+  }
+
+  private async listAll(ctx: RequestContext): Promise<ApiResponse> {
+    const user = ctx.user as AuthenticatedUser | null;
+    const agentId = ctx.query?.['agentId'] as string | undefined;
+
+    if (user?.roles?.includes('agent') && !agentId) {
+      const visits = await this.service.findByAgent(user.id);
+      return ok(visits);
+    }
+    if (agentId) {
+      const visits = await this.service.findByAgent(agentId);
+      return ok(visits);
+    }
+    const visits = await this.service.findAll();
+    return ok(visits);
   }
 
   private async listByProperty(ctx: RequestContext): Promise<ApiResponse> {

@@ -53,10 +53,13 @@ export function useProptechDashboard() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const base = `${environment.apiBaseUrl}/v1/proptech/dashboard/me`;
-    fetch(base)
+    const token = localStorage.getItem('intersim.token');
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
+    fetch(`${environment.apiBaseUrl}/v1/proptech/dashboard/me`, { headers })
       .then((res) => (res.ok ? res.json() : Promise.reject('Error al cargar dashboard')))
-      .then((json: ProptechDashboardData) => setData(json))
+      .then((json: { data: ProptechDashboardData }) => setData(json.data))
       .catch((err: unknown) => setError(String(err)))
       .finally(() => setLoading(false));
   }, []);
