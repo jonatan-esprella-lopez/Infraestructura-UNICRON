@@ -9,6 +9,7 @@ import {
   Gauge,
   Megaphone,
   QrCode,
+  Receipt,
   Settings,
   Shield,
   Sparkles,
@@ -58,4 +59,7 @@ export const roleRoutes: RoleRoute[] = [
   { key: ModuleKey.ProptechMatching, label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech', permissions: [Permission.PropMatchingGenerate], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
   { key: ModuleKey.ProptechContracts, label: 'Contratos', path: ROUTES.proptechContracts, icon: FileSignature, featureFlag: 'proptech', permissions: [Permission.PropContractReviewAi], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.LegalReviewer] },
   { key: ModuleKey.ProptechAnalytics, label: 'Mercado', path: ROUTES.proptechAnalytics, icon: TrendingUp, featureFlag: 'proptech', permissions: [Permission.PropMarketInsightsRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
+  { key: ModuleKey.ProptechSales, label: 'Ventas', path: ROUTES.proptechSales, icon: Receipt, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
+  { key: ModuleKey.ProptechReports, label: 'Reportes', path: ROUTES.proptechReports, icon: BarChart3, featureFlag: 'proptech', permissions: [Permission.PropMarketInsightsRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
+  { key: ModuleKey.ProptechMySales, label: 'Mis ventas', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Agent] },
 ];

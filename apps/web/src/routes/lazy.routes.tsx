@@ -26,6 +26,11 @@ const PropertyMatchingPage = lazy(() => import('@modules/proptech/pages/property
 const PropertyContractsPage = lazy(() => import('@modules/proptech/pages/property-contracts-page/property-contracts-page').then((m) => ({ default: m.PropertyContractsPage })));
 // Proptech — páginas públicas
 const PublicPropertySearchPage = lazy(() => import('@modules/proptech/public/pages/public-property-search-page/public-property-search-page').then((m) => ({ default: m.PublicPropertySearchPage })));
+// Proptech — ventas y reportes (admin)
+const AdminSalesPage = lazy(() => import('@modules/proptech/admin/pages/admin-sales-page/admin-sales-page').then((m) => ({ default: m.AdminSalesPage })));
+const AdminReportsPage = lazy(() => import('@modules/proptech/admin/pages/admin-reports-page/admin-reports-page').then((m) => ({ default: m.AdminReportsPage })));
+// Proptech — ventas (agente)
+const AgentSalesPage = lazy(() => import('@modules/proptech/agent/pages/agent-sales-page/agent-sales-page').then((m) => ({ default: m.AgentSalesPage })));
 
 export const lazyModuleRoutes = [
   { path: 'dashboard', element: <DashboardPage />, permissions: [Permission.ViewDashboard], roles: [Role.Admin, Role.Manager, Role.Operator, Role.Viewer] },
@@ -55,4 +60,8 @@ export const lazyModuleRoutes = [
   { path: 'proptech/analytics', element: <PropertyListPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropMarketInsightsRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
   // Proptech — búsqueda pública (sin restricción de permisos especiales)
   { path: 'proptech/search', element: <PublicPropertySearchPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client, Role.Viewer] },
+  // Proptech — ventas y reportes
+  { path: 'proptech/sales', element: <AdminSalesPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
+  { path: 'proptech/reports', element: <AdminReportsPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropMarketInsightsRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
+  { path: 'proptech/my-sales', element: <AgentSalesPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Agent] },
 ];
