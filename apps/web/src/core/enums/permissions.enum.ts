@@ -1,0 +1,15 @@
+export enum Permission {
+  ViewDashboard = 'dashboard:view',
+  ManageUsers = 'users:manage',
+  ManageRoles = 'roles:manage',
+  ManageSettings = 'settings:manage',
+  AccessCrm = 'crm:access',
+  AccessAnalytics = 'analytics:access',
+  AccessAi = 'ai:access',
+  AccessCampaigns = 'campaigns:access',
+  AccessDocuments = 'documents:access',
+  AccessScoring = 'scoring:access',
+  AccessQr = 'qr:access',
+  AccessNotifications = 'notifications:access',
+  AccessWorkflows = 'workflows:access',
+}

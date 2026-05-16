@@ -1,0 +1,17 @@
+.is-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.is-error {
+  border-color: var(--color-danger);
+}
+
+.is-active {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.app-shell {
+  min-height: 100vh;
+}

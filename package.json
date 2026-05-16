@@ -1,0 +1,39 @@
+{
+  "name": "hackathon-base",
+  "private": true,
+  "scripts": {
+    "dev:api": "npm run dev --workspace @unicron/api",
+    "build:api": "npm run build --workspace @unicron/api",
+    "typecheck:api": "npm run typecheck --workspace @unicron/api",
+    "start:api": "npm run start --workspace @unicron/api",
+    "dev:web": "npm run dev --workspace @unicron/web",
+    "build:web": "npm run build --workspace @unicron/web",
+    "typecheck:web": "npm run typecheck --workspace @unicron/web",
+    "lint:web": "npm run lint --workspace @unicron/web",
+    "generate:module": "node tools/generators/module-generator/index.mjs",
+    "generate:api-module": "node tools/generators/api-generator/index.mjs",
+    "generate:web-module": "node tools/generators/module-generator/index.mjs --web",
+    "generate:component": "node tools/generators/component-generator/index.mjs",
+    "generate:page": "node tools/generators/page-generator/index.mjs",
+    "validate:structure": "node tools/validators/structure-validator.mjs",
+    "validate:naming": "node tools/validators/naming-validator.mjs",
+    "validate:imports": "node tools/validators/import-validator.mjs",
+    "validate:dependencies": "node tools/validators/dependency-validator.mjs",
+    "validate:architecture": "npm run validate:structure && npm run validate:naming && npm run validate:imports && npm run validate:dependencies",
+    "typecheck:all": "node tools/automation/typecheck-all.mjs",
+    "build:all": "node tools/automation/build-all.mjs",
+    "lint:all": "node tools/automation/lint-all.mjs",
+    "clean:cache": "node tools/automation/clean-cache.mjs",
+    "release:check": "node tools/automation/release.mjs",
+    "docs:swagger": "node tools/docs/swagger-generator.mjs",
+    "docs:architecture": "node tools/docs/architecture-generator.mjs",
+    "docs:changelog": "node tools/docs/changelog-generator.mjs",
+    "healthcheck:local": "node tools/scripts/healthcheck.mjs",
+    "infra:up": "docker compose -f infra/docker/local/docker-compose.yml --env-file infra/docker/local/.env up --build",
+    "infra:down": "docker compose -f infra/docker/local/docker-compose.yml down"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

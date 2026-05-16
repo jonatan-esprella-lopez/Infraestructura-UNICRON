@@ -1,0 +1,14 @@
+name: unicron-staging
+
+services:
+  api:
+    image: ${API_IMAGE:-unicron/api:staging}
+    env_file:
+      - .env
+    ports:
+      - "4000:4000"
+
+  web:
+    image: ${WEB_IMAGE:-unicron/web:staging}
+    ports:
+      - "5173:5173"

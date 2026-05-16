@@ -1,0 +1,14 @@
+:root {
+  --size-control-md: 40px;
+  --size-field-md: 42px;
+  --size-avatar-md: 36px;
+  --size-brand-mark: 38px;
+  --size-textarea-min: 120px;
+  --size-dropdown-min: 180px;
+  --size-stat-min: 180px;
+  --size-auth-panel: 420px;
+  --size-drawer: 420px;
+  --size-modal: 520px;
+  --size-content-measure: 720px;
+  --size-pipeline-column-min: 220px;
+}

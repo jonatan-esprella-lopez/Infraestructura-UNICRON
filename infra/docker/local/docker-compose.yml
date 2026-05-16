@@ -1,0 +1,121 @@
+name: unicron-local
+
+services:
+  api:
+    build:
+      context: ../../..
+      dockerfile: infra/docker/base/node.Dockerfile
+      target: api
+    env_file:
+      - .env
+    environment:
+      API_HOST: 0.0.0.0
+      API_PORT: 4000
+      DATABASE_URL: postgresql://unicron:unicron@postgres:5432/unicron
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "4000:4000"
+    networks:
+      - unicron
+
+  web:
+    build:
+      context: ../../..
+      dockerfile: infra/docker/base/node.Dockerfile
+      target: web
+    depends_on:
+      - api
+    ports:
+      - "5173:5173"
+    networks:
+      - unicron
+
+  nginx:
+    build:
+      context: ../../..
+      dockerfile: infra/docker/base/nginx.Dockerfile
+    depends_on:
+      - api
+      - web
+    ports:
+      - "8080:80"
+    networks:
+      - unicron
+
+  postgres:
+    build:
+      context: ../../..
+      dockerfile: infra/docker/base/postgres.Dockerfile
+    environment:
+      POSTGRES_DB: unicron
+      POSTGRES_PASSWORD: unicron
+      POSTGRES_USER: unicron
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U unicron -d unicron"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - unicron
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - ../../database/redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+      - redis_data:/data
+    networks:
+      - unicron
+
+  prometheus:
+    image: prom/prometheus:v2.55.1
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../../monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ../../monitoring/prometheus/alerts.yml:/etc/prometheus/alerts.yml:ro
+    networks:
+      - unicron
+
+  grafana:
+    image: grafana/grafana:11.3.0
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: admin
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../../monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ../../monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+    networks:
+      - unicron
+
+  loki:
+    image: grafana/loki:3.3.0
+    command: ["-config.file=/etc/loki/loki.yml"]
+    ports:
+      - "3100:3100"
+    volumes:
+      - ../../monitoring/loki/loki.yml:/etc/loki/loki.yml:ro
+    networks:
+      - unicron
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  unicron:
+    driver: bridge

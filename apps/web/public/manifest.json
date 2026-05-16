@@ -1,0 +1,9 @@
+{
+  "name": "UNICRON Enterprise Starter",
+  "short_name": "UNICRON",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f6f8fb",
+  "theme_color": "#1b5cff",
+  "icons": []
+}

@@ -1,0 +1,4 @@
+.ui-tooltip {
+  display: inline-flex;
+  color: var(--color-text-secondary);
+}

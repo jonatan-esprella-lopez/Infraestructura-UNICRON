@@ -1,0 +1,18 @@
+export const ROUTES = {
+  home: '/',
+  login: '/login',
+  app: '/app',
+  dashboard: '/app/dashboard',
+  crm: '/app/crm',
+  analytics: '/app/analytics',
+  aiAssistant: '/app/ai-assistant',
+  campaigns: '/app/campaigns',
+  documents: '/app/documents',
+  scoring: '/app/scoring',
+  qr: '/app/qr',
+  notifications: '/app/notifications',
+  users: '/app/users',
+  roles: '/app/roles',
+  settings: '/app/settings',
+  workflows: '/app/workflows',
+} as const;

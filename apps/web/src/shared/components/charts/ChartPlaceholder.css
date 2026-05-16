@@ -1,0 +1,6 @@
+.chart-placeholder {
+  padding: var(--space-4);
+  border-radius: var(--radius-xs);
+  background: var(--color-surface-muted);
+  color: var(--color-text-secondary);
+}

@@ -1,0 +1,80 @@
+.module-overview {
+  display: grid;
+  gap: var(--space-5);
+  animation: fade-in 160ms ease-out;
+}
+
+.module-overview__hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-5);
+  padding: var(--space-5);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.module-overview__eyebrow {
+  margin-bottom: var(--space-2);
+  color: var(--color-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.module-overview__title {
+  margin-bottom: var(--space-2);
+  font-size: clamp(1.7rem, 3vw, 2.6rem);
+}
+
+.module-overview__description {
+  max-width: var(--size-content-measure);
+}
+
+.module-overview__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-4);
+}
+
+.module-overview__metric-card,
+.module-overview__capabilities {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.module-overview__metric-card {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.module-overview__metric-label,
+.module-overview__metric-trend {
+  color: var(--color-text-secondary);
+}
+
+.module-overview__metric-value {
+  font-size: var(--font-size-2xl);
+}
+
+.module-overview__summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+@media (max-width: 980px) {
+  .module-overview__hero {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .module-overview__metrics {
+    grid-template-columns: 1fr;
+  }
+}
