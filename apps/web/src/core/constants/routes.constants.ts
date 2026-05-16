@@ -1,5 +1,8 @@
 export const ROUTES = {
   home: '/',
+  propiedades: '/propiedades',
+  servicios: '/servicios',
+  nosotros: '/nosotros',
   login: '/login',
   app: '/app',
   dashboard: '/app/dashboard',
