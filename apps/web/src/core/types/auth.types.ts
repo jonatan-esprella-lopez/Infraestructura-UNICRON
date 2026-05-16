@@ -7,4 +7,5 @@ export interface AppUser {
   email: string;
   roles: Role[];
   permissions: Permission[];
+  tenantId?: string;
 }

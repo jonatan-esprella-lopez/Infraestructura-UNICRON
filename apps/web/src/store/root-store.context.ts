@@ -1,18 +1,18 @@
 import { createContext } from 'react';
-import { ROLE_PERMISSIONS } from '@core/constants/permissions.constants';
-import { Role } from '@core/enums/roles.enum';
 import type { AppUser } from '@core/types/auth.types';
 
 export interface RootStore {
   currentUser: AppUser;
+  setCurrentUser: (user: AppUser) => void;
+  logout: () => void;
 }
 
-export const defaultUser: AppUser = {
-  id: 'user_admin',
-  name: 'UNICRON Admin',
-  email: 'admin@unicron.dev',
-  roles: [Role.Admin],
-  permissions: ROLE_PERMISSIONS[Role.Admin],
+export const guestUser: AppUser = {
+  id: '',
+  name: 'Invitado',
+  email: '',
+  roles: [],
+  permissions: [],
 };
 
 export const RootStoreContext = createContext<RootStore | null>(null);
