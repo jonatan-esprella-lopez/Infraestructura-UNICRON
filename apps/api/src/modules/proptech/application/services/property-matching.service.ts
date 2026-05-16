@@ -16,6 +16,10 @@ export class PropertyMatchingService {
     private readonly services: AppServices,
   ) {}
 
+  async getAll(): Promise<PropertyMatch[]> {
+    return this.matchingRepository.findAll();
+  }
+
   async getRecommendations(clientId: string): Promise<PropertyMatch[]> {
     return this.matchingRepository.findByClientId(clientId);
   }

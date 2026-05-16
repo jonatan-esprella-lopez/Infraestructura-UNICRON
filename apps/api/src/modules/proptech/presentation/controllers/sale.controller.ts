@@ -39,9 +39,10 @@ export class SaleController {
   private async list(ctx: RequestContext): Promise<ApiResponse> {
     if (!ctx.user?.tenantId) return badRequest('Usuario no autenticado');
     const q = ctx.query as Record<string, string>;
+    const isAgent = ctx.user.roles.includes('agent');
     const sales = await this.service.list({
       tenantId: ctx.user.tenantId,
-      agentId: q['agentId'],
+      agentId: isAgent ? ctx.user.id : (q['agentId'] ?? undefined),
       saleType: q['saleType'] as never,
       paymentMethod: q['paymentMethod'] as never,
       saleLocation: q['saleLocation'] as never,

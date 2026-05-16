@@ -124,12 +124,22 @@ export function LandingPage() {
             Más de 500 propiedades verificadas en Santa Cruz, Cochabamba y La Paz.
             Tecnología de punta para conectar compradores, vendedores y agentes.
           </p>
-          <div className="lp-hero-actions">
-            <button className="lp-btn-primary" onClick={() => navigate(ROUTES.login)}>
-              Buscar propiedades
+          <div className="lp-hero-action-cards">
+            <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
+              <span className="lp-action-icon">🏢</span>
+              <span className="lp-action-text">Quiero vender</span>
             </button>
-            <button className="lp-btn-outline" onClick={() => navigate(ROUTES.login)}>
-              Soy agente / propietario →
+            <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
+              <span className="lp-action-icon">🔑</span>
+              <span className="lp-action-text">Quiero comprar</span>
+            </button>
+            <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
+              <span className="lp-action-icon">🏠</span>
+              <span className="lp-action-text">Quiero Alquilar</span>
+            </button>
+            <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
+              <span className="lp-action-icon">💼</span>
+              <span className="lp-action-text">Quiero un anticrético</span>
             </button>
           </div>
         </div>
