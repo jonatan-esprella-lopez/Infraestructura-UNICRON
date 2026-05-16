@@ -37,6 +37,7 @@ export function AppRoutes() {
         {/* Auth */}
         <Route element={<AuthLayout />}>
           <Route path="login" element={<AuthPage />} />
+          <Route path="register" element={<AuthPage />} />
         </Route>
 
         {/* App */}

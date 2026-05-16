@@ -1,0 +1,90 @@
+.valuation-factor-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.valuation-factor-list__header {
+  padding: 16px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.valuation-factor-list__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.valuation-factor-list__items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.valuation-factor-list__item {
+  padding: 16px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.valuation-factor-list__item:last-child {
+  border-bottom: none;
+}
+
+.valuation-factor-list__item--positive {
+  border-left: 4px solid #10b981;
+}
+
+.valuation-factor-list__item--negative {
+  border-left: 4px solid #ef4444;
+}
+
+.valuation-factor-list__item--neutral {
+  border-left: 4px solid #9ca3af;
+}
+
+.valuation-factor-list__content {
+  flex: 1;
+}
+
+.valuation-factor-list__header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.valuation-factor-list__label {
+  font-size: 14px;
+  color: #111827;
+}
+
+.valuation-factor-list__impact {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.valuation-factor-list__item--positive .valuation-factor-list__impact {
+  color: #10b981;
+}
+
+.valuation-factor-list__item--negative .valuation-factor-list__impact {
+  color: #ef4444;
+}
+
+.valuation-factor-list__reason {
+  margin: 0;
+  font-size: 13px;
+  color: #4b5563;
+  line-height: 1.5;
+}
