@@ -9,6 +9,7 @@ import { createDocumentsModule } from './documents/index.js';
 import { createGeolocationModule } from './geolocation/index.js';
 import { createNotificationsModule } from './notifications/index.js';
 import { createPermissionsModule } from './permissions/index.js';
+import { createProptechModule } from './proptech/index.js';
 import { createQrModule } from './qr/index.js';
 import { createRolesModule } from './roles/index.js';
 import { createScoringModule } from './scoring/index.js';
@@ -36,5 +37,6 @@ export function createModules(services: AppServices): ApplicationModule[] {
     createGeolocationModule(services),
     createAiAssistantModule(services),
     createSettingsModule(services),
+    createProptechModule(services),
   ];
 }

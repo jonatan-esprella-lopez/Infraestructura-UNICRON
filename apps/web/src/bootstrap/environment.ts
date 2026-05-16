@@ -27,6 +27,7 @@ export const environment = {
     roles: readBoolean('VITE_ROLES_ENABLED', true),
     settings: readBoolean('VITE_SETTINGS_ENABLED', true),
     workflows: readBoolean('VITE_WORKFLOWS_ENABLED', true),
+    proptech: readBoolean('VITE_PROPTECH_ENABLED', true),
   },
 } as const;
 

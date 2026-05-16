@@ -1,0 +1,103 @@
+.property-dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.property-dashboard-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.property-dashboard-page__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted, #6b7280);
+  margin: 0;
+}
+
+.property-dashboard-page__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.property-dashboard-page__description {
+  font-size: 0.875rem;
+  color: var(--color-muted, #6b7280);
+  margin: 0;
+}
+
+.property-dashboard-page__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.property-dashboard-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.25rem 1rem;
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.5rem;
+  background: var(--color-surface, #fff);
+  gap: 0.25rem;
+}
+
+.property-dashboard-stat__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary, #3b82f6);
+}
+
+.property-dashboard-stat__label {
+  font-size: 0.75rem;
+  color: var(--color-muted, #6b7280);
+  text-align: center;
+}
+
+.property-dashboard-page__links h3,
+.property-dashboard-page__flow h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.property-dashboard-page__links-grid {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.property-dashboard-link {
+  padding: 0.5rem 1rem;
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  text-decoration: none;
+  color: var(--color-primary, #3b82f6);
+  font-weight: 500;
+  transition: background 0.15s;
+}
+
+.property-dashboard-link:hover {
+  background: var(--color-background, #f9fafb);
+}
+
+.property-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-left: 1.25rem;
+  margin: 0;
+}
+
+.property-flow__step {
+  font-size: 0.875rem;
+  color: var(--color-muted, #6b7280);
+}

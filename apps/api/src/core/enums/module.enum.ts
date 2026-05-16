@@ -9,6 +9,7 @@ export enum ModuleName {
   Geolocation = 'geolocation',
   Notifications = 'notifications',
   Permissions = 'permissions',
+  Proptech = 'proptech',
   Qr = 'qr',
   Roles = 'roles',
   Scoring = 'scoring',

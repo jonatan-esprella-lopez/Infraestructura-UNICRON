@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir \"C:\\\\Users\\\\usser\\\\Desktop\\\\Infraestructura UNICRON\\\\apps\\\\web\\\\src\\\\modules\\\\crm\" /S /B)",
+      "Bash(dir C:\\\\Users\\\\usser\\\\Desktop\\\\Infraestructura UNICRON\\\\apps\\\\web\\\\src\\\\modules\\\\crm\\\\services *)"
+    ]
+  }
+}
