@@ -47,7 +47,7 @@ const AGENT_GROUPS: NavGroup[] = [
     label: 'Herramientas',
     items: [
       { label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech' },
-      { label: 'Mis Ventas', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech' },
+      { label: 'Mi Producción', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech' },
     ],
   },
 ];
