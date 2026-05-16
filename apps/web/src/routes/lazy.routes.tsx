@@ -18,6 +18,12 @@ const RolesPage = lazy(() => import('@modules/roles/pages/RolesPage').then((modu
 const SettingsPage = lazy(() => import('@modules/settings/pages/SettingsPage').then((module) => ({ default: module.SettingsPage })));
 const WorkflowsPage = lazy(() => import('@modules/workflows/pages/WorkflowsPage').then((module) => ({ default: module.WorkflowsPage })));
 
+// Proptech
+const PropertyDashboardPage = lazy(() => import('@modules/proptech/pages/property-dashboard-page/property-dashboard-page').then((m) => ({ default: m.PropertyDashboardPage })));
+const PropertyListPage = lazy(() => import('@modules/proptech/pages/property-list-page/property-list-page').then((m) => ({ default: m.PropertyListPage })));
+const PropertyMatchingPage = lazy(() => import('@modules/proptech/pages/property-matching-page/property-matching-page').then((m) => ({ default: m.PropertyMatchingPage })));
+const PropertyContractsPage = lazy(() => import('@modules/proptech/pages/property-contracts-page/property-contracts-page').then((m) => ({ default: m.PropertyContractsPage })));
+
 export const lazyModuleRoutes = [
   { path: 'dashboard', element: <DashboardPage />, permissions: [Permission.ViewDashboard], roles: [Role.Admin, Role.Manager, Role.Operator, Role.Viewer] },
   { path: 'matcher', element: <MatcherPage />, permissions: [], roles: [] },
@@ -33,4 +39,9 @@ export const lazyModuleRoutes = [
   { path: 'roles', element: <RolesPage />, featureFlag: 'roles' as FeatureFlagKey, permissions: [Permission.ManageRoles], roles: [Role.Admin] },
   { path: 'settings', element: <SettingsPage />, featureFlag: 'settings' as FeatureFlagKey, permissions: [Permission.ManageSettings], roles: [Role.Admin] },
   { path: 'workflows', element: <WorkflowsPage />, featureFlag: 'workflows' as FeatureFlagKey, permissions: [Permission.AccessWorkflows], roles: [Role.Admin, Role.Manager] },
+  // Proptech routes
+  { path: 'proptech', element: <PropertyDashboardPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
+  { path: 'proptech/properties', element: <PropertyListPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropPropertyRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Viewer] },
+  { path: 'proptech/matching', element: <PropertyMatchingPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropMatchingGenerate], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
+  { path: 'proptech/contracts', element: <PropertyContractsPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropContractReviewAi], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.LegalReviewer] },
 ];
