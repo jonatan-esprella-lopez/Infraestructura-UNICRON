@@ -1,0 +1,17 @@
+[project]
+name = "casalens-agents"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "langgraph>=0.2,<0.3",
+    "langchain-openai>=0.2",
+    "langsmith>=0.1",
+    "python-telegram-bot>=21,<22",
+    "fastapi>=0.115,<0.116",
+    "uvicorn>=0.32,<0.33",
+    "asyncpg>=0.30,<0.31",
+    "pgvector>=0.3,<0.4",
+    "voyageai>=0.3,<0.4",
+    "python-dotenv>=1.0",
+    "pydantic>=2,<3",
+]

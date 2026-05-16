@@ -1,0 +1,150 @@
+.matcher {
+  padding: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.matcher__header {
+  margin-bottom: 1.5rem;
+}
+
+.matcher__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-primary, #6366f1);
+  margin: 0 0 0.25rem;
+}
+
+.matcher__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 0.25rem;
+}
+
+.matcher__lead-id {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+}
+
+.matcher__profile {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.matcher__tag {
+  background: #1e1e2e;
+  border: 1px solid #333;
+  color: #e0e0e0;
+  border-radius: 999px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.85rem;
+}
+
+.matcher__tag--zone {
+  border-color: #6366f1;
+  color: #a5b4fc;
+}
+
+.matcher__tag--timing {
+  border-color: #f59e0b;
+  color: #fcd34d;
+}
+
+.matcher__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.property-card {
+  background: #1a1a2e;
+  border: 1px solid #2d2d44;
+  border-radius: 12px;
+  padding: 1.25rem;
+  position: relative;
+  transition: border-color 0.2s;
+}
+
+.property-card:hover {
+  border-color: #6366f1;
+}
+
+.property-card__score {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #6366f1;
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.property-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+  padding-right: 4rem;
+}
+
+.property-card__zone {
+  font-size: 0.8rem;
+  color: #a5b4fc;
+  margin: 0 0 0.5rem;
+}
+
+.property-card__price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #34d399;
+  margin: 0 0 0.75rem;
+}
+
+.property-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #aaa;
+  margin-bottom: 0.75rem;
+}
+
+.property-card__reason {
+  font-size: 0.8rem;
+  color: #888;
+  border-top: 1px solid #2d2d44;
+  padding-top: 0.75rem;
+  margin: 0;
+  font-style: italic;
+}
+
+.matcher-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #888;
+}
+
+.matcher-state--error {
+  color: #f87171;
+}
+
+.matcher-state--empty p {
+  margin: 0 0 0.5rem;
+}
+
+.matcher-state__hint {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.matcher-state__hint code {
+  background: #1e1e2e;
+  padding: 0.15rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+}
