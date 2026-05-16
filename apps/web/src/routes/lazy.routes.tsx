@@ -24,6 +24,7 @@ const ProptechDashboardRouter = lazy(() => import('@modules/proptech/shared/comp
 // Proptech — shared pages
 const PropertyListPage = lazy(() => import('@modules/proptech/pages/property-list-page/property-list-page').then((m) => ({ default: m.PropertyListPage })));
 const PropertyMatchingPage = lazy(() => import('@modules/proptech/pages/property-matching-page/property-matching-page').then((m) => ({ default: m.PropertyMatchingPage })));
+const ProptechMatchingRouter = lazy(() => import('@modules/proptech/shared/components/proptech-matching-router/proptech-matching-router').then((m) => ({ default: m.ProptechMatchingRouter })));
 const PropertyContractsPage = lazy(() => import('@modules/proptech/pages/property-contracts-page/property-contracts-page').then((m) => ({ default: m.PropertyContractsPage })));
 // Proptech — public
 const PublicPropertySearchPage = lazy(() => import('@modules/proptech/public/pages/public-property-search-page/public-property-search-page').then((m) => ({ default: m.PublicPropertySearchPage })));
@@ -65,7 +66,7 @@ export const lazyModuleRoutes = [
   { path: 'proptech/visits', element: <AgentVisitsPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
 
   // Proptech — AI matching & contracts
-  { path: 'proptech/matching', element: <PropertyMatchingPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropMatchingGenerate], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
+  { path: 'proptech/matching', element: <ProptechMatchingRouter />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropMatchingGenerate], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
   { path: 'proptech/contracts', element: <PropertyContractsPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropContractReviewAi], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.LegalReviewer] },
 
   // Proptech — analytics placeholder

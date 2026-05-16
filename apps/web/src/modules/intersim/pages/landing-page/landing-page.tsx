@@ -85,10 +85,10 @@ const FEATURED = [
 ];
 
 const SERVICES = [
-  { icon: '🏠', title: 'Compra de propiedades', desc: 'Encuentra tu hogar ideal entre cientos de opciones verificadas.' },
-  { icon: '🔑', title: 'Alquiler', desc: 'Propiedades en alquiler en las mejores zonas de Bolivia.' },
-  { icon: '💰', title: 'Anticrético', desc: 'Modalidad boliviana de arrendamiento con capital.' },
-  { icon: '⚖️', title: 'Asesoría legal', desc: 'Revisión de contratos con IA y apoyo de profesionales.' },
+  { id: 'compra', title: 'Compra de propiedades', desc: 'Encuentra tu hogar ideal entre cientos de opciones verificadas.', image: '/service_compra.png' },
+  { id: 'alquiler', title: 'Alquiler', desc: 'Propiedades en alquiler en las mejores zonas de Bolivia.', image: '/service_alquiler.png' },
+  { id: 'anticretico', title: 'Anticrético', desc: 'Modalidad boliviana de arrendamiento con capital.', image: '/service_anticretico.png' },
+  { id: 'legal', title: 'Asesoría legal', desc: 'Revisión de contratos con IA y apoyo de profesionales.', image: '/service_legal.png' },
 ];
 
 const STATS = [
@@ -208,11 +208,13 @@ export function LandingPage() {
 
           <div className="lp-services-grid">
             {SERVICES.map((s) => (
-              <div key={s.title} className="lp-service-card" onClick={() => navigate(ROUTES.login)}>
-                <div className="lp-service-icon">{s.icon}</div>
-                <h3 className="lp-service-title">{s.title}</h3>
-                <p className="lp-service-desc">{s.desc}</p>
-                <span className="lp-service-link">Explorar →</span>
+              <div key={s.id} className="lp-service-card" style={{ backgroundImage: `url(${s.image})` }} onClick={() => navigate(ROUTES.login)}>
+                <div className="lp-service-overlay" />
+                <div className="lp-service-content">
+                  <h3 className="lp-service-title">{s.title}</h3>
+                  <p className="lp-service-desc">{s.desc}</p>
+                  <span className="lp-service-link">Explorar</span>
+                </div>
               </div>
             ))}
           </div>
