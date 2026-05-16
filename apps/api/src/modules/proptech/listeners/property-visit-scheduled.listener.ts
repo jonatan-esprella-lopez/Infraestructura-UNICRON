@@ -5,7 +5,7 @@ import {
   type PropertyVisitScheduledPayload,
 } from '../domain/events/property-visit-scheduled.event.js';
 
-export function createPropertyVisitScheduledListener(logger: LoggerLike): EventHandler {
+export function createPropertyVisitScheduledListener(logger: LoggerLike): EventHandler<PropertyVisitScheduledPayload> {
   return {
     eventName: PROPERTY_VISIT_SCHEDULED,
     handle: async (event: DomainEvent<PropertyVisitScheduledPayload>) => {
