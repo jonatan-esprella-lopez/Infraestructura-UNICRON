@@ -1,61 +1,49 @@
-import { z } from "zod";
+import type { LandValuationInput } from "../types/land-valuation.types";
 
-export const landValuationSchema = z.object({
-  city: z.string().min(2, "La ciudad es obligatoria"),
-  municipality: z.string().min(2, "El municipio es obligatorio"),
-  zone: z.string().min(2, "La zona es obligatoria"),
+const ROAD_TYPES = [
+  "main_avenue",
+  "secondary_road",
+  "dirt_road",
+  "paved_street",
+  "unknown",
+] as const;
 
-  surfaceM2: z
-    .number()
-    .positive("La superficie debe ser mayor a 0")
-    .max(1000000, "La superficie parece demasiado alta"),
+const LAND_USE_TYPES = [
+  "residential",
+  "commercial",
+  "mixed",
+  "industrial",
+  "agricultural",
+  "unknown",
+] as const;
 
-  frontMeters: z.number().positive().optional(),
-  depthMeters: z.number().positive().optional(),
+const LEGAL_STATUSES = [
+  "complete_documents",
+  "in_process",
+  "incomplete",
+  "has_risk",
+  "unknown",
+] as const;
 
-  isCornerLot: z.boolean(),
-  isOnMainAvenue: z.boolean(),
+export const landValuationSchema = {
+  validate(input: LandValuationInput): string[] {
+    const errors: string[] = [];
 
-  roadType: z.enum([
-    "main_avenue",
-    "secondary_road",
-    "dirt_road",
-    "paved_street",
-    "unknown",
-  ]),
+    if (input.city.trim().length < 2) errors.push("La ciudad es obligatoria");
+    if (input.municipality.trim().length < 2) errors.push("El municipio es obligatorio");
+    if (input.zone.trim().length < 2) errors.push("La zona es obligatoria");
+    if (input.surfaceM2 <= 0) errors.push("La superficie debe ser mayor a 0");
+    if (input.surfaceM2 > 1000000) errors.push("La superficie parece demasiado alta");
+    if (input.frontMeters !== undefined && input.frontMeters <= 0) errors.push("El frente debe ser mayor a 0");
+    if (input.depthMeters !== undefined && input.depthMeters <= 0) errors.push("El fondo debe ser mayor a 0");
+    if (!ROAD_TYPES.includes(input.roadType)) errors.push("Tipo de via no valido");
+    if (!LAND_USE_TYPES.includes(input.landUseType)) errors.push("Uso de suelo no valido");
+    if (!LEGAL_STATUSES.includes(input.legalStatus)) errors.push("Estado legal no valido");
+    if (input.requestedPrice !== undefined && input.requestedPrice <= 0) errors.push("El precio solicitado debe ser mayor a 0");
+    if (input.currency !== "USD" && input.currency !== "BOB") errors.push("Moneda no valida");
 
-  landUseType: z.enum([
-    "residential",
-    "commercial",
-    "mixed",
-    "industrial",
-    "agricultural",
-    "unknown",
-  ]),
+    return errors;
+  },
+};
 
-  hasWater: z.boolean(),
-  hasElectricity: z.boolean(),
-  hasSewerage: z.boolean(),
-  hasGas: z.boolean(),
-  hasInternetAccess: z.boolean(),
-
-  legalStatus: z.enum([
-    "complete_documents",
-    "in_process",
-    "incomplete",
-    "has_risk",
-    "unknown",
-  ]),
-
-  hasFolioReal: z.boolean(),
-  hasApprovedPlan: z.boolean(),
-  taxesUpToDate: z.boolean(),
-
-  latitude: z.number().optional(),
-  longitude: z.number().optional(),
-
-  requestedPrice: z.number().positive().optional(),
-  currency: z.enum(["USD", "BOB"]),
-});
-
-export type LandValuationFormSchema = z.infer<typeof landValuationSchema>;
+export type LandValuationFormSchema = LandValuationInput;
