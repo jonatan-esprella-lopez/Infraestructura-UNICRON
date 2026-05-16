@@ -4,6 +4,7 @@ import { corsMiddleware } from '../shared/middlewares/cors.middleware.js';
 import { requestLoggerMiddleware } from '../shared/middlewares/request-logger.middleware.js';
 import { requestIdMiddleware } from '../shared/middlewares/request-id.middleware.js';
 import { securityMiddleware } from '../shared/middlewares/security.middleware.js';
+import { authMiddleware } from '../shared/middlewares/auth.middleware.js';
 import { rateLimitGuard } from '../shared/guards/rate-limit.guard.js';
 
 export function bootstrapMiddlewares(app: ApiApplication, config: AppConfig): void {
@@ -11,5 +12,6 @@ export function bootstrapMiddlewares(app: ApiApplication, config: AppConfig): vo
   app.use(securityMiddleware);
   app.use(corsMiddleware(config));
   app.use(rateLimitGuard({ limit: config.rateLimit.maxRequests, windowMs: config.rateLimit.windowMs }));
+  app.use(authMiddleware);
   app.use(requestLoggerMiddleware);
 }
