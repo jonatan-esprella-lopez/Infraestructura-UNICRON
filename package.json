@@ -28,6 +28,9 @@
     "docs:swagger": "node tools/docs/swagger-generator.mjs",
     "docs:architecture": "node tools/docs/architecture-generator.mjs",
     "docs:changelog": "node tools/docs/changelog-generator.mjs",
+    "test:api": "npm run test --workspace @unicron/api",
+    "test:auth": "npm run test:auth --workspace @unicron/api",
+    "test:turso": "npm run test:turso --workspace @unicron/api",
     "healthcheck:local": "node tools/scripts/healthcheck.mjs",
     "infra:up": "docker compose -f infra/docker/local/docker-compose.yml --env-file infra/docker/local/.env up --build",
     "infra:down": "docker compose -f infra/docker/local/docker-compose.yml down"
