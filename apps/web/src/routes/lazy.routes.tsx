@@ -37,6 +37,7 @@ const AgentClientsPage = lazy(() => import('@modules/proptech/agent/pages/agent-
 const AgentVisitsPage = lazy(() => import('@modules/proptech/agent/pages/agent-visits-page/agent-visits-page').then((m) => ({ default: m.AgentVisitsPage })));
 const AgentSalesPage = lazy(() => import('@modules/proptech/agent/pages/agent-sales-page/agent-sales-page').then((m) => ({ default: m.AgentSalesPage })));
 const ClientProfilePage = lazy(() => import('@modules/proptech/client/pages/client-profile-page/client-profile-page').then((m) => ({ default: m.ClientProfilePage })));
+const AgentLandValuationPage = lazy(() => import('@modules/property-valuations/pages/agent-land-valuation-page/agent-land-valuation-page').then((m) => ({ default: m.AgentLandValuationPage })));
 
 export const lazyModuleRoutes = [
   { path: 'dashboard', element: <DashboardPage />, permissions: [Permission.ViewDashboard], roles: [Role.Admin, Role.Manager, Role.Operator, Role.Viewer] },
@@ -69,6 +70,7 @@ export const lazyModuleRoutes = [
 
   // Proptech — AI matching & contracts
   { path: 'proptech/matching', element: <ProptechMatchingRouter />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropMatchingGenerate], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
+  { path: 'proptech/valuations', element: <AgentLandValuationPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
   { path: 'proptech/contracts', element: <PropertyContractsPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropContractReviewAi], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.LegalReviewer] },
 
   // Proptech — analytics placeholder
