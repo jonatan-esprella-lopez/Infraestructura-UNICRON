@@ -1,0 +1,106 @@
+.owner-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.owner-dashboard__header { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.owner-dashboard__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted, #6b7280);
+  margin: 0;
+}
+
+.owner-dashboard__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.owner-dashboard__subtitle {
+  font-size: 0.875rem;
+  color: var(--color-muted, #6b7280);
+  margin: 0;
+}
+
+.owner-dashboard__loading,
+.owner-dashboard__error {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-muted, #6b7280);
+}
+
+.owner-dashboard__error { color: var(--color-danger, #ef4444); }
+
+.owner-dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.owner-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1.25rem 1rem;
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.owner-stat__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary, #3b82f6);
+  line-height: 1;
+}
+
+.owner-stat__label {
+  font-size: 0.72rem;
+  color: var(--color-muted, #6b7280);
+}
+
+.owner-dashboard__actions h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.owner-dashboard__action-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.75rem;
+}
+
+.owner-action-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.25rem;
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.owner-action-card:hover { border-color: var(--color-primary, #3b82f6); }
+
+.owner-action-card strong {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text, #111827);
+}
+
+.owner-action-card span {
+  font-size: 0.8rem;
+  color: var(--color-muted, #6b7280);
+  line-height: 1.4;
+}
