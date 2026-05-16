@@ -1,0 +1,128 @@
+.client-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.client-dashboard__header { display: flex; flex-direction: column; gap: 0.25rem; }
+
+.client-dashboard__eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-muted, #6b7280);
+  margin: 0;
+}
+
+.client-dashboard__title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.client-dashboard__subtitle {
+  font-size: 0.875rem;
+  color: var(--color-muted, #6b7280);
+  margin: 0;
+}
+
+.client-dashboard__loading,
+.client-dashboard__error {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--color-muted, #6b7280);
+}
+
+.client-dashboard__error { color: var(--color-danger, #ef4444); }
+
+.client-dashboard__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.75rem;
+}
+
+.client-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 1.25rem 1rem;
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.5rem;
+  text-align: center;
+}
+
+.client-stat--highlight {
+  border-color: #a855f7;
+  background: #faf5ff;
+}
+
+.client-stat__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary, #3b82f6);
+  line-height: 1;
+}
+
+.client-stat--highlight .client-stat__value { color: #9333ea; }
+
+.client-stat__label {
+  font-size: 0.72rem;
+  color: var(--color-muted, #6b7280);
+}
+
+.client-dashboard__cta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.client-cta-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: var(--color-surface, #fff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 0.5rem;
+}
+
+.client-cta-card--primary {
+  background: #eff6ff;
+  border-color: var(--color-primary, #3b82f6);
+}
+
+.client-cta-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.client-cta-card p {
+  font-size: 0.8rem;
+  color: var(--color-muted, #6b7280);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.client-cta-card__btn {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-primary, #3b82f6);
+  color: #fff;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  align-self: flex-start;
+}
+
+.client-cta-card__btn--secondary {
+  background: var(--color-surface, #fff);
+  color: var(--color-primary, #3b82f6);
+  border: 1px solid var(--color-primary, #3b82f6);
+}
