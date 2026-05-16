@@ -20,6 +20,14 @@ function toMatch(row: Record<string, unknown>): PropertyMatch {
 export class TursoPropertyMatchingRepository implements IPropertyMatchingRepository {
   constructor(private readonly db: TursoService) {}
 
+  async findAll(): Promise<PropertyMatch[]> {
+    const res = await this.db.execute(
+      'SELECT * FROM property_matches ORDER BY created_at DESC',
+      {},
+    );
+    return res.rows.map((r) => toMatch(r as Record<string, unknown>));
+  }
+
   async findByClientId(clientId: string): Promise<PropertyMatch[]> {
     const res = await this.db.execute(
       'SELECT * FROM property_matches WHERE client_id = :clientId ORDER BY score DESC',

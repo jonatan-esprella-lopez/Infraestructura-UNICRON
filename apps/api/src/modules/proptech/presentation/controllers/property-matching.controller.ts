@@ -10,6 +10,11 @@ export class PropertyMatchingController {
     return [
       {
         method: 'GET',
+        path: '/proptech/matching',
+        handler: (ctx) => this.getAll(ctx),
+      },
+      {
+        method: 'GET',
         path: '/proptech/matching/client/:clientId/recommendations',
         handler: (ctx) => this.getRecommendations(ctx),
       },
@@ -19,6 +24,11 @@ export class PropertyMatchingController {
         handler: (ctx) => this.matchClient(ctx),
       },
     ];
+  }
+
+  private async getAll(_ctx: RequestContext): Promise<ApiResponse> {
+    const matches = await this.service.getAll();
+    return ok(matches);
   }
 
   private async getRecommendations(ctx: RequestContext): Promise<ApiResponse> {

@@ -5,6 +5,10 @@ import { randomUUID } from 'node:crypto';
 export class InMemoryPropertyMatchingRepository implements IPropertyMatchingRepository {
   private store: Map<string, PropertyMatch> = new Map();
 
+  async findAll(): Promise<PropertyMatch[]> {
+    return Array.from(this.store.values()).sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  }
+
   async findByClientId(clientId: string): Promise<PropertyMatch[]> {
     return Array.from(this.store.values())
       .filter((m) => m.clientId === clientId)

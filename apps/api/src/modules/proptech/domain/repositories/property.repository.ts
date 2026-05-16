@@ -2,6 +2,7 @@ import type { Property } from '../entities/property.entity.js';
 
 export interface PropertyFilters {
   tenantId?: string;
+  agentId?: string;
   operationType?: string;
   propertyType?: string;
   city?: string;

@@ -51,10 +51,13 @@ export class PropertyController {
   }
 
   private async list(ctx: RequestContext): Promise<ApiResponse> {
-    const { operationType, propertyType, city, zone, minPrice, maxPrice, minBedrooms, publicationStatus, limit, offset } =
+    const { operationType, propertyType, city, zone, minPrice, maxPrice, minBedrooms, publicationStatus, limit, offset, agentId: agentIdQ } =
       ctx.query;
+    const isAgent = ctx.user?.roles.includes('agent');
+    const agentId = isAgent ? ctx.user!.id : (agentIdQ ?? undefined);
     const result = await this.service.findAll({
       tenantId: ctx.tenantId,
+      agentId,
       operationType,
       propertyType,
       city,
