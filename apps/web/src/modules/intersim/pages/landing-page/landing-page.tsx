@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
+import { Building2, Key, Home, Briefcase } from 'lucide-react';
 import './landing-page.css';
 
 const FEATURED = [
@@ -126,19 +127,19 @@ export function LandingPage() {
           </p>
           <div className="lp-hero-action-cards">
             <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
-              <span className="lp-action-icon">🏢</span>
+              <Building2 className="lp-action-icon-svg" strokeWidth={1.5} />
               <span className="lp-action-text">Quiero vender</span>
             </button>
             <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
-              <span className="lp-action-icon">🔑</span>
+              <Key className="lp-action-icon-svg" strokeWidth={1.5} />
               <span className="lp-action-text">Quiero comprar</span>
             </button>
             <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
-              <span className="lp-action-icon">🏠</span>
+              <Home className="lp-action-icon-svg" strokeWidth={1.5} />
               <span className="lp-action-text">Quiero Alquilar</span>
             </button>
             <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
-              <span className="lp-action-icon">💼</span>
+              <Briefcase className="lp-action-icon-svg" strokeWidth={1.5} />
               <span className="lp-action-text">Quiero un anticrético</span>
             </button>
           </div>

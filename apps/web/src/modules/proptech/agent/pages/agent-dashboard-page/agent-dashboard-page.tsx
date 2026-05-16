@@ -95,11 +95,10 @@ export function AgentDashboardPage() {
       {/* Inventario de Propiedades */}
       <section className="adp-section">
         <SectionTitle icon="🏠" title="Inventario de Propiedades" />
-        <div className="adp-grid adp-grid--4">
+        <div className="adp-grid adp-grid--3">
           <KpiCard label="PROPIEDADES ASIGNADAS" value={n(kpis?.assignedProperties)} sub="En tu cartera activa"    icon="🏢" />
           <KpiCard label="LEADS NUEVOS"           value={n(kpis?.newLeads)}           sub="Pendientes de contacto" icon="✏️" />
           <KpiCard label="CLIENTES ACTIVOS"       value={n(kpis?.hotClients)}         sub="Con interés confirmado" icon="👥" />
-          <KpiCard label="TAREAS PENDIENTES"      value={n(kpis?.pendingTasks)}       sub="Por completar hoy"      icon="📌" />
         </div>
       </section>
 
