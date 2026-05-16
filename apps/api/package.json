@@ -7,9 +7,16 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "start": "node dist/main.js",
-    "dev": "tsc -w -p tsconfig.json"
+    "dev": "tsc -w -p tsconfig.json",
+    "test": "node --import tsx/esm --test src/tests/auth.test.ts src/tests/turso.test.ts",
+    "test:auth": "node --import tsx/esm --test src/tests/auth.test.ts",
+    "test:turso": "node --import tsx/esm --test src/tests/turso.test.ts",
+    "test:watch": "node --import tsx/esm --test --watch src/tests/auth.test.ts src/tests/turso.test.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.17.3"
+  },
+  "devDependencies": {
+    "tsx": "^4.22.0"
   }
 }
