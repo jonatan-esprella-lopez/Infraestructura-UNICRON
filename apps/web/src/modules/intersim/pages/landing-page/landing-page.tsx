@@ -277,36 +277,33 @@ export function LandingPage() {
       </section>
 
       {/* ── Roles section ─────────────────────────────────── */}
-      <section className="lp-section lp-section--alt">
+      <section className="lp-section lp-section--dark">
         <div className="lp-section-inner">
           <div className="lp-section-header centered">
             <span className="lp-section-eyebrow">Plataforma multi-rol</span>
-            <h2 className="lp-section-title">Un portal para cada perfil</h2>
+            <h2 className="lp-section-title text-white">Un portal para cada perfil</h2>
           </div>
           <div className="lp-roles-grid">
-            <div className="lp-role-card lp-role-card--admin">
-              <div className="lp-role-icon">👨‍💼</div>
-              <h3>Administradores</h3>
-              <p>Dashboard completo con KPIs, gestión de agentes, reportes financieros y control total de la plataforma.</p>
-              <button onClick={() => navigate(ROUTES.login)}>Acceder como Admin</button>
+            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_agente.png)' }} onClick={() => navigate(ROUTES.login)}>
+              <div className="lp-role-overlay" />
+              <div className="lp-role-content">
+                <h3>Soy Agente</h3>
+                <span className="lp-role-link">Explorar →</span>
+              </div>
             </div>
-            <div className="lp-role-card lp-role-card--agent">
-              <div className="lp-role-icon">🏃</div>
-              <h3>Agentes</h3>
-              <p>Gestión de cartera, visitas del día, clientes urgentes y matching IA para cerrar más ventas.</p>
-              <button onClick={() => navigate(ROUTES.login)}>Acceder como Agente</button>
+            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_propietario.png)' }} onClick={() => navigate(ROUTES.login)}>
+              <div className="lp-role-overlay" />
+              <div className="lp-role-content">
+                <h3>Soy Propietario</h3>
+                <span className="lp-role-link">Explorar →</span>
+              </div>
             </div>
-            <div className="lp-role-card lp-role-card--owner">
-              <div className="lp-role-icon">🏠</div>
-              <h3>Propietarios</h3>
-              <p>Estado de tus propiedades, visitas programadas, ofertas recibidas y gestión de contratos.</p>
-              <button onClick={() => navigate(ROUTES.login)}>Acceder como Propietario</button>
-            </div>
-            <div className="lp-role-card lp-role-card--client">
-              <div className="lp-role-icon">🔍</div>
-              <h3>Compradores</h3>
-              <p>Búsqueda inteligente, recomendaciones personalizadas y seguimiento de tu proceso de compra.</p>
-              <button onClick={() => navigate(ROUTES.login)}>Buscar propiedades</button>
+            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_comprador.png)' }} onClick={() => navigate(ROUTES.login)}>
+              <div className="lp-role-overlay" />
+              <div className="lp-role-content">
+                <h3>Soy Comprador</h3>
+                <span className="lp-role-link">Explorar →</span>
+              </div>
             </div>
           </div>
         </div>
