@@ -20,6 +20,7 @@ export const ROUTES = {
   workflows: '/app/workflows',
   // Proptech
   proptech: '/app/proptech',
+  proptechProfile: '/app/proptech/profile',
   proptechProperties: '/app/proptech/properties',
   proptechMatching: '/app/proptech/matching',
   proptechVisits: '/app/proptech/visits',

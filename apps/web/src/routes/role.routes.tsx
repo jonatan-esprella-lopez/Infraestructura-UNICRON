@@ -14,6 +14,7 @@ import {
   Shield,
   Sparkles,
   TrendingUp,
+  UserRound,
   UserRoundSearch,
   Users,
   WalletCards,
@@ -52,6 +53,7 @@ export const roleRoutes: RoleRoute[] = [
   { key: ModuleKey.Workflows, label: 'Workflows', path: ROUTES.workflows, icon: Workflow, featureFlag: 'workflows', permissions: [Permission.AccessWorkflows], roles: [Role.Admin, Role.Manager] },
   // --- Proptech ---
   { key: ModuleKey.ProptechDashboard, label: 'Inmuebles', path: ROUTES.proptech, icon: Building2, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
+  { key: ModuleKey.ProptechProfile, label: 'Perfil', path: ROUTES.proptechProfile, icon: UserRound, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
   { key: ModuleKey.ProptechProperties, label: 'Propiedades', path: ROUTES.proptechProperties, icon: Building2, featureFlag: 'proptech', permissions: [Permission.PropPropertyRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
   { key: ModuleKey.ProptechLeads, label: 'Leads', path: ROUTES.proptechLeads, icon: UserRoundSearch, featureFlag: 'proptech', permissions: [Permission.AccessCrm], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
   { key: ModuleKey.ProptechClients, label: 'Clientes', path: ROUTES.proptechClients, icon: Users, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },

@@ -3,7 +3,7 @@ import {
   BarChart3, Bot, BriefcaseBusiness, Building2, CalendarCheck,
   ChevronLeft, ChevronRight, FileSignature, FileText, Gauge,
   Megaphone, QrCode, Receipt, Settings, Shield, Sparkles,
-  TrendingUp, UserRoundSearch, Users, WalletCards, Workflow,
+  TrendingUp, UserRound, UserRoundSearch, Users, WalletCards, Workflow,
   type LucideIcon,
 } from 'lucide-react';
 import { appConfig } from '@bootstrap/app-config';
@@ -83,6 +83,7 @@ const OWNER_GROUPS: NavGroup[] = [
   {
     items: [
       { label: 'Mi panel', path: ROUTES.proptech, icon: Building2, featureFlag: 'proptech', end: true },
+      { label: 'Perfil', path: ROUTES.proptechProfile, icon: UserRound, featureFlag: 'proptech' },
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
     ],
   },
@@ -92,6 +93,7 @@ const CLIENT_GROUPS: NavGroup[] = [
   {
     items: [
       { label: 'Mi panel', path: ROUTES.proptech, icon: Building2, featureFlag: 'proptech', end: true },
+      { label: 'Perfil', path: ROUTES.proptechProfile, icon: UserRound, featureFlag: 'proptech' },
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
     ],
   },

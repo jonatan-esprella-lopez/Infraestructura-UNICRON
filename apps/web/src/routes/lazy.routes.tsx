@@ -36,6 +36,7 @@ const AgentLeadsPage = lazy(() => import('@modules/proptech/agent/pages/agent-le
 const AgentClientsPage = lazy(() => import('@modules/proptech/agent/pages/agent-clients-page/agent-clients-page').then((m) => ({ default: m.AgentClientsPage })));
 const AgentVisitsPage = lazy(() => import('@modules/proptech/agent/pages/agent-visits-page/agent-visits-page').then((m) => ({ default: m.AgentVisitsPage })));
 const AgentSalesPage = lazy(() => import('@modules/proptech/agent/pages/agent-sales-page/agent-sales-page').then((m) => ({ default: m.AgentSalesPage })));
+const ClientProfilePage = lazy(() => import('@modules/proptech/client/pages/client-profile-page/client-profile-page').then((m) => ({ default: m.ClientProfilePage })));
 
 export const lazyModuleRoutes = [
   { path: 'dashboard', element: <DashboardPage />, permissions: [Permission.ViewDashboard], roles: [Role.Admin, Role.Manager, Role.Operator, Role.Viewer] },
@@ -56,6 +57,7 @@ export const lazyModuleRoutes = [
 
   // ── Proptech ─────────────────────────────────────────────────────────────
   { path: 'proptech', element: <ProptechDashboardRouter />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
+  { path: 'proptech/profile', element: <ClientProfilePage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
 
   // Proptech — properties
   { path: 'proptech/properties', element: <PropertyListPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.PropPropertyRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Viewer] },

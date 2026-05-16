@@ -5,6 +5,7 @@ export interface AppUser {
   id: string;
   name: string;
   email: string;
+  avatarUrl?: string;
   roles: Role[];
   permissions: Permission[];
   tenantId?: string;
