@@ -15,6 +15,7 @@ export enum ModuleKey {
   // Proptech
   ProptechDashboard = 'proptech',
   ProptechProfile = 'proptech-profile',
+  ProptechValuations = 'proptech-valuations',
   ProptechProperties = 'proptech-properties',
   ProptechMatching = 'proptech-matching',
   ProptechVisits = 'proptech-visits',

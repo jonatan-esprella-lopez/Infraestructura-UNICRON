@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import {
   BarChart3, Bot, BriefcaseBusiness, Building2, CalendarCheck,
-  ChevronLeft, ChevronRight, FileSignature, FileText, Gauge,
+  Calculator, ChevronLeft, ChevronRight, FileSignature, FileText, Gauge,
   Megaphone, QrCode, Receipt, Settings, Shield, Sparkles,
   TrendingUp, UserRound, UserRoundSearch, Users, WalletCards, Workflow,
   type LucideIcon,
@@ -47,6 +47,7 @@ const AGENT_GROUPS: NavGroup[] = [
     label: 'Herramientas',
     items: [
       { label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech' },
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Mi Producción', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech' },
     ],
   },
