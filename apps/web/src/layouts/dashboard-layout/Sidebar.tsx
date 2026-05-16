@@ -72,6 +72,7 @@ const AGENCY_ADMIN_GROUPS: NavGroup[] = [
     label: 'Gestión',
     items: [
       { label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech' },
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Contratos', path: ROUTES.proptechContracts, icon: FileSignature, featureFlag: 'proptech' },
       { label: 'Ventas', path: ROUTES.proptechSales, icon: Receipt, featureFlag: 'proptech' },
       { label: 'Reportes', path: ROUTES.proptechReports, icon: BarChart3, featureFlag: 'proptech' },
@@ -110,6 +111,7 @@ const ADMIN_GROUPS: NavGroup[] = [
       { label: 'Clientes', path: ROUTES.proptechClients, icon: Users, featureFlag: 'proptech' },
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
       { label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech' },
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Contratos', path: ROUTES.proptechContracts, icon: FileSignature, featureFlag: 'proptech' },
       { label: 'Ventas', path: ROUTES.proptechSales, icon: Receipt, featureFlag: 'proptech' },
       { label: 'Reportes', path: ROUTES.proptechReports, icon: BarChart3, featureFlag: 'proptech' },
