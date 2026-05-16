@@ -1,13 +1,9 @@
 import { Outlet } from 'react-router-dom';
-import { AuthFooter } from './AuthFooter';
-import { AuthHeader } from './AuthHeader';
 
 export function AuthLayout() {
   return (
-    <main className="auth-layout">
-      <AuthHeader />
+    <div style={{ minHeight: '100vh' }}>
       <Outlet />
-      <AuthFooter />
-    </main>
+    </div>
   );
 }
