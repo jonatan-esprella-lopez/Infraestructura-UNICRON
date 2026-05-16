@@ -39,6 +39,15 @@ export class ApiApplication {
     const requestId = String(req.headers[REQUEST_ID_HEADER] ?? randomUUID());
     const requestUrl = new URL(req.url ?? '/', `http://${req.headers.host ?? this.config.host}`);
     const method = normalizeMethod(req.method);
+
+    // CORS headers are set unconditionally so error responses (404, 500) are never blocked by the browser
+    const origin = String(req.headers['origin'] ?? '');
+    const allowedOrigin = this.config.corsOrigins.includes(origin) ? origin : (this.config.corsOrigins[0] ?? '*');
+    res.setHeader('access-control-allow-origin', allowedOrigin);
+    res.setHeader('access-control-allow-headers', 'content-type, authorization, x-api-key, x-request-id, x-tenant-id');
+    res.setHeader('access-control-allow-methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+    res.setHeader('vary', 'origin');
+
     const matched =
       method === 'OPTIONS'
         ? {

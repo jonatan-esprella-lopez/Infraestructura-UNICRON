@@ -28,7 +28,20 @@ describe('Turso Database', () => {
 
   before(async () => {
     db = new TursoService(logger);
-    await db.connect(TURSO_URL!, TURSO_TOKEN!);
+    try {
+      await db.connect(TURSO_URL!, TURSO_TOKEN!);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.includes('404') || msg.includes('not found') || msg.toLowerCase().includes('server returned')) {
+        console.log('\n    ❌  La base de datos Turso no existe todavía.');
+        console.log('    ➡  Créala en https://turso.tech/app:');
+        console.log(`        Nombre: intersim-proptech`);
+        console.log(`        Org:    odalizr2`);
+        console.log(`        URL resultante: libsql://intersim-proptech-odalizr2.turso.io\n`);
+        process.exit(0);
+      }
+      throw err;
+    }
   });
 
   it('conexión exitosa → isReady() = true', () => {
