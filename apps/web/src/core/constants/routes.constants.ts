@@ -15,4 +15,13 @@ export const ROUTES = {
   roles: '/app/roles',
   settings: '/app/settings',
   workflows: '/app/workflows',
+  // Proptech
+  proptech: '/app/proptech',
+  proptechProperties: '/app/proptech/properties',
+  proptechMatching: '/app/proptech/matching',
+  proptechVisits: '/app/proptech/visits',
+  proptechContracts: '/app/proptech/contracts',
+  proptechLeads: '/app/proptech/leads',
+  proptechClients: '/app/proptech/clients',
+  proptechAnalytics: '/app/proptech/analytics',
 } as const;

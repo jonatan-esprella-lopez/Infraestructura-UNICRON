@@ -12,4 +12,13 @@ export enum ModuleKey {
   Roles = 'roles',
   Settings = 'settings',
   Workflows = 'workflows',
+  // Proptech
+  ProptechDashboard = 'proptech',
+  ProptechProperties = 'proptech-properties',
+  ProptechMatching = 'proptech-matching',
+  ProptechVisits = 'proptech-visits',
+  ProptechContracts = 'proptech-contracts',
+  ProptechLeads = 'proptech-leads',
+  ProptechClients = 'proptech-clients',
+  ProptechAnalytics = 'proptech-analytics',
 }
