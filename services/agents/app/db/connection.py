@@ -25,7 +25,7 @@ async def save_lead(*, chat_id: int, profile: dict) -> str:
     lead_id = f"L-{uuid.uuid4().hex[:8].upper()}"
 
     async with pool.acquire() as conn:
-        await conn.execute(
+        row = await conn.fetchrow(
             """
             INSERT INTO leads (id, telegram_chat_id, operation_type, budget_usd, zones,
                                rooms, timing_weeks, profile)
@@ -37,6 +37,7 @@ async def save_lead(*, chat_id: int, profile: dict) -> str:
                   rooms          = EXCLUDED.rooms,
                   timing_weeks   = EXCLUDED.timing_weeks,
                   profile        = EXCLUDED.profile
+            RETURNING id
             """,
             lead_id,
             chat_id,
@@ -48,4 +49,4 @@ async def save_lead(*, chat_id: int, profile: dict) -> str:
             json.dumps(profile),
         )
 
-    return lead_id
+    return row["id"]

@@ -18,7 +18,7 @@ Datos que necesitas extraer:
 - extras: pet_friendly, parking, etc.
 
 Estilo: corto, una pregunta a la vez. Si la persona ya dio info, no la vuelvas a pedir.
-Cuando tengas los 5 campos principales completos, decí exactamente:
+Cuando tengas los 6 campos completos (operation_type, budget_usd, zones, rooms, timing_weeks y al menos un extra si aplica), decí exactamente:
 "Perfecto, ya tengo lo que necesito. Te paso unas propiedades en un momento." y no hagas más preguntas."""
 
 EXTRACT_PROMPT = """De la conversación siguiente, extraé el perfil JSON con exactamente estos campos:
@@ -64,8 +64,14 @@ async def extract_node(state: LeadState) -> dict:
     except Exception:
         profile = state.get("lead_profile") or {}
 
-    required = ["operation_type", "budget_usd", "zones", "rooms"]
+    required = ["operation_type", "budget_usd", "zones", "rooms", "timing_weeks"]
     complete = all(profile.get(k) for k in required)
+
+    # Never mark complete if the agent's last message is still asking a question
+    last_reply = state["messages"][-1].content if state["messages"] else ""
+    if "?" in last_reply:
+        complete = False
+
     return {"lead_profile": profile, "complete": complete}
 
 
