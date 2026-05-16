@@ -1,0 +1,100 @@
+.valuation-result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  padding: 20px;
+  background: #eff6ff;
+}
+
+.valuation-result-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.valuation-result-card__eyebrow {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #1d4ed8;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.valuation-result-card__title {
+  margin: 0;
+  font-size: 18px;
+  color: #111827;
+}
+
+.valuation-result-card__main-value {
+  font-size: 36px;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.valuation-result-card__range {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.valuation-result-card__range-item {
+  border-radius: 14px;
+  padding: 12px;
+  background: #ffffff;
+}
+
+.valuation-result-card__range-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.valuation-result-card__range-value {
+  font-size: 15px;
+  color: #111827;
+}
+
+.valuation-result-card__summary {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.valuation-result-card__warnings {
+  border-radius: 14px;
+  padding: 14px;
+  background: #fff7ed;
+}
+
+.valuation-result-card__warnings-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #9a3412;
+}
+
+.valuation-result-card__warnings-list {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.valuation-result-card__warning {
+  font-size: 13px;
+  color: #9a3412;
+}
+
+@media (max-width: 720px) {
+  .valuation-result-card__range {
+    grid-template-columns: 1fr;
+  }
+
+  .valuation-result-card__main-value {
+    font-size: 30px;
+  }
+}

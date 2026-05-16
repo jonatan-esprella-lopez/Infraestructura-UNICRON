@@ -12,9 +12,29 @@ const DEMO_ACCOUNTS = [
   { role: 'Cliente', email: 'cliente@intersim.bo', password: 'cliente123', color: '#7c3aed' },
 ];
 
+import { useState, type FormEvent } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { authService } from '../services/auth.service';
+import { useRootStore } from '@store/root-store';
+import { ROUTES } from '@core/constants/routes.constants';
+import { Home, Brain, FileText, BarChart3, Users, Mail, Lock, User } from 'lucide-react';
+import './AuthPage.css';
+
+const DEMO_ACCOUNTS = [
+  { role: 'Administrador', email: 'admin@intersim.bo', password: 'admin123', color: '#dc2626' },
+  { role: 'Agente', email: 'agente@intersim.bo', password: 'agente123', color: '#2563eb' },
+  { role: 'Propietario', email: 'propietario@intersim.bo', password: 'prop123', color: '#059669' },
+  { role: 'Cliente', email: 'cliente@intersim.bo', password: 'cliente123', color: '#7c3aed' },
+];
+
 export function AuthPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { setCurrentUser } = useRootStore();
+  
+  const isRegister = location.pathname.includes('register');
+
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,12 +45,20 @@ export function AuthPage() {
     setLoading(true);
     setError(null);
     try {
-      const { token, user } = await authService.login(email.trim(), password);
-      localStorage.setItem('intersim.token', token);
-      setCurrentUser(user);
+      if (isRegister) {
+        // Mock register for now or use actual service if available
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        const { token, user } = await authService.login(email.trim(), password); // Mock fallback
+        localStorage.setItem('intersim.token', token);
+        setCurrentUser(user);
+      } else {
+        const { token, user } = await authService.login(email.trim(), password);
+        localStorage.setItem('intersim.token', token);
+        setCurrentUser(user);
+      }
       navigate(ROUTES.proptech, { replace: true });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Error al iniciar sesión');
+      setError(err instanceof Error ? err.message : `Error al ${isRegister ? 'registrarse' : 'iniciar sesión'}`);
     } finally {
       setLoading(false);
     }
@@ -42,90 +70,130 @@ export function AuthPage() {
     setError(null);
   };
 
+  const bgImage = isRegister ? '/register_hero.png' : '/login_hero.png';
+
   return (
     <div className="auth-page">
-      <div className="auth-panel-left">
-        <div className="auth-brand">
-          <div className="auth-brand-logo">IS</div>
-          <div>
-            <div className="auth-brand-name">INTERSIM</div>
-            <div className="auth-brand-tagline">PropTech Bolivia</div>
+      <div className="auth-panel-left" style={{ backgroundImage: `url(${bgImage})` }}>
+        <div className="auth-panel-left-overlay" />
+        <div className="auth-brand-content">
+          <div className="auth-brand">
+            <div className="auth-brand-logo">IS</div>
+            <div>
+              <div className="auth-brand-name">INTERSIM</div>
+              <div className="auth-brand-tagline">PropTech Bolivia</div>
+            </div>
+          </div>
+          <div className="auth-brand-body">
+            <h2>{isRegister ? 'Únete a la revolución inmobiliaria' : 'Bienvenido de nuevo a tu portal'}</h2>
+            <p className="auth-brand-desc">
+              Experimenta el poder de la inteligencia artificial aplicada al sector inmobiliario boliviano.
+            </p>
+            <ul className="auth-features">
+              <li><Home size={20} className="auth-feat-icon" /> Gestión integral de propiedades</li>
+              <li><Brain size={20} className="auth-feat-icon" /> Matching inteligente con IA</li>
+              <li><FileText size={20} className="auth-feat-icon" /> Revisión automática de contratos</li>
+              <li><BarChart3 size={20} className="auth-feat-icon" /> Reportes y análisis en tiempo real</li>
+              <li><Users size={20} className="auth-feat-icon" /> Ecosistema para todos los actores</li>
+            </ul>
           </div>
         </div>
-        <div className="auth-brand-body">
-          <h2>La plataforma inmobiliaria más completa de Bolivia</h2>
-          <ul className="auth-features">
-            <li><span className="auth-feat-icon">🏠</span>Gestión completa de propiedades</li>
-            <li><span className="auth-feat-icon">🤖</span>Matching inteligente con IA</li>
-            <li><span className="auth-feat-icon">📄</span>Revisión de contratos con IA</li>
-            <li><span className="auth-feat-icon">📊</span>Reportes y analytics en tiempo real</li>
-            <li><span className="auth-feat-icon">👥</span>Portal diferenciado por rol</li>
-          </ul>
-        </div>
-        <p className="auth-brand-footer">Santa Cruz · Cochabamba · La Paz</p>
       </div>
 
       <div className="auth-panel-right">
         <div className="auth-form-container">
           <div className="auth-form-header">
-            <h1>Iniciar sesión</h1>
-            <p>Accede a tu portal INTERSIM</p>
+            <h1>{isRegister ? 'Crear Cuenta' : 'Iniciar Sesión'}</h1>
+            <p>{isRegister ? 'Comienza tu experiencia premium' : 'Accede a tu plataforma segura'}</p>
           </div>
 
           {error && <div className="auth-error">{error}</div>}
 
           <form className="auth-form" onSubmit={(e) => { void handleSubmit(e); }}>
+            {isRegister && (
+              <label className="auth-label">
+                Nombre Completo
+                <div className="auth-input-wrapper">
+                  <User size={18} className="auth-input-icon" />
+                  <input
+                    type="text"
+                    className="auth-input with-icon"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Ej. Juan Pérez"
+                    required={isRegister}
+                  />
+                </div>
+              </label>
+            )}
+
             <label className="auth-label">
-              Correo electrónico
-              <input
-                type="email"
-                className="auth-input"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="tu@correo.com"
-                required
-                autoComplete="email"
-              />
+              Correo Electrónico
+              <div className="auth-input-wrapper">
+                <Mail size={18} className="auth-input-icon" />
+                <input
+                  type="email"
+                  className="auth-input with-icon"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="tu.correo@ejemplo.com"
+                  required
+                  autoComplete="email"
+                />
+              </div>
             </label>
+
             <label className="auth-label">
               Contraseña
-              <input
-                type="password"
-                className="auth-input"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                autoComplete="current-password"
-              />
+              <div className="auth-input-wrapper">
+                <Lock size={18} className="auth-input-icon" />
+                <input
+                  type="password"
+                  className="auth-input with-icon"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  required
+                  autoComplete={isRegister ? 'new-password' : 'current-password'}
+                />
+              </div>
             </label>
+
             <button type="submit" className="auth-submit" disabled={loading}>
-              {loading ? <span className="auth-spinner" /> : 'Entrar al portal'}
+              {loading ? <span className="auth-spinner" /> : isRegister ? 'Crear cuenta ahora' : 'Entrar al portal'}
             </button>
           </form>
 
-          <div className="auth-demo">
-            <div className="auth-demo-divider">
-              <span>Acceso rápido de demostración</span>
-            </div>
-            <div className="auth-demo-grid">
-              {DEMO_ACCOUNTS.map((acc) => (
-                <button
-                  key={acc.role}
-                  className="auth-demo-btn"
-                  style={{ '--demo-color': acc.color } as React.CSSProperties}
-                  onClick={() => fillDemo(acc)}
-                  type="button"
-                >
-                  <span className="auth-demo-role">{acc.role}</span>
-                  <span className="auth-demo-email">{acc.email}</span>
-                </button>
-              ))}
-            </div>
+          <div className="auth-switch-mode">
+            {isRegister ? (
+              <p>¿Ya tienes una cuenta? <Link to="/login">Inicia sesión aquí</Link></p>
+            ) : (
+              <p>¿No tienes cuenta? <Link to="/register">Regístrate gratis</Link></p>
+            )}
           </div>
-        </div>
 
-        <a href="/" className="auth-back-link">← Volver al inicio</a>
+          {!isRegister && (
+            <div className="auth-demo">
+              <div className="auth-demo-divider">
+                <span>Acceso rápido de demostración</span>
+              </div>
+              <div className="auth-demo-grid">
+                {DEMO_ACCOUNTS.map((acc) => (
+                  <button
+                    key={acc.role}
+                    className="auth-demo-btn"
+                    style={{ '--demo-color': acc.color } as React.CSSProperties}
+                    onClick={() => fillDemo(acc)}
+                    type="button"
+                  >
+                    <span className="auth-demo-role">{acc.role}</span>
+                    <span className="auth-demo-email">{acc.email}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

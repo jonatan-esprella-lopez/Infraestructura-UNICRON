@@ -1,0 +1,92 @@
+.agent-land-valuation-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.agent-land-valuation-page__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.agent-land-valuation-page__eyebrow {
+  margin: 0 0 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-primary, #2563eb);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.agent-land-valuation-page__title {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--color-text-primary, #111827);
+}
+
+.agent-land-valuation-page__description {
+  max-width: 760px;
+  margin: 8px 0 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-text-secondary, #4b5563);
+}
+
+.agent-land-valuation-page__layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) 1fr;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.agent-land-valuation-page__form-panel,
+.agent-land-valuation-page__result-panel {
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 18px;
+  background: var(--color-surface, #ffffff);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+}
+
+.agent-land-valuation-page__form-panel {
+  padding: 20px;
+}
+
+.agent-land-valuation-page__result-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.agent-land-valuation-page__empty,
+.agent-land-valuation-page__loading,
+.agent-land-valuation-page__error {
+  border-radius: 14px;
+  padding: 18px;
+  font-size: 14px;
+}
+
+.agent-land-valuation-page__empty {
+  background: #f9fafb;
+  color: #6b7280;
+}
+
+.agent-land-valuation-page__loading {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.agent-land-valuation-page__error {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+@media (max-width: 960px) {
+  .agent-land-valuation-page__layout {
+    grid-template-columns: 1fr;
+  }
+}
