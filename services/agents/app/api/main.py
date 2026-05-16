@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from app.db.connection import get_pool
 from app.agents.property_matcher import search_properties, rerank_with_llm
+from app.agents.contract_reviewer import analyze_contract
 
 app = FastAPI(title="CasaLens Agents API")
 
@@ -48,8 +49,8 @@ async def get_matches(lead_id: str):
     profile = lead.get("profile") or {}
     search_lead = {
         "operation_type": lead.get("operation_type"),
-        "budget_usd": lead.get("budget_usd"),
-        "rooms": lead.get("rooms"),
+        "budget_usd": float(lead["budget_usd"]) if lead.get("budget_usd") else None,
+        "rooms": int(lead["rooms"]) if lead.get("rooms") else None,
         "zones": lead.get("zones") or [],
         "extras": profile.get("extras") or {},
     }
@@ -68,6 +69,6 @@ class ContractIn(BaseModel):
 
 
 @app.post("/contracts/analyze")
-async def analyze_contract(payload: ContractIn):
-    # TODO: implementar contract reviewer (Bloque 3)
-    return {"status": "pending", "message": "Contract reviewer en construcción"}
+async def analyze_contract_endpoint(payload: ContractIn):
+    result = await analyze_contract(payload.text, payload.operation_type)
+    return result
