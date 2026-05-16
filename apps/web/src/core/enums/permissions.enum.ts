@@ -12,4 +12,12 @@ export enum Permission {
   AccessQr = 'qr:access',
   AccessNotifications = 'notifications:access',
   AccessWorkflows = 'workflows:access',
+  // Proptech
+  AccessProptech = 'proptech:access',
+  PropPropertyCreate = 'proptech.property.create',
+  PropPropertyRead = 'proptech.property.read',
+  PropPropertyPublish = 'proptech.property.publish',
+  PropMatchingGenerate = 'proptech.matching.generate',
+  PropContractReviewAi = 'proptech.contract.review_ai',
+  PropMarketInsightsRead = 'proptech.market_insights.read',
 }
