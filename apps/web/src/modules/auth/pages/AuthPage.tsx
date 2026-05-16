@@ -1,18 +1,4 @@
 import { useState, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/auth.service';
-import { useRootStore } from '@store/root-store';
-import { ROUTES } from '@core/constants/routes.constants';
-import './AuthPage.css';
-
-const DEMO_ACCOUNTS = [
-  { role: 'Administrador', email: 'admin@intersim.bo', password: 'admin123', color: '#dc2626' },
-  { role: 'Agente', email: 'agente@intersim.bo', password: 'agente123', color: '#2563eb' },
-  { role: 'Propietario', email: 'propietario@intersim.bo', password: 'prop123', color: '#059669' },
-  { role: 'Cliente', email: 'cliente@intersim.bo', password: 'cliente123', color: '#7c3aed' },
-];
-
-import { useState, type FormEvent } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { authService } from '../services/auth.service';
 import { useRootStore } from '@store/root-store';

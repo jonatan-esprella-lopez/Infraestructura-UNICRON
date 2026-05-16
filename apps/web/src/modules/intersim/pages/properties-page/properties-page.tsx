@@ -86,6 +86,7 @@ export function PropertiesPage() {
       }
     } catch (err) {
       console.error('Failed to fetch properties, using mocks:', err);
+      const offset = (currentPage - 1) * pageSize;
       const mockFiltered = MOCK_PROPERTIES.filter((p) => {
         let match = true;
         if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) {
