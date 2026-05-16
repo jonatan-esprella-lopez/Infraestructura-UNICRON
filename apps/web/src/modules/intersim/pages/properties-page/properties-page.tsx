@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
-import { MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight, Search } from 'lucide-react';
 import { propertyService } from '@modules/proptech/services/property.service';
 import type { Property, PropertyFilters, OperationType, PropertyType } from '@modules/proptech/types/property.types';
 import './properties-page.css';
@@ -43,6 +43,19 @@ export function PropertiesPage() {
   });
   const [searchTerm, setSearchTerm] = useState('');
 
+  // Debounce search term
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setPage(1);
+      setFilters((prev) => ({
+        ...prev,
+        city: searchTerm || undefined, // For demo, searching by city
+      }));
+    }, 400); // 400ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchTerm]);
+
   const fetchProperties = async (currentPage: number, currentFilters: PropertyFilters) => {
     setLoading(true);
     try {
@@ -57,13 +70,34 @@ export function PropertiesPage() {
         setTotal(res.total);
       } else {
         // Fallback to mock data if DB is empty for demo purposes
-        setProperties(MOCK_PROPERTIES);
-        setTotal(MOCK_PROPERTIES.length);
+        const mockFiltered = MOCK_PROPERTIES.filter((p) => {
+          let match = true;
+          if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) {
+            match = false;
+          }
+          if (currentFilters.operationType && p.operationType !== currentFilters.operationType) {
+            match = false;
+          }
+          // Note: mock data doesn't have propertyType explicitly set, so we skip filtering by it locally
+          return match;
+        });
+        setProperties(mockFiltered.slice(offset, offset + pageSize));
+        setTotal(mockFiltered.length);
       }
     } catch (err) {
       console.error('Failed to fetch properties, using mocks:', err);
-      setProperties(MOCK_PROPERTIES);
-      setTotal(MOCK_PROPERTIES.length);
+      const mockFiltered = MOCK_PROPERTIES.filter((p) => {
+        let match = true;
+        if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) {
+          match = false;
+        }
+        if (currentFilters.operationType && p.operationType !== currentFilters.operationType) {
+          match = false;
+        }
+        return match;
+      });
+      setProperties(mockFiltered.slice(offset, offset + pageSize));
+      setTotal(mockFiltered.length);
     } finally {
       setLoading(false);
     }
@@ -74,14 +108,6 @@ export function PropertiesPage() {
   }, [page, filters]);
 
   const totalPages = Math.ceil(total / pageSize) || 1;
-
-  const handleSearch = () => {
-    setPage(1);
-    setFilters((prev) => ({
-      ...prev,
-      city: searchTerm || undefined,
-    }));
-  };
 
   return (
     <div className="sub-page">
@@ -96,14 +122,16 @@ export function PropertiesPage() {
       <section className="properties-section">
         <div className="properties-container">
           <div className="properties-filters">
-            <input
-              type="text"
-              placeholder="Buscar por ciudad..."
-              className="prop-filter-input"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            />
+            <div className="prop-search-wrapper">
+              <Search className="prop-search-icon" size={20} />
+              <input
+                type="text"
+                placeholder="Busca por ciudad o título..."
+                className="prop-filter-input with-icon"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+            </div>
             <select
               className="prop-filter-select"
               value={filters.operationType || ''}
@@ -112,7 +140,7 @@ export function PropertiesPage() {
                 setFilters((prev) => ({ ...prev, operationType: (e.target.value as OperationType) || undefined }));
               }}
             >
-              <option value="">Tipo de Operación</option>
+              <option value="">Cualquier Operación</option>
               <option value="sale">Venta</option>
               <option value="rent">Alquiler</option>
               <option value="anticretico">Anticrético</option>
@@ -125,15 +153,12 @@ export function PropertiesPage() {
                 setFilters((prev) => ({ ...prev, propertyType: (e.target.value as PropertyType) || undefined }));
               }}
             >
-              <option value="">Tipo de Inmueble</option>
+              <option value="">Cualquier Inmueble</option>
               <option value="house">Casa</option>
               <option value="apartment">Departamento</option>
               <option value="land">Terreno</option>
               <option value="office">Oficina</option>
             </select>
-            <button className="prop-filter-btn" onClick={handleSearch}>
-              Buscar
-            </button>
           </div>
 
           {loading ? (

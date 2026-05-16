@@ -12,43 +12,53 @@
   display: flex;
   gap: 1rem;
   background: #fff;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  padding: 1.25rem;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
   margin-bottom: 3rem;
-  margin-top: -8rem;
+  margin-top: -6rem;
   position: relative;
   z-index: 10;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.prop-search-wrapper {
+  flex: 2;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.prop-search-icon {
+  position: absolute;
+  left: 1.25rem;
+  color: #64748b;
+  pointer-events: none;
 }
 
 .prop-filter-input, .prop-filter-select {
   flex: 1;
-  padding: 0.875rem 1rem;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  border: 2px solid #f1f5f9;
+  background: #f8fafc;
+  border-radius: 12px;
   font-size: 0.9375rem;
+  font-weight: 500;
   color: #0f172a;
   outline: none;
-  transition: border-color 0.2s;
+  transition: all 0.2s ease;
+}
+
+.prop-filter-input.with-icon {
+  width: 100%;
+  padding-left: 3.25rem;
 }
 
 .prop-filter-input:focus, .prop-filter-select:focus {
   border-color: #2563eb;
-}
-
-.prop-filter-btn {
-  background: #f59e0b;
-  color: #1e293b;
-  border: none;
-  padding: 0.875rem 2rem;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.prop-filter-btn:hover {
-  background: #d97706;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
 }
 
 .properties-grid {
