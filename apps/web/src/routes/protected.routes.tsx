@@ -14,14 +14,15 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children, permissions = [], roles = [] }: ProtectedRouteProps) {
   const location = useLocation();
   const { currentUser, hasSomePermission } = usePermissions();
-  const hasAllowedRole = roles.length === 0 || roles.some((role) => currentUser.roles.includes(role));
 
-  if (!currentUser) {
+  if (!currentUser?.id) {
     return <Navigate to={ROUTES.login} replace state={{ from: location }} />;
   }
 
+  const hasAllowedRole = roles.length === 0 || roles.some((role) => currentUser.roles.includes(role));
+
   if (!hasAllowedRole || !hasSomePermission(permissions)) {
-    return <Navigate to={ROUTES.dashboard} replace />;
+    return <Navigate to={ROUTES.proptech} replace />;
   }
 
   return <>{children}</>;

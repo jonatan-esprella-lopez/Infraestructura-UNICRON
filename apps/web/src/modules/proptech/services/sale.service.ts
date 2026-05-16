@@ -1,7 +1,7 @@
-import { environment } from '@bootstrap/environment';
+import { apiFetch } from '@shared/utils/api-fetch';
 import type { PropertySale, CreateSalePayload, SaleFilters } from '../types/sale.types';
 
-const BASE = `${environment.apiBaseUrl}/v1/proptech/sales`;
+interface SaleApiResponse<T> { data: T }
 
 export const saleService = {
   async findAll(filters: SaleFilters = {}): Promise<PropertySale[]> {
@@ -9,38 +9,40 @@ export const saleService = {
     Object.entries(filters).forEach(([k, v]) => {
       if (v !== undefined && v !== null) params.set(k, String(v));
     });
-    const res = await fetch(`${BASE}?${params}`);
+    const res = await apiFetch(`/proptech/sales?${params.toString()}`);
     if (!res.ok) throw new Error('Error al obtener ventas');
-    return res.json() as Promise<PropertySale[]>;
+    const json = (await res.json()) as SaleApiResponse<PropertySale[]>;
+    return json.data;
   },
 
   async findById(id: string): Promise<PropertySale> {
-    const res = await fetch(`${BASE}/${id}`);
+    const res = await apiFetch(`/proptech/sales/${id}`);
     if (!res.ok) throw new Error('Venta no encontrada');
-    return res.json() as Promise<PropertySale>;
+    const json = (await res.json()) as SaleApiResponse<PropertySale>;
+    return json.data;
   },
 
   async create(data: CreateSalePayload): Promise<PropertySale> {
-    const res = await fetch(BASE, {
+    const res = await apiFetch('/proptech/sales', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('Error al registrar venta');
-    return res.json() as Promise<PropertySale>;
+    const json = (await res.json()) as SaleApiResponse<PropertySale>;
+    return json.data;
   },
 
   async update(id: string, data: Partial<CreateSalePayload>): Promise<PropertySale> {
-    const res = await fetch(`${BASE}/${id}`, {
+    const res = await apiFetch(`/proptech/sales/${id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('Error al actualizar venta');
-    return res.json() as Promise<PropertySale>;
+    const json = (await res.json()) as SaleApiResponse<PropertySale>;
+    return json.data;
   },
 
   async remove(id: string): Promise<void> {
-    await fetch(`${BASE}/${id}`, { method: 'DELETE' });
+    await apiFetch(`/proptech/sales/${id}`, { method: 'DELETE' });
   },
 };

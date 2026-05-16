@@ -1,4 +1,4 @@
-import { environment } from '@bootstrap/environment';
+import { apiFetch } from '@shared/utils/api-fetch';
 import type {
   SalesTotalReport,
   ByPaymentMethodReport,
@@ -7,13 +7,13 @@ import type {
   ByPeriodReport,
 } from '../types/sale.types';
 
-const BASE = `${environment.apiBaseUrl}/v1/proptech/reports`;
-
 interface ReportFilters {
   from?: string;
   to?: string;
   currency?: string;
 }
+
+interface ReportApiResponse<T> { data: T }
 
 function buildParams(filters: ReportFilters & { granularity?: string }): string {
   const params = new URLSearchParams();
@@ -25,32 +25,37 @@ function buildParams(filters: ReportFilters & { granularity?: string }): string 
 
 export const reportService = {
   async salesTotal(filters: ReportFilters = {}): Promise<SalesTotalReport> {
-    const res = await fetch(`${BASE}/sales-total?${buildParams(filters)}`);
+    const res = await apiFetch(`/proptech/reports/sales-total?${buildParams(filters)}`);
     if (!res.ok) throw new Error('Error al obtener total de ventas');
-    return res.json() as Promise<SalesTotalReport>;
+    const json = (await res.json()) as ReportApiResponse<SalesTotalReport>;
+    return json.data;
   },
 
   async byPaymentMethod(filters: ReportFilters = {}): Promise<ByPaymentMethodReport[]> {
-    const res = await fetch(`${BASE}/by-payment-method?${buildParams(filters)}`);
+    const res = await apiFetch(`/proptech/reports/by-payment-method?${buildParams(filters)}`);
     if (!res.ok) throw new Error('Error al obtener reporte por método de pago');
-    return res.json() as Promise<ByPaymentMethodReport[]>;
+    const json = (await res.json()) as ReportApiResponse<ByPaymentMethodReport[]>;
+    return json.data;
   },
 
   async byLocation(filters: ReportFilters = {}): Promise<ByLocationReport[]> {
-    const res = await fetch(`${BASE}/by-location?${buildParams(filters)}`);
+    const res = await apiFetch(`/proptech/reports/by-location?${buildParams(filters)}`);
     if (!res.ok) throw new Error('Error al obtener reporte por ubicación');
-    return res.json() as Promise<ByLocationReport[]>;
+    const json = (await res.json()) as ReportApiResponse<ByLocationReport[]>;
+    return json.data;
   },
 
   async byAgent(filters: ReportFilters = {}): Promise<ByAgentReport[]> {
-    const res = await fetch(`${BASE}/by-agent?${buildParams(filters)}`);
+    const res = await apiFetch(`/proptech/reports/by-agent?${buildParams(filters)}`);
     if (!res.ok) throw new Error('Error al obtener reporte por agente');
-    return res.json() as Promise<ByAgentReport[]>;
+    const json = (await res.json()) as ReportApiResponse<ByAgentReport[]>;
+    return json.data;
   },
 
   async byPeriod(filters: ReportFilters & { granularity?: 'day' | 'month' | 'year' } = {}): Promise<ByPeriodReport[]> {
-    const res = await fetch(`${BASE}/by-period?${buildParams(filters)}`);
+    const res = await apiFetch(`/proptech/reports/by-period?${buildParams(filters)}`);
     if (!res.ok) throw new Error('Error al obtener reporte por período');
-    return res.json() as Promise<ByPeriodReport[]>;
+    const json = (await res.json()) as ReportApiResponse<ByPeriodReport[]>;
+    return json.data;
   },
 };
