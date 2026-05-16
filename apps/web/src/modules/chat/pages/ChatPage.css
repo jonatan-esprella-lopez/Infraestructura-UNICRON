@@ -1,0 +1,298 @@
+/* WhatsApp replica — paleta y tipografía exactas */
+.wa-shell {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px); /* descuenta el nav del layout */
+  max-width: 780px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14.2px;
+  background: #ECE5DD;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+/* ── Header ─────────────────────────────────────────── */
+.wa-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #075E54;
+  padding: 0.6rem 1rem;
+  flex-shrink: 0;
+}
+
+.wa-header__avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.wa-header__info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.wa-header__name {
+  color: #fff;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.wa-header__status {
+  color: #b2dfdb;
+  font-size: 0.78rem;
+}
+
+/* ── Chat body ───────────────────────────────────────── */
+.wa-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: #ECE5DD url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9bfb5' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* ── Start screen ────────────────────────────────────── */
+.wa-start {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wa-start__bubble {
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  max-width: 320px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.13);
+  text-align: center;
+  color: #333;
+  line-height: 1.6;
+}
+
+.wa-start__bubble p {
+  margin: 0 0 0.5rem;
+}
+
+.wa-start__btn {
+  margin-top: 1rem;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 0.55rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.wa-start__btn:hover {
+  background: #128C7E;
+}
+
+/* ── Messages ────────────────────────────────────────── */
+.wa-msg {
+  display: flex;
+  margin-bottom: 0.2rem;
+}
+
+.wa-msg--user  { justify-content: flex-end; }
+.wa-msg--agent { justify-content: flex-start; }
+
+.wa-msg__bubble {
+  max-width: 72%;
+  border-radius: 7.5px;
+  padding: 0.45rem 0.65rem 0.3rem;
+  box-shadow: 0 1px 0.5px rgba(0,0,0,.13);
+  position: relative;
+  word-break: break-word;
+}
+
+.wa-msg--user  .wa-msg__bubble { background: #DCF8C6; border-top-right-radius: 0; }
+.wa-msg--agent .wa-msg__bubble { background: #fff;    border-top-left-radius: 0; }
+
+.wa-msg__text {
+  display: block;
+  color: #111;
+  line-height: 1.45;
+  white-space: pre-wrap;
+}
+
+.wa-msg__meta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.2rem;
+  margin-top: 0.15rem;
+  font-size: 0.68rem;
+  color: #667781;
+}
+
+.wa-msg__check {
+  color: #53bdeb;
+  font-size: 0.75rem;
+}
+
+/* ── Typing indicator ────────────────────────────────── */
+.wa-msg__bubble--typing {
+  padding: 0.6rem 0.85rem;
+}
+
+.wa-typing {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  height: 18px;
+}
+
+.wa-typing span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #90A4AE;
+  animation: wa-bounce 1.2s infinite ease-in-out;
+}
+
+.wa-typing span:nth-child(2) { animation-delay: 0.2s; }
+.wa-typing span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes wa-bounce {
+  0%, 60%, 100% { transform: translateY(0); }
+  30%            { transform: translateY(-6px); }
+}
+
+/* ── Quick reply suggestions (dentro de la burbuja) ──── */
+.wa-msg__bubble--has-actions {
+  padding-bottom: 0;
+}
+
+.wa-suggestions {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.5rem;
+  border-top: 1px solid rgba(0,0,0,.08);
+  overflow: hidden;
+  border-radius: 0 0 7.5px 7.5px;
+  margin-left: -0.65rem;
+  margin-right: -0.65rem;
+  margin-bottom: 0;
+}
+
+.wa-suggestion {
+  background: transparent;
+  border: none;
+  border-top: 1px solid rgba(0,0,0,.06);
+  color: #25D366;
+  padding: 0.6rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.wa-suggestion:first-child {
+  border-top: none;
+}
+
+.wa-suggestion:hover {
+  background: rgba(37, 211, 102, 0.08);
+}
+
+.wa-suggestion--primary {
+  color: #075E54;
+  font-size: 0.92rem;
+  background: rgba(37, 211, 102, 0.06);
+}
+
+.wa-suggestion--primary:hover {
+  background: rgba(37, 211, 102, 0.16);
+}
+
+/* ── Input bar ───────────────────────────────────────── */
+.wa-input-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  background: #F0F2F5;
+  flex-shrink: 0;
+}
+
+.wa-input {
+  flex: 1;
+  background: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 0.55rem 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  color: #111;
+  outline: none;
+}
+
+.wa-input::placeholder { color: #aaa; }
+
+.wa-send {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.wa-send:hover:not(:disabled) { background: #128C7E; }
+.wa-send:disabled { background: #ccc; cursor: not-allowed; }
+
+/* ── Hint text (below agent bubble, budget prompt) ───── */
+.wa-hint {
+  font-size: 0.75rem;
+  color: #667781;
+  margin: 0.15rem 0 0.4rem 0.5rem;
+  font-style: italic;
+}
+
+/* ── Ver propiedades button (above input bar) ─────────── */
+.wa-match-btn {
+  display: block;
+  width: calc(100% - 1.5rem);
+  margin: 0.5rem 0.75rem;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  border-radius: 24px;
+  padding: 0.7rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.wa-match-btn:hover {
+  background: #128C7E;
+}
