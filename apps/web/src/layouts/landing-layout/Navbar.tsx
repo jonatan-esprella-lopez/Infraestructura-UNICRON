@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
 import { useRootStore } from '@store/root-store';
 import './Navbar.css';
 
 export function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentUser, logout } = useRootStore();
   const isLoggedIn = Boolean(currentUser.id);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -23,8 +24,11 @@ export function Navbar() {
     navigate('/');
   };
 
+  const isAuthPage = location.pathname.includes('login') || location.pathname.includes('register');
+  const isSolid = scrolled || isAuthPage;
+
   return (
-    <nav className={`lp-nav ${scrolled ? 'scrolled' : ''}`}>
+    <nav className={`lp-nav ${isSolid ? 'scrolled' : ''}`}>
       <div className="lp-nav-inner">
         <Link to="/" className="lp-nav-brand">
           <div className="lp-nav-logo">IS</div>

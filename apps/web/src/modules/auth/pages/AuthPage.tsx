@@ -63,13 +63,6 @@ export function AuthPage() {
       <div className="auth-panel-left" style={{ backgroundImage: `url(${bgImage})` }}>
         <div className="auth-panel-left-overlay" />
         <div className="auth-brand-content">
-          <div className="auth-brand">
-            <div className="auth-brand-logo">IS</div>
-            <div>
-              <div className="auth-brand-name">INTERSIM</div>
-              <div className="auth-brand-tagline">PropTech Bolivia</div>
-            </div>
-          </div>
           <div className="auth-brand-body">
             <h2>{isRegister ? 'Únete a la revolución inmobiliaria' : 'Bienvenido de nuevo a tu portal'}</h2>
             <p className="auth-brand-desc">
