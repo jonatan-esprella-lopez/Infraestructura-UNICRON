@@ -51,4 +51,12 @@ export class PropertyVisitService {
       agentFeedback: feedback,
     });
   }
+
+  async findAll(): Promise<PropertyVisit[]> {
+    return this.repository.findAll();
+  }
+
+  async findByAgent(agentId: string): Promise<PropertyVisit[]> {
+    return this.repository.findByAgentId(agentId);
+  }
 }

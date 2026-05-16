@@ -1,83 +1,157 @@
+import { useState } from 'react';
 import { useProptechDashboard } from '../../../shared/hooks/use-proptech-dashboard';
 import type { AgentDashboard } from '../../../shared/hooks/use-proptech-dashboard';
 import './agent-dashboard-page.css';
 
-const URGENT_INDICATORS = [
-  { key: 'todayVisits' as keyof AgentDashboard, label: 'Visitas hoy', urgent: true },
-  { key: 'followUpsToday' as keyof AgentDashboard, label: 'Seguimientos hoy', urgent: true },
-  { key: 'hotClients' as keyof AgentDashboard, label: 'Clientes calientes', urgent: false },
-];
+const MONTHS = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
 
-const PIPELINE_INDICATORS = [
-  { key: 'newLeads' as keyof AgentDashboard, label: 'Leads nuevos' },
-  { key: 'assignedProperties' as keyof AgentDashboard, label: 'Propiedades asignadas' },
-  { key: 'activeOffers' as keyof AgentDashboard, label: 'Ofertas activas' },
-  { key: 'contractsPending' as keyof AgentDashboard, label: 'Contratos pendientes' },
-  { key: 'pendingTasks' as keyof AgentDashboard, label: 'Tareas pendientes' },
-];
+function currentPeriodLabel() {
+  const now = new Date();
+  const m = MONTHS[now.getMonth()];
+  const y = now.getFullYear();
+  const last = new Date(y, now.getMonth() + 1, 0).getDate();
+  return `01 ${m} ${y} — ${last} ${m} ${y}`;
+}
+
+function n(v: number | undefined) { return v ?? 0; }
+
+function SectionTitle({ icon, title, action }: { icon: string; title: string; action?: string }) {
+  return (
+    <div className="adp-section-header">
+      <h3 className="adp-section-title">
+        <span className="adp-section-icon">{icon}</span>{title}
+      </h3>
+      {action && <a href="#" className="adp-section-link">{action} ›</a>}
+    </div>
+  );
+}
+
+function KpiCard({
+  label, value, sub, variant = 'default', icon, extra,
+}: {
+  label: string; value: number | string; sub?: string;
+  variant?: 'default' | 'dark' | 'accent'; icon?: string;
+  extra?: React.ReactNode;
+}) {
+  return (
+    <div className={`adp-kpi adp-kpi--${variant}`}>
+      <div className="adp-kpi__top">
+        <span className="adp-kpi__label">{label}</span>
+        {icon && <span className="adp-kpi__icon">{icon}</span>}
+      </div>
+      <span className="adp-kpi__value">{value}</span>
+      {sub && <span className="adp-kpi__sub">{sub}</span>}
+      {extra}
+    </div>
+  );
+}
+
+function ClosingCard({ icon, label, value, color }: { icon: string; label: string; value: number; color?: string }) {
+  return (
+    <div className="adp-closing">
+      <span className="adp-closing__icon" style={color ? { color } : undefined}>{icon}</span>
+      <div className="adp-closing__body">
+        <span className="adp-closing__label">{label}</span>
+        <span className="adp-closing__value">{value}</span>
+      </div>
+    </div>
+  );
+}
 
 export function AgentDashboardPage() {
   const { data, loading, error } = useProptechDashboard();
   const kpis = data as AgentDashboard | null;
+  const [period] = useState(currentPeriodLabel());
 
   return (
-    <section className="agent-dashboard">
-      <div className="agent-dashboard__header">
-        <p className="agent-dashboard__eyebrow">Portal del agente inmobiliario</p>
-        <h2 className="agent-dashboard__title">Mi panel de trabajo</h2>
+    <div className="adp">
+
+      {/* Header */}
+      <div className="adp-header">
+        <div className="adp-header__left">
+          <p className="adp-header__breadcrumb">Dashboard / Mi rendimiento</p>
+          <p className="adp-header__sub">Resumen de tu rendimiento y producción</p>
+        </div>
+        <button className="adp-period-btn">
+          📅 {period} <span className="adp-period-btn__caret">▾</span>
+        </button>
       </div>
 
-      {loading && <p className="agent-dashboard__loading">Cargando tu panel...</p>}
-      {error && <p className="agent-dashboard__error">{error}</p>}
-
-      {kpis && (
-        <>
-          <div className="agent-dashboard__urgent">
-            <h3 className="agent-dashboard__section-title">Para hoy</h3>
-            <div className="agent-dashboard__urgent-grid">
-              {URGENT_INDICATORS.map(({ key, label, urgent }) => (
-                <div key={key} className={`agent-kpi${urgent ? ' agent-kpi--urgent' : ''}`}>
-                  <span className="agent-kpi__value">{kpis[key] ?? 0}</span>
-                  <span className="agent-kpi__label">{label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="agent-dashboard__pipeline">
-            <h3 className="agent-dashboard__section-title">Pipeline</h3>
-            <div className="agent-dashboard__pipeline-grid">
-              {PIPELINE_INDICATORS.map(({ key, label }) => (
-                <div key={key} className="agent-pipeline-item">
-                  <span className="agent-pipeline-item__value">{kpis[key] ?? 0}</span>
-                  <span className="agent-pipeline-item__label">{label}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </>
+      {/* Loading */}
+      {loading && (
+        <div className="adp-state">
+          <div className="adp-spinner" />
+          <span>Cargando tu panel...</span>
+        </div>
       )}
 
-      <div className="agent-dashboard__links">
-        <h3 className="agent-dashboard__section-title">Accesos rápidos</h3>
-        <div className="agent-dashboard__quick-links">
-          {[
-            { label: 'Ver mis leads', href: '/app/proptech/leads' },
-            { label: 'Ver mis visitas', href: '/app/proptech/visits' },
-            { label: 'Ejecutar Matching IA', href: '/app/proptech/matching' },
-            { label: 'Mis propiedades', href: '/app/proptech/properties' },
-            { label: 'Contratos', href: '/app/proptech/contracts' },
-          ].map((link) => (
-            <a key={link.href} href={link.href} className="agent-quick-link">{link.label}</a>
-          ))}
+      {/* Error */}
+      {error && !loading && (
+        <div className="adp-state adp-state--error">
+          ⚠️ {error}
         </div>
-      </div>
+      )}
 
-      <div className="agent-dashboard__tip">
-        <p>
-          <strong>Tip del sistema:</strong> Usa el Matching IA para encontrar las propiedades más compatibles con cada cliente. El motor analiza presupuesto, ubicación, tipo de inmueble y urgencia de compra.
-        </p>
-      </div>
-    </section>
+      {/* Inventario de Propiedades */}
+      <section className="adp-section">
+        <SectionTitle icon="🏠" title="Inventario de Propiedades" />
+        <div className="adp-grid adp-grid--4">
+          <KpiCard label="PROPIEDADES ASIGNADAS" value={n(kpis?.assignedProperties)} sub="En tu cartera activa"    icon="🏢" />
+          <KpiCard label="LEADS NUEVOS"           value={n(kpis?.newLeads)}           sub="Pendientes de contacto" icon="✏️" />
+          <KpiCard label="CLIENTES ACTIVOS"       value={n(kpis?.hotClients)}         sub="Con interés confirmado" icon="👥" />
+          <KpiCard label="TAREAS PENDIENTES"      value={n(kpis?.pendingTasks)}       sub="Por completar hoy"      icon="📌" />
+        </div>
+      </section>
+
+      {/* Rendimiento Financiero */}
+      <section className="adp-section">
+        <SectionTitle icon="💰" title="Rendimiento Financiero" />
+        <div className="adp-grid adp-grid--3">
+          <KpiCard
+            variant="dark"
+            label="ACUMULADO HISTÓRICO"
+            value="Bs 0"
+            extra={
+              <div className="adp-kpi__row">
+                <span>Neto Total: Bs 0</span><span>Bruto Total</span>
+              </div>
+            }
+          />
+          <KpiCard
+            label="PERIODO ACTUAL"
+            value="Bs 0"
+            extra={
+              <div className="adp-kpi__row">
+                <span>Neto: Bs 0</span>
+                <a href="#" className="adp-link">Bruto este periodo</a>
+              </div>
+            }
+          />
+          <KpiCard
+            variant="accent"
+            label="COMISIONES POR COBRAR"
+            value="Bs 0"
+            extra={
+              <div className="adp-kpi__status">
+                <span className="adp-kpi__dot" />
+                En revisión de administración
+              </div>
+            }
+          />
+        </div>
+      </section>
+
+      {/* Control de Visitas y Cierres */}
+      <section className="adp-section">
+        <SectionTitle icon="📋" title="Control de Visitas y Cierres" action="Ver Todo" />
+        <div className="adp-grid adp-grid--4">
+          <ClosingCard icon="✔✔" label="Visitas Totales"      value={n(kpis?.todayVisits)}      color="#1e3a8a" />
+          <ClosingCard icon="✅" label="Visitas Hoy"          value={n(kpis?.followUpsToday)}   color="#16a34a" />
+          <ClosingCard icon="🎯" label="Ofertas Activas"      value={n(kpis?.activeOffers)}     color="#2563eb" />
+          <ClosingCard icon="⏳" label="Contratos Pendientes" value={n(kpis?.contractsPending)} color="#b45309" />
+        </div>
+      </section>
+
+    </div>
   );
 }

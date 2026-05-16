@@ -6,4 +6,6 @@ export interface IPropertyVisitRepository {
   findById(id: string): Promise<PropertyVisit | null>;
   create(data: Omit<PropertyVisit, 'id' | 'createdAt' | 'updatedAt'>): Promise<PropertyVisit>;
   update(id: string, data: Partial<PropertyVisit>): Promise<PropertyVisit>;
+  findByAgentId(agentId: string): Promise<PropertyVisit[]>;
+  findAll(): Promise<PropertyVisit[]>;
 }

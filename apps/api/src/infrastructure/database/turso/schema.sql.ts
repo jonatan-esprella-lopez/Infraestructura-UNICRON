@@ -142,4 +142,29 @@ CREATE INDEX IF NOT EXISTS idx_visits_client ON property_visits(client_id);
 CREATE INDEX IF NOT EXISTS idx_sales_tenant ON property_sales(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_sales_agent ON property_sales(agent_id);
 CREATE INDEX IF NOT EXISTS idx_matches_client ON property_matches(client_id);
+
+CREATE TABLE IF NOT EXISTS leads (
+  id TEXT PRIMARY KEY,
+  tenant_id TEXT NOT NULL DEFAULT '',
+  agent_id TEXT,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  email TEXT,
+  phone TEXT,
+  source TEXT NOT NULL DEFAULT 'manual',
+  status TEXT NOT NULL DEFAULT 'new',
+  operation_type TEXT,
+  property_type TEXT,
+  budget_min REAL,
+  budget_max REAL,
+  currency TEXT NOT NULL DEFAULT 'BOB',
+  preferred_city TEXT,
+  notes TEXT,
+  converted_at TEXT,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_leads_agent ON leads(agent_id);
+CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status);
 `;

@@ -3,62 +3,76 @@ import type { Property, PropertyFilters, PropertyListResponse } from '../types/p
 
 const BASE = `${environment.apiBaseUrl}/v1/proptech/properties`;
 
+function authHeaders(): Record<string, string> {
+  const token = localStorage.getItem('intersim.token');
+  const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+  if (token) headers['Authorization'] = `Bearer ${token}`;
+  return headers;
+}
+
 export const propertyService = {
   async findAll(filters: PropertyFilters = {}): Promise<PropertyListResponse> {
     const params = new URLSearchParams();
     Object.entries(filters).forEach(([k, v]) => {
       if (v !== undefined && v !== null) params.set(k, String(v));
     });
-    const res = await fetch(`${BASE}?${params}`);
+    const res = await fetch(`${BASE}?${params}`, { headers: authHeaders() });
     if (!res.ok) throw new Error('Error al obtener propiedades');
-    return res.json() as Promise<PropertyListResponse>;
+    const json = (await res.json()) as { data: PropertyListResponse };
+    return json.data;
   },
 
   async findById(id: string): Promise<Property> {
-    const res = await fetch(`${BASE}/${id}`);
+    const res = await fetch(`${BASE}/${id}`, { headers: authHeaders() });
     if (!res.ok) throw new Error('Propiedad no encontrada');
-    return res.json() as Promise<Property>;
+    const json = (await res.json()) as { data: Property };
+    return json.data;
   },
 
   async create(data: Partial<Property>): Promise<Property> {
     const res = await fetch(BASE, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('Error al crear propiedad');
-    return res.json() as Promise<Property>;
+    const json = (await res.json()) as { data: Property };
+    return json.data;
   },
 
   async update(id: string, data: Partial<Property>): Promise<Property> {
     const res = await fetch(`${BASE}/${id}`, {
       method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
+      headers: authHeaders(),
       body: JSON.stringify(data),
     });
     if (!res.ok) throw new Error('Error al actualizar propiedad');
-    return res.json() as Promise<Property>;
+    const json = (await res.json()) as { data: Property };
+    return json.data;
   },
 
   async publish(id: string): Promise<Property> {
-    const res = await fetch(`${BASE}/${id}/publish`, { method: 'POST' });
+    const res = await fetch(`${BASE}/${id}/publish`, { method: 'POST', headers: authHeaders() });
     if (!res.ok) throw new Error('Error al publicar propiedad');
-    return res.json() as Promise<Property>;
+    const json = (await res.json()) as { data: Property };
+    return json.data;
   },
 
   async unpublish(id: string): Promise<Property> {
-    const res = await fetch(`${BASE}/${id}/unpublish`, { method: 'POST' });
+    const res = await fetch(`${BASE}/${id}/unpublish`, { method: 'POST', headers: authHeaders() });
     if (!res.ok) throw new Error('Error al despublicar propiedad');
-    return res.json() as Promise<Property>;
+    const json = (await res.json()) as { data: Property };
+    return json.data;
   },
 
   async archive(id: string): Promise<Property> {
-    const res = await fetch(`${BASE}/${id}/archive`, { method: 'POST' });
+    const res = await fetch(`${BASE}/${id}/archive`, { method: 'POST', headers: authHeaders() });
     if (!res.ok) throw new Error('Error al archivar propiedad');
-    return res.json() as Promise<Property>;
+    const json = (await res.json()) as { data: Property };
+    return json.data;
   },
 
   async remove(id: string): Promise<void> {
-    await fetch(`${BASE}/${id}`, { method: 'DELETE' });
+    await fetch(`${BASE}/${id}`, { method: 'DELETE', headers: authHeaders() });
   },
 };
