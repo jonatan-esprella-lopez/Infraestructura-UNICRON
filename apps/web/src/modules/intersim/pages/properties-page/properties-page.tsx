@@ -1,19 +1,87 @@
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
-import { MapPin, Bed, Bath, Square, ArrowRight } from 'lucide-react';
+import { MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { propertyService } from '@modules/proptech/services/property.service';
+import type { Property, PropertyFilters, OperationType, PropertyType } from '@modules/proptech/types/property.types';
 import './properties-page.css';
 
 const MOCK_PROPERTIES = [
-  { id: 1, title: 'Villa Moderna', type: 'Venta', price: '$450,000', location: 'Urubó, Santa Cruz', beds: 4, baths: 3, sqft: 350, image: '/properties_hero.png' },
-  { id: 2, title: 'Penthouse Ejecutivo', type: 'Anticrético', price: '$50,000', location: 'Equipetrol, Santa Cruz', beds: 2, baths: 2, sqft: 150, image: '/service_alquiler.png' },
-  { id: 3, title: 'Casa Familiar', type: 'Venta', price: '$220,000', location: 'Cala Cala, Cochabamba', beds: 3, baths: 2, sqft: 200, image: '/service_compra.png' },
-  { id: 4, title: 'Departamento de Lujo', type: 'Alquiler', price: '$800/mes', location: 'Calacoto, La Paz', beds: 2, baths: 2, sqft: 120, image: '/service_anticretico.png' },
-  { id: 5, title: 'Terreno Comercial', type: 'Venta', price: '$150,000', location: 'Zona Norte, Santa Cruz', beds: 0, baths: 0, sqft: 500, image: '/hero-bg.png' },
-  { id: 6, title: 'Condominio Exclusivo', type: 'Venta', price: '$310,000', location: 'Tiquipaya, Cochabamba', beds: 4, baths: 4, sqft: 280, image: '/properties_hero.png' },
-];
+  { id: 'm1', title: 'Villa Moderna', operationType: 'sale', price: 450000, currency: 'USD', address: 'Urubó', city: 'Santa Cruz', bedrooms: 4, bathrooms: 3, areaTotal: 350, image: '/properties_hero.png' },
+  { id: 'm2', title: 'Penthouse Ejecutivo', operationType: 'anticretico', price: 50000, currency: 'USD', address: 'Equipetrol', city: 'Santa Cruz', bedrooms: 2, bathrooms: 2, areaTotal: 150, image: '/service_alquiler.png' },
+  { id: 'm3', title: 'Casa Familiar', operationType: 'sale', price: 220000, currency: 'USD', address: 'Cala Cala', city: 'Cochabamba', bedrooms: 3, bathrooms: 2, areaTotal: 200, image: '/service_compra.png' },
+  { id: 'm4', title: 'Departamento de Lujo', operationType: 'rent', price: 800, currency: 'USD', address: 'Calacoto', city: 'La Paz', bedrooms: 2, bathrooms: 2, areaTotal: 120, image: '/service_anticretico.png' },
+  { id: 'm5', title: 'Terreno Comercial', operationType: 'sale', price: 150000, currency: 'USD', address: 'Zona Norte', city: 'Santa Cruz', bedrooms: 0, bathrooms: 0, areaTotal: 500, image: '/hero-bg.png' },
+  { id: 'm6', title: 'Condominio Exclusivo', operationType: 'sale', price: 310000, currency: 'USD', address: 'Tiquipaya', city: 'Cochabamba', bedrooms: 4, bathrooms: 4, areaTotal: 280, image: '/properties_hero.png' },
+] as unknown as Property[];
+
+const formatPrice = (val: number, curr: string, type: string) => {
+  const formatted = new Intl.NumberFormat('es-BO', { style: 'currency', currency: curr, maximumFractionDigits: 0 }).format(val);
+  return type === 'rent' ? `${formatted}/mes` : formatted;
+};
+
+const getOperationLabel = (type: string) => {
+  if (type === 'sale') return 'Venta';
+  if (type === 'rent') return 'Alquiler';
+  if (type === 'anticretico') return 'Anticrético';
+  return type;
+};
 
 export function PropertiesPage() {
   const navigate = useNavigate();
+  const [properties, setProperties] = useState<Property[]>([]);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const pageSize = 6;
+
+  // Filter state
+  const [filters, setFilters] = useState<PropertyFilters>({
+    publicationStatus: 'published',
+  });
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const fetchProperties = async (currentPage: number, currentFilters: PropertyFilters) => {
+    setLoading(true);
+    try {
+      const offset = (currentPage - 1) * pageSize;
+      const res = await propertyService.findAll({
+        ...currentFilters,
+        limit: pageSize,
+        offset,
+      });
+      if (res.items.length > 0) {
+        setProperties(res.items);
+        setTotal(res.total);
+      } else {
+        // Fallback to mock data if DB is empty for demo purposes
+        setProperties(MOCK_PROPERTIES);
+        setTotal(MOCK_PROPERTIES.length);
+      }
+    } catch (err) {
+      console.error('Failed to fetch properties, using mocks:', err);
+      setProperties(MOCK_PROPERTIES);
+      setTotal(MOCK_PROPERTIES.length);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProperties(page, filters);
+  }, [page, filters]);
+
+  const totalPages = Math.ceil(total / pageSize) || 1;
+
+  const handleSearch = () => {
+    setPage(1);
+    setFilters((prev) => ({
+      ...prev,
+      city: searchTerm || undefined,
+    }));
+  };
 
   return (
     <div className="sub-page">
@@ -28,47 +96,120 @@ export function PropertiesPage() {
       <section className="properties-section">
         <div className="properties-container">
           <div className="properties-filters">
-            <input type="text" placeholder="Buscar por ciudad, zona..." className="prop-filter-input" />
-            <select className="prop-filter-select">
-              <option>Tipo de Operación</option>
-              <option>Venta</option>
-              <option>Alquiler</option>
-              <option>Anticrético</option>
+            <input
+              type="text"
+              placeholder="Buscar por ciudad..."
+              className="prop-filter-input"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            />
+            <select
+              className="prop-filter-select"
+              value={filters.operationType || ''}
+              onChange={(e) => {
+                setPage(1);
+                setFilters((prev) => ({ ...prev, operationType: (e.target.value as OperationType) || undefined }));
+              }}
+            >
+              <option value="">Tipo de Operación</option>
+              <option value="sale">Venta</option>
+              <option value="rent">Alquiler</option>
+              <option value="anticretico">Anticrético</option>
             </select>
-            <select className="prop-filter-select">
-              <option>Tipo de Inmueble</option>
-              <option>Casa</option>
-              <option>Departamento</option>
-              <option>Terreno</option>
-              <option>Oficina</option>
+            <select
+              className="prop-filter-select"
+              value={filters.propertyType || ''}
+              onChange={(e) => {
+                setPage(1);
+                setFilters((prev) => ({ ...prev, propertyType: (e.target.value as PropertyType) || undefined }));
+              }}
+            >
+              <option value="">Tipo de Inmueble</option>
+              <option value="house">Casa</option>
+              <option value="apartment">Departamento</option>
+              <option value="land">Terreno</option>
+              <option value="office">Oficina</option>
             </select>
-            <button className="prop-filter-btn">Buscar</button>
+            <button className="prop-filter-btn" onClick={handleSearch}>
+              Buscar
+            </button>
           </div>
 
-          <div className="properties-grid">
-            {MOCK_PROPERTIES.map((prop) => (
-              <div key={prop.id} className="prop-card">
-                <div className="prop-card-image" style={{ backgroundImage: `url(${prop.image})` }}>
-                  <span className={`prop-badge type-${prop.type.toLowerCase()}`}>{prop.type}</span>
-                  <div className="prop-price">{prop.price}</div>
-                </div>
-                <div className="prop-card-body">
-                  <h3 className="prop-title">{prop.title}</h3>
-                  <div className="prop-location">
-                    <MapPin size={16} /> {prop.location}
-                  </div>
-                  <div className="prop-features">
-                    {prop.beds > 0 && <span className="prop-feature"><Bed size={16} /> {prop.beds}</span>}
-                    {prop.baths > 0 && <span className="prop-feature"><Bath size={16} /> {prop.baths}</span>}
-                    <span className="prop-feature"><Square size={16} /> {prop.sqft} m²</span>
-                  </div>
-                  <button className="prop-card-btn" onClick={() => navigate(ROUTES.login)}>
-                    Ver detalles <ArrowRight size={16} />
+          {loading ? (
+            <div className="prop-loading">
+              <Loader2 className="spinner" size={48} />
+              <p>Buscando propiedades...</p>
+            </div>
+          ) : (
+            <>
+              <div className="properties-grid">
+                {properties.map((prop) => {
+                  const image = (prop as any).image || '/properties_hero.png';
+                  return (
+                    <div key={prop.id} className="prop-card">
+                      <div className="prop-card-image" style={{ backgroundImage: `url(${image})` }}>
+                        <span className={`prop-badge type-${prop.operationType}`}>{getOperationLabel(prop.operationType)}</span>
+                        <div className="prop-price">{formatPrice(prop.price, prop.currency, prop.operationType)}</div>
+                      </div>
+                      <div className="prop-card-body">
+                        <h3 className="prop-title">{prop.title}</h3>
+                        <div className="prop-location">
+                          <MapPin size={16} /> {prop.address}, {prop.city}
+                        </div>
+                        <div className="prop-features">
+                          {(prop.bedrooms ?? 0) > 0 && (
+                            <span className="prop-feature">
+                              <Bed size={16} /> {prop.bedrooms}
+                            </span>
+                          )}
+                          {(prop.bathrooms ?? 0) > 0 && (
+                            <span className="prop-feature">
+                              <Bath size={16} /> {prop.bathrooms}
+                            </span>
+                          )}
+                          <span className="prop-feature">
+                            <Square size={16} /> {prop.areaTotal} m²
+                          </span>
+                        </div>
+                        <button className="prop-card-btn" onClick={() => navigate(ROUTES.login)}>
+                          Ver detalles <ArrowRight size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="prop-pagination">
+                  <button
+                    className="prop-page-btn"
+                    disabled={page === 1}
+                    onClick={() => {
+                      setPage((p) => Math.max(1, p - 1));
+                      window.scrollTo({ top: 400, behavior: 'smooth' });
+                    }}
+                  >
+                    <ChevronLeft size={20} /> Anterior
+                  </button>
+                  <span className="prop-page-info">
+                    Página {page} de {totalPages}
+                  </span>
+                  <button
+                    className="prop-page-btn"
+                    disabled={page === totalPages}
+                    onClick={() => {
+                      setPage((p) => Math.min(totalPages, p + 1));
+                      window.scrollTo({ top: 400, behavior: 'smooth' });
+                    }}
+                  >
+                    Siguiente <ChevronRight size={20} />
                   </button>
                 </div>
-              </div>
-            ))}
-          </div>
+              )}
+            </>
+          )}
         </div>
       </section>
     </div>
