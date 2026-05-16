@@ -27,6 +27,7 @@ export const ROUTES = {
   proptechContracts: '/app/proptech/contracts',
   proptechLeads: '/app/proptech/leads',
   proptechClients: '/app/proptech/clients',
+  proptechSearch: '/app/proptech/search',
   proptechAnalytics: '/app/proptech/analytics',
   proptechSales: '/app/proptech/sales',
   proptechReports: '/app/proptech/reports',
