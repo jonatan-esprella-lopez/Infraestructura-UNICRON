@@ -19,7 +19,7 @@ export function AgentLandValuationPage() {
       <header className="agent-land-valuation-page__header">
         <div>
           <p className="agent-land-valuation-page__eyebrow">
-            Herramienta para agentes
+            Herramienta de valoración
           </p>
 
           <h1 className="agent-land-valuation-page__title">
