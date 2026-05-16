@@ -1,11 +1,16 @@
 import { useState } from "react";
+import { LocationSelector, type LocationValue } from "@modules/proptech/shared/components/location-selector";
 import type { LandValuationInput } from "../../types/land-valuation.types";
 import type { ValuationFormProps } from "./valuation-form.types";
 import "./valuation-form.css";
 
 const initialFormState: LandValuationInput = {
+  countryCode: "BO",
+  countryName: "Bolivia",
+  stateCode: "C",
+  stateName: "Cochabamba Department",
   city: "Cochabamba",
-  municipality: "",
+  municipality: "Cochabamba",
   zone: "",
   neighborhood: "",
 
@@ -61,6 +66,22 @@ export function ValuationForm({
   const handleReset = () => {
     setForm(initialFormState);
     onReset?.();
+  };
+
+  const handleLocationChange = (location: LocationValue) => {
+    const cityName = location.cityName ?? "";
+
+    setForm((current) => ({
+      ...current,
+      countryCode: location.countryCode,
+      countryName: location.countryName,
+      stateCode: location.stateCode,
+      stateName: location.stateName,
+      city: cityName,
+      municipality: cityName,
+      latitude: location.latitude ?? current.latitude,
+      longitude: location.longitude ?? current.longitude,
+    }));
   };
 
   return (

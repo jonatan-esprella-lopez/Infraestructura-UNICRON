@@ -275,6 +275,17 @@
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
 }
 
+.auth-location {
+  padding: 0.85rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #f8fafc;
+}
+
+.auth-location .location-selector__grid {
+  grid-template-columns: 1fr;
+}
+
 .auth-submit {
   width: 100%;
   padding: 0.875rem;

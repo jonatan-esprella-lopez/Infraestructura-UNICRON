@@ -25,6 +25,10 @@ export type LegalStatus =
   | "unknown";
 
 export interface LandValuationInput {
+  countryCode?: string;
+  countryName?: string;
+  stateCode?: string;
+  stateName?: string;
   city: string;
   municipality: string;
   zone: string;

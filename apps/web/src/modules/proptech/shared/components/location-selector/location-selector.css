@@ -1,0 +1,123 @@
+.location-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.location-selector__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.location-selector__label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.location-selector__label small {
+  color: #64748b;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
+.location-selector__detect {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 0.45rem 0.7rem;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  cursor: pointer;
+  font-size: 0.76rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.location-selector__detect:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.location-selector__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.location-selector__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.location-selector__field span {
+  color: #475569;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.location-selector__select-wrap {
+  position: relative;
+}
+
+.location-selector__flag {
+  position: absolute;
+  top: 50%;
+  left: 0.78rem;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.location-selector__select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  background: #fff;
+  color: #0f172a;
+  font: inherit;
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.location-selector__select--country {
+  padding-left: 2.25rem;
+}
+
+.location-selector__select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.location-selector__status {
+  color: #64748b;
+  font-size: 0.75rem;
+  line-height: 1.4;
+}
+
+.location-selector__status--error {
+  color: #b91c1c;
+}
+
+@media (max-width: 760px) {
+  .location-selector__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .location-selector__head {
+    flex-direction: column;
+  }
+}
