@@ -9,6 +9,7 @@ import { bootstrapMiddlewares } from './bootstrap-middlewares.js';
 import { bootstrapQueue } from './bootstrap-queue.js';
 import { bootstrapRoutes } from './bootstrap-routes.js';
 import { bootstrapScheduler } from './bootstrap-scheduler.js';
+import { bootstrapTurso } from './bootstrap-turso.js';
 import { bootstrapWebsocket } from './bootstrap-websocket.js';
 import { LoggerService } from '../infrastructure/logger/logger.service.js';
 import { MetricsService } from '../infrastructure/monitoring/metrics.service.js';
@@ -27,6 +28,7 @@ export async function bootstrapApp() {
   const ai = new OpenAiProvider();
   const mail = new MailService(logger);
   const storage = new StorageService(logger);
+  const turso = await bootstrapTurso(logger);
 
   const services: AppServices = {
     ai,
@@ -38,6 +40,7 @@ export async function bootstrapApp() {
     metrics,
     queue,
     storage,
+    turso: turso ?? undefined,
     healthcheck: new HealthcheckService({ cache, database, queue }),
   };
 
