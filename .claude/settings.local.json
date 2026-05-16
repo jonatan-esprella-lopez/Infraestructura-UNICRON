@@ -14,7 +14,9 @@
       "Bash(npx tsx *)",
       "Bash(TURSO_DATABASE_URL=\"libsql://intersim-proptech-odalizr2.turso.io\" TURSO_AUTH_TOKEN=\"eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJsMF9YUFZFOUVmR0xFQUpkdzl3X1Z3Iiwib3JnX2lkIjoxMDAwMTY1OTQ1fQ.5ywfT1eKsQoteXTw9C4LKnWKmNWzu4uK6plHbTv1NlEWVu-ddwFRWP1IUi6aMB2Uyvtk-Ejn0yJRmVeVs6J-Aw\" node --import tsx/esm --test apps/api/src/tests/turso.test.ts)",
       "Bash(node apps/api/dist/main.js)",
-      "Bash(npx kill-port *)"
+      "Bash(npx kill-port *)",
+      "Bash(node -e \"require\\('fs'\\).statSync\\('apps/api/dist/main.js'\\)\")",
+      "Bash(node --import tsx/esm --watch apps/api/src/main.ts)"
     ]
   }
 }

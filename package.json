@@ -2,7 +2,8 @@
   "name": "hackathon-base",
   "private": true,
   "scripts": {
-    "dev:api": "npm run dev --workspace @unicron/api",
+    "dev:api": "npm run dev:run --workspace @unicron/api",
+    "dev:api:watch": "npm run dev --workspace @unicron/api",
     "build:api": "npm run build --workspace @unicron/api",
     "typecheck:api": "npm run typecheck --workspace @unicron/api",
     "start:api": "npm run start --workspace @unicron/api",
