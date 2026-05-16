@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { ROUTES } from '@core/constants/routes.constants';
 import { useProptechDashboard } from '../../../shared/hooks/use-proptech-dashboard';
 import type { ClientDashboard } from '../../../shared/hooks/use-proptech-dashboard';
 import './client-dashboard-page.css';
@@ -41,17 +43,22 @@ export function ClientDashboardPage() {
         <div className="client-cta-card client-cta-card--primary">
           <h3>Ver propiedades recomendadas</h3>
           <p>El sistema IA encontró propiedades compatibles con tu perfil y presupuesto.</p>
-          <a href="/app/proptech/matching" className="client-cta-card__btn">Ver recomendaciones</a>
+          <Link to={ROUTES.proptechMatching} className="client-cta-card__btn">Ver recomendaciones</Link>
+        </div>
+        <div className="client-cta-card">
+          <h3>Completar mi perfil</h3>
+          <p>Actualiza tus datos, foto, preferencias y papeles de compra.</p>
+          <Link to={ROUTES.proptechProfile} className="client-cta-card__btn client-cta-card__btn--secondary">Ir a mi perfil</Link>
         </div>
         <div className="client-cta-card">
           <h3>Agendar una visita</h3>
           <p>Coordina una visita a la propiedad que más te interesa.</p>
-          <a href="/app/proptech/visits" className="client-cta-card__btn client-cta-card__btn--secondary">Ver mis visitas</a>
+          <Link to={ROUTES.proptechVisits} className="client-cta-card__btn client-cta-card__btn--secondary">Ver mis visitas</Link>
         </div>
         <div className="client-cta-card">
           <h3>Buscar propiedades</h3>
           <p>Explora el catálogo completo con filtros por zona, precio y tipo.</p>
-          <a href="/app/proptech/properties" className="client-cta-card__btn client-cta-card__btn--secondary">Ir al catálogo</a>
+          <Link to={ROUTES.proptechSearch} className="client-cta-card__btn client-cta-card__btn--secondary">Ir al catálogo</Link>
         </div>
       </div>
     </section>
