@@ -2,11 +2,11 @@ import json
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from app.db.connection import get_pool
+from app.db.connection import get_pool, save_lead, save_financial_profile
 from app.agents.property_matcher import search_properties, rerank_with_llm
 from app.agents.contract_reviewer import analyze_contract
 from app.graphs.lead_graph import lead_graph
-from app.db.connection import save_lead
+from app.graphs.financial_graph import financial_graph
 from langchain_core.messages import HumanMessage
 
 app = FastAPI(title="CasaLens Agents API")
@@ -148,6 +148,70 @@ def _suggestions_for(reply: str, profile: dict) -> tuple[list[str], str | None]:
         return ["1 dormitorio", "2 dormitorios", "3 dormitorios"], None
 
     return [], None
+
+
+@app.post("/financial-chat")
+async def financial_chat(payload: ChatIn):
+    config = {"configurable": {"thread_id": f"fin-{payload.session_id}"}}
+    state = await financial_graph.ainvoke(
+        {"messages": [HumanMessage(content=payload.message)]},
+        config=config,
+    )
+
+    last_msg = state["messages"][-1]
+    complete = state.get("complete", False)
+    evaluation = state.get("evaluation") or {}
+    profile_id = None
+
+    if complete and evaluation:
+        profile_id = await save_financial_profile(
+            session_id=payload.session_id,
+            profile=state.get("financial_profile", {}),
+            evaluation=evaluation,
+        )
+
+    reply = last_msg.content if isinstance(last_msg.content, str) else ""
+    profile = state.get("financial_profile") or {}
+    suggestions = _financial_suggestions_for(reply, profile) if not complete else []
+
+    return {
+        "reply": reply,
+        "complete": complete,
+        "profile_id": profile_id,
+        "evaluation": evaluation if complete else None,
+        "suggestions": suggestions,
+    }
+
+
+def _financial_suggestions_for(reply: str, profile: dict) -> list[str]:
+    r = reply.lower()
+
+    if any(w in r for w in ["dependiente", "independiente", "relación de dependencia", "trabajo", "empleo", "ingreso"]):
+        if not profile.get("income_type"):
+            return ["Dependiente (en planilla)", "Independiente / Freelance"]
+
+    if any(w in r for w in ["ingreso", "ganás", "ganas", "sueldo", "salario", "mensual"]):
+        return []
+
+    if any(w in r for w in ["gasto", "expense", "fijo", "mensual", "luz", "agua", "alquiler", "educación"]):
+        return []
+
+    if any(w in r for w in ["deuda", "préstamo", "prestamo", "tarjeta", "cuota", "crédito activo"]):
+        return ["No tengo deudas activas", "Sí, tengo préstamos"]
+
+    if any(w in r for w in ["ahorro", "capital", "disponible", "guardado", "anticipo"]):
+        return []
+
+    if any(w in r for w in ["infocenter", "historial", "mora", "crediticio"]):
+        return ["Sin problemas crediticios", "Tuve alguna mora"]
+
+    if any(w in r for w in ["cargo", "depend", "familia", "hijos", "hijxs"]):
+        return ["Ninguno", "1 persona", "2 personas", "3 o más"]
+
+    if not profile.get("income_type"):
+        return ["Dependiente (en planilla)", "Independiente / Freelance"]
+
+    return []
 
 
 @app.post("/contracts/analyze")

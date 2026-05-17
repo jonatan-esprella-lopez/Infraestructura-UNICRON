@@ -7,6 +7,7 @@ const DashboardPage = lazy(() => import('@modules/dashboard/pages/DashboardPage'
 const MatcherPage = lazy(() => import('@modules/matcher/pages/MatcherPage').then((module) => ({ default: module.MatcherPage })));
 const ContractsPage = lazy(() => import('@modules/contracts/pages/ContractsPage').then((module) => ({ default: module.ContractsPage })));
 const ChatPage = lazy(() => import('@modules/chat/pages/ChatPage').then((module) => ({ default: module.ChatPage })));
+const FinancialAdvisorPage = lazy(() => import('@modules/financial-advisor/pages/FinancialAdvisorPage').then((module) => ({ default: module.FinancialAdvisorPage })));
 const CRMPage = lazy(() => import('@modules/crm/pages/CRMPage').then((module) => ({ default: module.CRMPage })));
 const AnalyticsPage = lazy(() => import('@modules/analytics/pages/AnalyticsPage').then((module) => ({ default: module.AnalyticsPage })));
 const AiAssistantPage = lazy(() => import('@modules/ai-assistant/pages/AiAssistantPage').then((module) => ({ default: module.AiAssistantPage })));
@@ -45,6 +46,7 @@ const AgentLandValuationPage = lazy(() => import('@modules/property-valuations/p
 export const lazyModuleRoutes = [
   { path: 'dashboard', element: <DashboardPage />, permissions: [Permission.ViewDashboard], roles: [Role.Admin, Role.Manager, Role.Operator, Role.Viewer] },
   { path: 'chat', element: <ChatPage />, permissions: [], roles: [] },
+  { path: 'financial-advisor', element: <FinancialAdvisorPage />, permissions: [], roles: [] },
   { path: 'matcher', element: <MatcherPage />, permissions: [], roles: [] },
   { path: 'contracts', element: <ContractsPage />, permissions: [], roles: [] },
   { path: 'crm', element: <CRMPage />, featureFlag: 'crm' as FeatureFlagKey, permissions: [Permission.AccessCrm], roles: [Role.Admin, Role.Manager, Role.Operator] },
