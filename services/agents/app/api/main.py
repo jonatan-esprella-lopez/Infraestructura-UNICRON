@@ -96,58 +96,31 @@ async def chat(payload: ChatIn):
 
     reply = last_msg.content if isinstance(last_msg.content, str) else ""
     profile = state.get("lead_profile") or {}
-    suggestions, hint = _suggestions_for(reply, profile) if not complete else ([], None)
+    question_type = state.get("question_type", "none")
+    suggestions, hint = _suggestions_for_type(question_type) if not complete else ([], None)
     return {
         "reply": reply,
         "complete": complete,
         "lead_id": lead_id,
+        "lead_profile": profile if complete else None,
         "suggestions": suggestions,
         "hint": hint,
     }
 
 
-def _suggestions_for(reply: str, profile: dict) -> tuple[list[str], str | None]:
-    """Retorna (sugerencias, hint). Keyword matching sobre la pregunta del agente."""
-    r = reply.lower()
-
-    # Tipo de operación
-    if any(w in r for w in ["alquiler", "anticrético", "comprar", "venta", "operación", "buscás algo", "buscando"]):
-        if not profile.get("operation_type"):
-            return ["Alquiler", "Anticrético", "Compra"], None
-
-    # Dormitorios — antes de presupuesto para que "cuántos dormitorios" no dispare precios
-    if any(w in r for w in ["dormitorio", "habitación", "cuarto", "pieza", "ambiente", "dorm"]):
-        return ["1 dormitorio", "2 dormitorios", "3 dormitorios", "4 o más"], None
-
-    # Presupuesto — sin opciones, solo hint
-    if any(w in r for w in ["presupuesto", "cuánto", "monto", "mensual", "disponés", "precio", "valor", "invertir"]):
-        return [], "Escribí el monto en USD, ej: 25000"
-
-    # Zona
-    if any(w in r for w in ["zona", "barrio", "sector", "dónde", "lugar", "área", "ubicación"]):
-        return ["Recoleta", "Cala Cala", "Queru Queru", "Sur", "Escribir otra opción"], None
-
-    # Urgencia / plazo
-    if any(w in r for w in ["urgente", "cuándo", "plazo", "tiempo", "semana", "pronto"]):
-        return ["Esta semana", "Este mes", "En 2-3 meses", "Sin urgencia"], None
-
-    # Mascotas
-    if any(w in r for w in ["mascota", "perro", "gato", "pet", "animal"]):
-        return ["Sí, tengo mascota", "No tengo mascotas"], None
-
-    # Parking
-    if any(w in r for w in ["parking", "garaje", "estacionamiento", "cochera"]):
-        return ["Sí, necesito parking", "No necesito parking"], None
-
-    # Fallback
-    if not profile.get("operation_type"):
-        return ["Alquiler", "Anticrético", "Compra"], None
-    if not profile.get("zones"):
-        return ["Recoleta", "Cala Cala", "Queru Queru", "Sur", "Escribir otra opción"], None
-    if not profile.get("rooms"):
-        return ["1 dormitorio", "2 dormitorios", "3 dormitorios"], None
-
-    return [], None
+def _suggestions_for_type(question_type: str) -> tuple[list[str], str | None]:
+    mapping: dict[str, tuple[list[str], str | None]] = {
+        "operation_type": (["Alquiler", "Anticrético", "Compra"], None),
+        "property_type": (["Departamento", "Casa", "Terreno", "Oficina"], None),
+        "city": (["Cochabamba", "Santa Cruz", "La Paz", "Escribir otra opción"], None),
+        "zones": (["Recoleta", "Cala Cala", "Queru Queru", "Sur", "Escribir otra opción"], None),
+        "rooms": (["1 dormitorio", "2 dormitorios", "3 dormitorios", "4 o más"], None),
+        "budget": ([], "Escribí el monto en USD, ej: 25000"),
+        "timing": (["Esta semana", "Este mes", "En 2-3 meses", "Sin urgencia"], None),
+        "parking": (["Sí, necesito parking", "No necesito parking"], None),
+        "pets": (["Sí, tengo mascota", "No tengo mascotas"], None),
+    }
+    return mapping.get(question_type, ([], None))
 
 
 @app.post("/financial-chat")

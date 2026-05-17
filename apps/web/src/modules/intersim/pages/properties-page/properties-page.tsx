@@ -1,10 +1,7 @@
-import { useState, useEffect, useCallback, type ReactNode } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
-import {
-  MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight,
-  Search, Map as MapIcon, Home, Building2, Trees, Briefcase, X, SlidersHorizontal,
-  ChevronFirst, ChevronLast, AlertCircle,
-} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { ROUTES } from '@core/constants/routes.constants';
+import { MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight, Search, Map as MapIcon } from 'lucide-react';
 import { propertyService } from '@modules/proptech/services/property.service';
 import type { Property, PropertyFilters, OperationType, PropertyType } from '@modules/proptech/types/property.types';
 import './properties-page.css';
@@ -68,49 +65,34 @@ function buildPageNumbers(current: number, total: number): (number | '...')[] {
 
 export function PropertiesPage() {
   const navigate = useNavigate();
-  const [searchParams, setSearchParams] = useSearchParams();
-
+  const [urlParams] = useSearchParams();
   const [properties, setProperties] = useState<Property[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
 
-  const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
-  const query = searchParams.get('query') || '';
-  const operationType = searchParams.get('operation') || '';
-  const propertyType = searchParams.get('type') || '';
-  const city = searchParams.get('city') || '';
-  const minPrice = searchParams.get('minPrice') || '';
-  const maxPrice = searchParams.get('maxPrice') || '';
-  const minBedrooms = searchParams.get('minBedrooms') || '';
-  const petsAllowed = searchParams.get('petsAllowed') === 'true';
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const pageSize = 6;
 
-  const [localQuery, setLocalQuery] = useState(query);
+  // Seed filters from URL params (set by CasaLens chat)
+  const [filters, setFilters] = useState<PropertyFilters>(() => {
+    const initial: PropertyFilters = { publicationStatus: 'published' };
+    const op = urlParams.get('operation') as OperationType | null;
+    if (op) initial.operationType = op;
+    const zone = urlParams.get('zone');
+    if (zone) initial.zone = zone;
+    const budget = urlParams.get('budget');
+    if (budget) initial.maxPrice = Number(budget);
+    const rooms = urlParams.get('rooms');
+    if (rooms) initial.minBedrooms = Number(rooms);
+    return initial;
+  });
+  const [searchTerm, setSearchTerm] = useState(urlParams.get('zone') ?? '');
 
-  const updateParam = useCallback((key: string, value: string | boolean | number | undefined) => {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      if (value === undefined || value === '' || value === false || value === 0) {
-        next.delete(key);
-      } else {
-        next.set(key, String(value));
-      }
-      if (key !== 'page') next.set('page', '1');
-      return next;
-    });
-  }, [setSearchParams]);
+  // Banner shown when coming from CasaLens
+  const fromChat = urlParams.has('operation') || urlParams.has('zone') || urlParams.has('rooms');
 
-  const goToPage = useCallback((p: number) => {
-    setSearchParams((prev) => {
-      const next = new URLSearchParams(prev);
-      next.set('page', String(p));
-      return next;
-    });
-    window.scrollTo({ top: 360, behavior: 'smooth' });
-  }, [setSearchParams]);
-
-  // Debounce query
+  // Debounce search term
   useEffect(() => {
     const timer = setTimeout(() => {
       if (localQuery !== query) updateParam('query', localQuery);
@@ -127,23 +109,36 @@ export function PropertiesPage() {
         publicationStatus: 'published',
         limit: PAGE_SIZE,
         offset,
-        query: query || undefined,
-        operationType: (operationType as OperationType) || undefined,
-        propertyType: (propertyType as PropertyType) || undefined,
-        city: city || undefined,
-        minPrice: minPrice ? Number(minPrice) : undefined,
-        maxPrice: maxPrice ? Number(maxPrice) : undefined,
-        minBedrooms: minBedrooms ? Number(minBedrooms) : undefined,
-        petsAllowed: petsAllowed || undefined,
-      };
-      const res = await propertyService.findAllPublic(filters);
-      setProperties(res.items);
-      setTotal(res.total);
+      });
+      if (res.items.length > 0) {
+        setProperties(res.items);
+        setTotal(res.total);
+      } else {
+        // Fallback to mock data if DB is empty for demo purposes
+        const mockFiltered = MOCK_PROPERTIES.filter((p) => {
+          if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) return false;
+          if (currentFilters.operationType && p.operationType !== currentFilters.operationType) return false;
+          if (currentFilters.zone && !p.address.toLowerCase().includes(currentFilters.zone.toLowerCase()) && !p.city.toLowerCase().includes(currentFilters.zone.toLowerCase())) return false;
+          if (currentFilters.minBedrooms && (p.bedrooms ?? 0) < currentFilters.minBedrooms) return false;
+          if (currentFilters.maxPrice && p.price > currentFilters.maxPrice) return false;
+          return true;
+        });
+        setProperties(mockFiltered.slice(offset, offset + pageSize));
+        setTotal(mockFiltered.length);
+      }
     } catch (err) {
-      console.error('Error fetching properties:', err);
-      setError('No se pudo conectar con el servidor. Verifica que la API esté en ejecución.');
-      setProperties([]);
-      setTotal(0);
+      console.error('Failed to fetch properties, using mocks:', err);
+      const offset = (currentPage - 1) * pageSize;
+      const mockFiltered = MOCK_PROPERTIES.filter((p) => {
+        if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) return false;
+        if (currentFilters.operationType && p.operationType !== currentFilters.operationType) return false;
+        if (currentFilters.zone && !p.address.toLowerCase().includes(currentFilters.zone.toLowerCase()) && !p.city.toLowerCase().includes(currentFilters.zone.toLowerCase())) return false;
+        if (currentFilters.minBedrooms && (p.bedrooms ?? 0) < currentFilters.minBedrooms) return false;
+        if (currentFilters.maxPrice && p.price > currentFilters.maxPrice) return false;
+        return true;
+      });
+      setProperties(mockFiltered.slice(offset, offset + pageSize));
+      setTotal(mockFiltered.length);
     } finally {
       setLoading(false);
     }
@@ -286,24 +281,29 @@ export function PropertiesPage() {
             )}
           </div>
 
-          {/* ── Results Header ──────────────────────────────────────────── */}
-          {!loading && !error && (
-            <div className="prop-results-header">
-              <span className="prop-results-count">
-                {total === 0
-                  ? 'No se encontraron propiedades'
-                  : `${total.toLocaleString('es-BO')} propiedad${total !== 1 ? 'es' : ''} encontrada${total !== 1 ? 's' : ''}`
-                }
+          {fromChat && (
+            <div className="casalens-banner">
+              <span className="casalens-banner__icon">🏠</span>
+              <span>
+                Mostrando propiedades filtradas por tu búsqueda en <strong>CasaLens</strong>
+                {filters.operationType && ` · ${filters.operationType === 'rent' ? 'Alquiler' : filters.operationType === 'anticretico' ? 'Anticrético' : 'Venta'}`}
+                {filters.zone && ` · ${filters.zone}`}
+                {filters.minBedrooms && ` · ${filters.minBedrooms}+ dorm.`}
+                {filters.maxPrice && ` · hasta USD ${Number(filters.maxPrice).toLocaleString()}`}
               </span>
-              {total > 0 && (
-                <span className="prop-results-page">
-                  Página {page} de {totalPages}
-                </span>
-              )}
+              <button
+                className="casalens-banner__clear"
+                onClick={() => {
+                  setFilters({ publicationStatus: 'published' });
+                  setSearchTerm('');
+                  navigate('/propiedades', { replace: true });
+                }}
+              >
+                Limpiar filtros ✕
+              </button>
             </div>
           )}
 
-          {/* ── States ─────────────────────────────────────────────────── */}
           {loading ? (
             <div className="prop-loading">
               <Loader2 className="spinner" size={44} />

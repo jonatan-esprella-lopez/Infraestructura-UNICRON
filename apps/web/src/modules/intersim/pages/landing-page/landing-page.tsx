@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
 import { Building2, Key, Home, Briefcase, Bot, FileSignature, ShieldCheck, BarChart3, CheckCircle2 } from 'lucide-react';
+import { ChatModal, type ChatOperationType } from '@modules/chat/components/ChatModal';
 import './landing-page.css';
 
 const FEATURED = [
@@ -109,9 +111,12 @@ const WHY_ITEMS = [
 
 export function LandingPage() {
   const navigate = useNavigate();
+  const [chatOp, setChatOp] = useState<ChatOperationType | null>(null);
 
   return (
     <div className="lp">
+      {chatOp && <ChatModal operation={chatOp} onClose={() => setChatOp(null)} />}
+
       {/* ── Hero ─────────────────────────────────────────── */}
       <section className="lp-hero">
         <div className="lp-hero-bg" />
@@ -130,15 +135,15 @@ export function LandingPage() {
               <Building2 className="lp-action-icon-svg" strokeWidth={1.5} />
               <span className="lp-action-text">Quiero vender</span>
             </button>
-            <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
+            <button className="lp-action-card" onClick={() => setChatOp('compra')}>
               <Key className="lp-action-icon-svg" strokeWidth={1.5} />
               <span className="lp-action-text">Quiero comprar</span>
             </button>
-            <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
+            <button className="lp-action-card" onClick={() => setChatOp('alquiler')}>
               <Home className="lp-action-icon-svg" strokeWidth={1.5} />
-              <span className="lp-action-text">Quiero Alquilar</span>
+              <span className="lp-action-text">Quiero alquilar</span>
             </button>
-            <button className="lp-action-card" onClick={() => navigate(ROUTES.login)}>
+            <button className="lp-action-card" onClick={() => setChatOp('anticretico')}>
               <Briefcase className="lp-action-icon-svg" strokeWidth={1.5} />
               <span className="lp-action-text">Quiero un anticrético</span>
             </button>
