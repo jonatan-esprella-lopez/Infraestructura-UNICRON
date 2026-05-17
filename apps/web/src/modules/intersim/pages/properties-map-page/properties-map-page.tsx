@@ -108,7 +108,7 @@ export function PropertiesMapPage() {
         minBedrooms: minBedrooms ? Number(minBedrooms) : undefined,
         petsAllowed: petsAllowed || undefined,
       };
-      const result = await propertyService.findAll(apiFilters);
+      const result = await propertyService.findAllPublic(apiFilters);
       if (result && result.items && result.items.length > 0) {
         setProperties(result.items);
       } else {
