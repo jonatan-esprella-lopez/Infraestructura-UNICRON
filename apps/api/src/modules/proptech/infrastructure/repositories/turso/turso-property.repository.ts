@@ -70,6 +70,7 @@ export class TursoPropertyRepository implements IPropertyRepository {
     if (filters.minPrice !== undefined) { sql += ' AND price >= :minPrice'; args['minPrice'] = filters.minPrice; }
     if (filters.maxPrice !== undefined) { sql += ' AND price <= :maxPrice'; args['maxPrice'] = filters.maxPrice; }
     if (filters.minBedrooms !== undefined) { sql += ' AND bedrooms >= :minBedrooms'; args['minBedrooms'] = filters.minBedrooms; }
+    if (filters.maxBedrooms !== undefined) { sql += ' AND bedrooms <= :maxBedrooms'; args['maxBedrooms'] = filters.maxBedrooms; }
     if (filters.petsAllowed !== undefined) {
       if (filters.petsAllowed) {
         sql += ' AND features LIKE :pets'; args['pets'] = '%pets_allowed%';

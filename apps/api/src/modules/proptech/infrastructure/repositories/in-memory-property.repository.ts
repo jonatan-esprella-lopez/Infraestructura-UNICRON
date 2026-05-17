@@ -21,6 +21,7 @@ export class InMemoryPropertyRepository implements IPropertyRepository {
     if (filters.minPrice !== undefined) items = items.filter((p) => p.price >= filters.minPrice!);
     if (filters.maxPrice !== undefined) items = items.filter((p) => p.price <= filters.maxPrice!);
     if (filters.minBedrooms !== undefined) items = items.filter((p) => (p.bedrooms ?? 0) >= filters.minBedrooms!);
+    if (filters.maxBedrooms !== undefined) items = items.filter((p) => (p.bedrooms ?? 0) <= filters.maxBedrooms!);
     if (filters.publicationStatus) items = items.filter((p) => p.publicationStatus === filters.publicationStatus);
     if (filters.status) items = items.filter((p) => p.status === filters.status);
     if (filters.agentId) items = items.filter((p) => p.agentId === filters.agentId);

@@ -45,11 +45,30 @@ const OP_TO_FILTER: Record<string, string> = {
 
 function buildPropertyUrl(profile: Record<string, unknown>): string {
   const params = new URLSearchParams();
+
   const op = profile.operation_type as string | undefined;
   if (op) params.set('operation', OP_TO_FILTER[op] ?? op);
+
   if (profile.city) params.set('city', String(profile.city));
-  if (profile.rooms) params.set('minBedrooms', String(profile.rooms));
-  if (profile.budget_usd) params.set('maxPrice', String(profile.budget_usd));
+
+  // Price range ±20% so the agent shows approximate matches, not just exact budget
+  if (profile.budget_usd) {
+    const budget = Number(profile.budget_usd);
+    params.set('minPrice', String(Math.round(budget * 0.8)));
+    params.set('maxPrice', String(Math.round(budget * 1.2)));
+  }
+
+  // Bedroom range ±1 (min 1) so nearby options are included
+  if (profile.rooms) {
+    const rooms = Number(profile.rooms);
+    params.set('minBedrooms', String(Math.max(1, rooms - 1)));
+    params.set('maxBedrooms', String(rooms + 1));
+  }
+
+  // Pets: strict — only add if the user explicitly has a pet
+  const extras = profile.extras as Record<string, unknown> | null | undefined;
+  if (extras?.pet_friendly) params.set('petsAllowed', 'true');
+
   return `/propiedades?${params.toString()}`;
 }
 
