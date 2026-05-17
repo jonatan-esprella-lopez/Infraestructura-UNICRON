@@ -136,7 +136,7 @@ export function PropertiesPage() {
         minBedrooms: minBedrooms ? Number(minBedrooms) : undefined,
         petsAllowed: petsAllowed || undefined,
       };
-      const res = await propertyService.findAll(filters);
+      const res = await propertyService.findAllPublic(filters);
       setProperties(res.items);
       setTotal(res.total);
     } catch (err) {
