@@ -20,7 +20,7 @@ export function Header() {
       <div>
         <Breadcrumb />
         <h1 className="dashboard-layout__title">
-          {currentUser.name ? `Hola, ${currentUser.name.split(' ')[0]}` : 'Portal INTERSIM'}
+          {currentUser.name ? `Hola, ${currentUser.name.split(' ')[0]}` : 'Portal WASI'}
         </h1>
       </div>
       <div className="dashboard-layout__header-actions">

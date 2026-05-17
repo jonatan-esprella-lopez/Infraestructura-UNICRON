@@ -98,7 +98,7 @@ const TESTIMONIALS = [
   {
     name: 'Carlos Mendoza',
     city: 'Cochabamba',
-    text: 'Tenía miedo de poner mi casa en anticrético sin conocer bien el proceso legal. INTERSIM me dio seguridad y transparencia en cada paso.',
+    text: 'Tenía miedo de poner mi casa en anticrético sin conocer bien el proceso legal. WASI me dio seguridad y transparencia en cada paso.',
     rating: 5,
   },
   {
@@ -139,7 +139,7 @@ export function PropietarioPage() {
             <span className="pp-hero-accent">los mejores profesionales</span>
           </h1>
           <p className="pp-hero-subtitle">
-            Con INTERSIM gestionas la venta o alquiler de tu inmueble respaldado por
+            Con WASI gestionas la venta o alquiler de tu inmueble respaldado por
             tecnología de punta, transparencia total y más de 30 asesores certificados
             en toda Bolivia.
           </p>
@@ -306,7 +306,7 @@ export function PropietarioPage() {
             ))}
           </div>
           <h2>¿Listo para poner tu propiedad en manos de los mejores?</h2>
-          <p>Únete a más de 2,000 propietarios que confiaron en INTERSIM para vender, alquilar o dar en anticrético su propiedad.</p>
+          <p>Únete a más de 2,000 propietarios que confiaron en WASI para vender, alquilar o dar en anticrético su propiedad.</p>
           <div className="pp-final-actions">
             <button className="pp-btn-white" onClick={() => navigate(ROUTES.register)}>
               Registrarme ahora

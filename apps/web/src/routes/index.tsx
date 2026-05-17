@@ -10,34 +10,34 @@ import { lazyModuleRoutes } from './lazy.routes';
 import { ProtectedRoute } from './protected.routes';
 
 const LandingPage = lazy(() =>
-  import('@modules/intersim/pages/landing-page/landing-page').then((m) => ({ default: m.LandingPage })),
+  import('@modules/wasi/pages/landing-page/landing-page').then((m) => ({ default: m.LandingPage })),
 );
 const PropertiesPage = lazy(() =>
-  import('@modules/intersim/pages/properties-page/properties-page').then((m) => ({ default: m.PropertiesPage })),
+  import('@modules/wasi/pages/properties-page/properties-page').then((m) => ({ default: m.PropertiesPage })),
 );
 const PropertiesMapPage = lazy(() =>
-  import('@modules/intersim/pages/properties-map-page/properties-map-page').then((m) => ({ default: m.PropertiesMapPage })),
+  import('@modules/wasi/pages/properties-map-page/properties-map-page').then((m) => ({ default: m.PropertiesMapPage })),
 );
 const ServicesPage = lazy(() =>
-  import('@modules/intersim/pages/services-page/services-page').then((m) => ({ default: m.ServicesPage })),
+  import('@modules/wasi/pages/services-page/services-page').then((m) => ({ default: m.ServicesPage })),
 );
 const AboutPage = lazy(() =>
-  import('@modules/intersim/pages/about-page/about-page').then((m) => ({ default: m.AboutPage })),
+  import('@modules/wasi/pages/about-page/about-page').then((m) => ({ default: m.AboutPage })),
 );
 const ValuationPage = lazy(() =>
-  import('@modules/intersim/pages/valuation-page/valuation-page').then((m) => ({ default: m.ValuationPage })),
+  import('@modules/wasi/pages/valuation-page/valuation-page').then((m) => ({ default: m.ValuationPage })),
 );
 const AgentPromoPage = lazy(() =>
-  import('@modules/intersim/pages/agent-promo-page/agent-promo-page').then((m) => ({ default: m.AgentPromoPage })),
+  import('@modules/wasi/pages/agent-promo-page/agent-promo-page').then((m) => ({ default: m.AgentPromoPage })),
 );
 const AgentPaymentPage = lazy(() =>
-  import('@modules/intersim/pages/agent-payment-page/agent-payment-page').then((m) => ({ default: m.AgentPaymentPage })),
+  import('@modules/wasi/pages/agent-payment-page/agent-payment-page').then((m) => ({ default: m.AgentPaymentPage })),
 );
 const PropertyDetailPage = lazy(() =>
-  import('@modules/intersim/pages/property-detail-page/property-detail-page').then((m) => ({ default: m.PropertyDetailPage })),
+  import('@modules/wasi/pages/property-detail-page/property-detail-page').then((m) => ({ default: m.PropertyDetailPage })),
 );
 const PropietarioPage = lazy(() =>
-  import('@modules/intersim/pages/propietario-page/propietario-page').then((m) => ({ default: m.PropietarioPage })),
+  import('@modules/wasi/pages/propietario-page/propietario-page').then((m) => ({ default: m.PropietarioPage })),
 );
 const FinancialToolsPage = lazy(() =>
   import('@modules/proptech/financial-tools/pages/financial-tools-page/financial-tools-page').then((m) => ({ default: m.FinancialToolsPage })),

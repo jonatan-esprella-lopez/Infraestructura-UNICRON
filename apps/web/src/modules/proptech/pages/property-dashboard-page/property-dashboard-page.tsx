@@ -18,7 +18,7 @@ export function PropertyDashboardPage() {
   return (
     <section className="property-dashboard-page">
       <div className="property-dashboard-page__header">
-        <p className="property-dashboard-page__eyebrow">Proptech — INTERSIM</p>
+        <p className="property-dashboard-page__eyebrow">Proptech — WASI</p>
         <h2 className="property-dashboard-page__title">Panel inmobiliario</h2>
         <p className="property-dashboard-page__description">
           Gestión completa de propiedades, clientes, visitas, matching IA y contratos.

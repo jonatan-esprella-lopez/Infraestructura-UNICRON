@@ -110,7 +110,7 @@ function getWhatsAppUrl(phone: string, property: Property): string {
   const clean = phone.replace(/\D/g, '');
   const intl = clean.startsWith('591') ? clean : `591${clean}`;
   const msg = encodeURIComponent(
-    `Hola! Vi la propiedad "${property.title}" en Intersim y me gustaría recibir más información. ¿Podría ayudarme?`,
+    `Hola! Vi la propiedad "${property.title}" en Wasi y me gustaría recibir más información. ¿Podría ayudarme?`,
   );
   return `https://wa.me/${intl}?text=${msg}`;
 }
@@ -268,7 +268,7 @@ export function PropertyDetailPage() {
     {
       ok: Boolean(property.agentName || property.agentPhone || property.agentEmail),
       title: 'Asesor asignado',
-      text: property.agentName ?? 'Equipo INTERSIM',
+      text: property.agentName ?? 'Equipo WASI',
     },
   ];
 
@@ -500,10 +500,10 @@ export function PropertyDetailPage() {
               </div>
               <div className="pd-agent-info">
                 <div className="pd-agent-name">
-                  {property.agentName ?? 'Asesor INTERSIM'}
+                  {property.agentName ?? 'Asesor WASI'}
                   <BadgeCheck size={16} className="pd-agent-verified" />
                 </div>
-                <div className="pd-agent-agency">{property.agentAgency ?? 'INTERSIM PropTech'}</div>
+                <div className="pd-agent-agency">{property.agentAgency ?? 'WASI PropTech'}</div>
                 <div className="pd-agent-rating"><Star size={13} /> Asesor verificado</div>
               </div>
             </div>

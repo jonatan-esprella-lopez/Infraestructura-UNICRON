@@ -134,7 +134,7 @@ function toLocatedProperty(property: Property): LocatedProperty | null {
 function getWhatsAppUrl(phone: string, title: string) {
   const clean = phone.replace(/\D/g, '');
   const intl = clean.startsWith('591') ? clean : `591${clean}`;
-  const msg = encodeURIComponent(`Hola! Vi la propiedad "${title}" en Intersim y me gustaría recibir más información.`);
+  const msg = encodeURIComponent(`Hola! Vi la propiedad "${title}" en Wasi y me gustaría recibir más información.`);
   return `https://wa.me/${intl}?text=${msg}`;
 }
 

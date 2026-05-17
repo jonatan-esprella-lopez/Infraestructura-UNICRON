@@ -49,7 +49,7 @@ function formatPrice(price: number, currency: string, opType: string) {
 function getWhatsAppUrl(phone: string, title: string): string {
   const clean = phone.replace(/\D/g, '');
   const intl = clean.startsWith('591') ? clean : `591${clean}`;
-  const msg = encodeURIComponent(`Hola! Vi la propiedad "${title}" en Intersim y me gustaría obtener más información. ¿Podría ayudarme?`);
+  const msg = encodeURIComponent(`Hola! Vi la propiedad "${title}" en Wasi y me gustaría obtener más información. ¿Podría ayudarme?`);
   return `https://wa.me/${intl}?text=${msg}`;
 }
 

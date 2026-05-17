@@ -34,7 +34,7 @@ export function Navbar() {
         <Link to="/" className="lp-nav-brand">
           <div className="lp-nav-logo">IS</div>
           <div className="lp-nav-brand-text">
-            <span className="lp-nav-name">INTERSIM</span>
+            <span className="lp-nav-name">WASI</span>
             <span className="lp-nav-sub">PropTech</span>
           </div>
         </Link>

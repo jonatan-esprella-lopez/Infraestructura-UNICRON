@@ -9,7 +9,7 @@ export function Footer() {
         <div className="lp-footer-brand">
           <div className="lp-footer-logo">IS</div>
           <div>
-            <div className="lp-footer-name">INTERSIM PropTech</div>
+            <div className="lp-footer-name">WASI PropTech</div>
             <div className="lp-footer-desc">
               La plataforma inmobiliaria más completa de Bolivia.
               Conectamos compradores, vendedores y agentes con tecnología de punta.
@@ -58,7 +58,7 @@ export function Footer() {
 
       <div className="lp-footer-bottom">
         <div className="lp-footer-bottom-inner">
-          <span>© 2026 INTERSIM PropTech. Todos los derechos reservados.</span>
+          <span>© 2026 WASI PropTech. Todos los derechos reservados.</span>
           <div className="lp-footer-legal">
             <a href="#">Términos de uso</a>
             <a href="#">Privacidad</a>

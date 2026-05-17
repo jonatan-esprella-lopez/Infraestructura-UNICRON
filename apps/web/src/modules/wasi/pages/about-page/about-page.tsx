@@ -15,10 +15,10 @@ export function AboutPage() {
       <section className="about-section">
         <div className="about-container">
           <div className="about-text-content">
-            <span className="about-eyebrow">Sobre INTERSIM</span>
+            <span className="about-eyebrow">Sobre WASI</span>
             <h2>La PropTech que redefinió los bienes raíces</h2>
             <p>
-              Fundada con la visión de transparentar y agilizar un mercado complejo, INTERSIM nació como una respuesta a la necesidad de seguridad y eficiencia en las transacciones inmobiliarias en Bolivia.
+              Fundada con la visión de transparentar y agilizar un mercado complejo, WASI nació como una respuesta a la necesidad de seguridad y eficiencia en las transacciones inmobiliarias en Bolivia.
             </p>
             <p>
               Hoy, somos la red inmobiliaria y tecnológica más grande del país, combinando la experiencia humana de nuestros agentes certificados con inteligencia artificial de vanguardia para garantizar operaciones rápidas, seguras y rentables.

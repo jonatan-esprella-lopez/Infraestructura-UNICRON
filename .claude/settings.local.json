@@ -37,7 +37,10 @@
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('total:', d['data']['total'], '| primer titulo:', d['data']['items'][0]['title'][:50]\\)\")",
       "PowerShell(Get-NetTCPConnection *)",
       "Bash(powershell -Command \"\\(Get-Item src/main.ts\\).LastWriteTime = Get-Date\")",
-      "Bash(Select-Object FullName)"
+      "Bash(Select-Object FullName)",
+      "PowerShell(Rename-Item *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\usser\\\\Desktop\\\\Infraestructura UNICRON\\\\apps\\\\web\\\\src\\\\modules\\\\proptech\\\\agent\\\\pages\" -Recurse | Where-Object { $_.Extension -eq '.tsx' -or $_.Extension -eq '.ts' } | Select-Object FullName, @{Name=\"Type\";Expression={if\\($_.Extension\\) {\"Archivo\"} else {\"Carpeta\"}}} | Format-Table -AutoSize)",
+      "PowerShell(Get-ChildItem *)"
     ]
   }
 }

@@ -174,7 +174,7 @@ export function LandingPage() {
             <span className="lp-section-eyebrow">Servicios</span>
             <h2 className="lp-section-title">¿Qué estás buscando?</h2>
             <p className="lp-section-desc">
-              INTERSIM cubre todas las modalidades del mercado inmobiliario boliviano
+              WASI cubre todas las modalidades del mercado inmobiliario boliviano
             </p>
           </div>
 
@@ -193,12 +193,12 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── Why INTERSIM ──────────────────────────────────── */}
+      {/* ── Why WASI ──────────────────────────────────── */}
       <section className="lp-section">
         <div className="lp-section-inner lp-why">
           <div className="lp-why-left">
             <span className="lp-section-eyebrow">¿Por qué elegirnos?</span>
-            <h2 className="lp-section-title">INTERSIM PropTech</h2>
+            <h2 className="lp-section-title">WASI PropTech</h2>
             <p className="lp-why-intro">
               Somos la plataforma tecnológica más completa del mercado inmobiliario boliviano,
               con 12 años de experiencia y más de 2,000 transacciones exitosas.
@@ -285,7 +285,7 @@ export function LandingPage() {
       <section className="lp-cta">
         <div className="lp-cta-inner">
           <h2>¿Listo para encontrar tu propiedad ideal?</h2>
-          <p>Únete a más de 5,000 familias que confiaron en INTERSIM para encontrar su hogar</p>
+          <p>Únete a más de 5,000 familias que confiaron en WASI para encontrar su hogar</p>
           <div className="lp-cta-actions">
             <button className="lp-btn-white" onClick={() => navigate(ROUTES.login)}>
               Buscar propiedades
