@@ -1,4 +1,4 @@
-from typing import Annotated, Literal, TypedDict
+from typing import Annotated, TypedDict
 from langgraph.graph import StateGraph, END
 from langgraph.checkpoint.memory import MemorySaver
 from langchain_openai import ChatOpenAI
@@ -17,23 +17,35 @@ Datos que necesitas extraer:
 - timing_weeks: cuán urgente es (en semanas)
 - extras: pet_friendly, parking, etc.
 
-Estilo: corto, una pregunta a la vez. Si la persona ya dio info, no la vuelvas a pedir.
-Cuando tengas los 6 campos completos (operation_type, budget_usd, zones, rooms, timing_weeks y al menos un extra si aplica), decí exactamente:
+Estilo: corto, UNA sola pregunta por mensaje. Si la persona ya dio info, no la vuelvas a pedir.
+Cuando tengas operation_type, budget_usd, zones y rooms completos, decí exactamente:
 "Perfecto, ya tengo lo que necesito. Te paso unas propiedades en un momento." y no hagas más preguntas."""
 
-EXTRACT_PROMPT = """De la conversación siguiente, extraé el perfil JSON con exactamente estos campos:
-operation_type, budget_usd, zones (lista de strings), rooms (número entero), timing_weeks (número entero), extras (dict).
-Si algún campo no fue mencionado todavía, ponelo en null.
-Respondé SOLO con JSON válido, sin texto adicional, sin markdown, sin bloques de código.
+EXTRACT_PROMPT = """De la conversación siguiente, extraé un JSON con estos campos exactos:
+
+- operation_type: "alquiler" | "anticretico" | "venta" | null
+- budget_usd: número | null
+- zones: lista de strings | null
+- rooms: número entero | null
+- timing_weeks: número entero | null
+- extras: dict | null
+- question_type: qué campo está pidiendo CasaLens en su ÚLTIMO mensaje.
+  Elegí EXACTAMENTE UNO de estos valores:
+  "operation_type" | "property_type" | "city" | "zones" | "rooms" | "budget" | "timing" | "parking" | "pets" | "none"
+  Si el último mensaje de CasaLens no tiene pregunta (es el mensaje de cierre), usá "none".
+
+Reglas:
+- Si algún campo del perfil no fue mencionado, ponelo en null.
+- Respondé SOLO con JSON válido, sin markdown, sin texto extra.
 
 Conversación:
 {conversation}"""
 
 
 class LeadState(TypedDict):
-    # add_messages acumula mensajes entre invocaciones usando el checkpoint
     messages: Annotated[list[BaseMessage], add_messages]
     lead_profile: dict
+    question_type: str
     complete: bool
 
 
@@ -43,6 +55,18 @@ llm = ChatOpenAI(
     base_url="https://api.deepseek.com",
     temperature=0.3,
 )
+
+llm_extract = ChatOpenAI(
+    model=LEAD_MODEL,
+    api_key=DEEPSEEK_API_KEY,
+    base_url="https://api.deepseek.com",
+    temperature=0,
+)
+
+VALID_QUESTION_TYPES = {
+    "operation_type", "property_type", "city", "zones",
+    "rooms", "budget", "timing", "parking", "pets", "none",
+}
 
 
 async def chat_node(state: LeadState) -> dict:
@@ -56,26 +80,51 @@ async def extract_node(state: LeadState) -> dict:
         f"{'Usuario' if isinstance(m, HumanMessage) else 'CasaLens'}: {m.content}"
         for m in state["messages"]
     )
-    prompt = EXTRACT_PROMPT.format(conversation=conversation)
-    resp = await llm.ainvoke([HumanMessage(content=prompt)])
+    resp = await llm_extract.ainvoke(
+        [HumanMessage(content=EXTRACT_PROMPT.format(conversation=conversation))]
+    )
 
     try:
-        profile = json.loads(resp.content)
+        raw = resp.content.strip()
+        if raw.startswith("```"):
+            raw = raw.split("```")[1]
+            if raw.startswith("json"):
+                raw = raw[4:]
+        data = json.loads(raw.strip())
     except Exception:
-        profile = state.get("lead_profile") or {}
+        data = {}
 
-    required = ["operation_type", "budget_usd", "zones", "rooms", "timing_weeks"]
+    question_type = str(data.pop("question_type", "none")).strip().lower()
+    if question_type not in VALID_QUESTION_TYPES:
+        question_type = "none"
+
+    profile = {
+        "operation_type": data.get("operation_type"),
+        "budget_usd": data.get("budget_usd"),
+        "zones": data.get("zones"),
+        "rooms": data.get("rooms"),
+        "timing_weeks": data.get("timing_weeks"),
+        "extras": data.get("extras"),
+    }
+    # Preserve previous profile values if extract came back empty
+    prev = state.get("lead_profile") or {}
+    for k, v in profile.items():
+        if v is None and prev.get(k) is not None:
+            profile[k] = prev[k]
+
+    required = ["operation_type", "budget_usd", "zones", "rooms"]
     complete = all(profile.get(k) for k in required)
 
-    # Never mark complete if the agent's last message is still asking a question
     last_reply = state["messages"][-1].content if state["messages"] else ""
-    if "?" in last_reply:
+    closing_phrases = ["ya tengo lo que necesito", "te paso unas propiedades"]
+    if any(p in last_reply.lower() for p in closing_phrases):
+        complete = True
+    elif "?" in last_reply:
         complete = False
 
-    return {"lead_profile": profile, "complete": complete}
+    return {"lead_profile": profile, "question_type": question_type, "complete": complete}
 
 
-# El grafo siempre termina después de un turno — Telegram maneja el siguiente mensaje
 _graph = StateGraph(LeadState)
 _graph.add_node("chat", chat_node)
 _graph.add_node("extract", extract_node)
