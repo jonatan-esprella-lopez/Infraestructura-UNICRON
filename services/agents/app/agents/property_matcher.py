@@ -44,6 +44,7 @@ async def search_properties(lead: dict, k: int = 10) -> list[dict]:
             """
             SELECT id, title, description, operation_type, price_usd,
                    zone, rooms, bathrooms, area_m2, has_parking, pet_friendly,
+                   photo_urls,
                    1 - (embedding <=> $1::vector) AS similarity
             FROM properties
             WHERE ($2::text IS NULL OR operation_type = $2)
@@ -111,6 +112,7 @@ async def rerank_with_llm(candidates: list[dict], lead: dict) -> list[dict]:
             "area_m2": float(prop["area_m2"]),
             "has_parking": prop["has_parking"],
             "pet_friendly": prop["pet_friendly"],
+            "photo_urls": list(prop["photo_urls"]) if prop.get("photo_urls") else [],
             "score": item["score"],
             "reason": item["reason"],
         })
