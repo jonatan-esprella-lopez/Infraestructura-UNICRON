@@ -256,21 +256,21 @@ export function LandingPage() {
             <h2 className="lp-section-title text-white">Un portal para cada perfil</h2>
           </div>
           <div className="lp-roles-grid">
-            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_agente.png)' }} onClick={() => navigate(ROUTES.login)}>
+            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_agente.png)' }} onClick={() => navigate(ROUTES.agente)}>
               <div className="lp-role-overlay" />
               <div className="lp-role-content">
                 <h3>Soy Agente</h3>
                 <span className="lp-role-link">Explorar →</span>
               </div>
             </div>
-            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_propietario.png)' }} onClick={() => navigate(ROUTES.login)}>
+            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_propietario.png)' }} onClick={() => navigate(ROUTES.propietario)}>
               <div className="lp-role-overlay" />
               <div className="lp-role-content">
                 <h3>Soy Propietario</h3>
                 <span className="lp-role-link">Explorar →</span>
               </div>
             </div>
-            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_comprador.png)' }} onClick={() => navigate(ROUTES.login)}>
+            <div className="lp-role-card" style={{ backgroundImage: 'url(/role_comprador.png)' }} onClick={() => setChatOp('compra')}>
               <div className="lp-role-overlay" />
               <div className="lp-role-content">
                 <h3>Soy Comprador</h3>

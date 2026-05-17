@@ -41,4 +41,6 @@ export const ROUTES = {
   propiedadDetalle: '/propiedades/:id',
   agente: '/agente-inmobiliario',
   agentePago: '/agente-inmobiliario/pago',
+  // Propietario landing
+  propietario: '/propietario',
 } as const;

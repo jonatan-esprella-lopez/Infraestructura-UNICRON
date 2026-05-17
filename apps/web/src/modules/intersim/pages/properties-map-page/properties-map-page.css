@@ -510,6 +510,7 @@
 .prop-map-main {
   position: relative;
   min-width: 0;
+  height: 100%;
   background: #dbeafe;
   overflow: hidden;
 }
@@ -825,11 +826,22 @@
   }
 
   .prop-map-main {
-    min-height: 420px;
+    flex: 0 0 auto;
+    height: min(56vh, 500px);
+    height: clamp(360px, 56svh, 500px);
+    min-height: 360px;
   }
 
   .prop-map-canvas {
-    min-height: 420px;
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .prop-map-google,
+  .prop-map-fallback,
+  .prop-map-leaflet {
+    height: 100%;
+    min-height: 100%;
   }
 
   .prop-map-list {

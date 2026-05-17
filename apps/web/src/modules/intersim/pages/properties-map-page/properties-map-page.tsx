@@ -189,6 +189,7 @@ function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect, onClo
   const [mapError, setMapError] = useState(false);
   const markers = useMemo(() => properties.map(toLocatedProperty).filter((item): item is LocatedProperty => Boolean(item)), [properties]);
   const selectedMarker = markers.find((marker) => marker.property.id === selectedId) ?? markers[0] ?? null;
+  const showGoogleMap = Boolean(GOOGLE_MAPS_API_KEY) && !mapError;
 
   useEffect(() => {
     if (!GOOGLE_MAPS_API_KEY || !mapNodeRef.current) return;
@@ -217,6 +218,7 @@ function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect, onClo
   useEffect(() => {
     if (!mapReady || !mapRef.current || !window.google?.maps) return;
 
+    window.google.maps.event.trigger(mapRef.current, 'resize');
     Object.values(markerRefs.current).forEach((marker) => marker.setMap(null));
     markerRefs.current = {};
 
@@ -267,8 +269,6 @@ function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect, onClo
     }
   }, [focusKey, mapReady, markers, selectedId]);
 
-  const showGoogleMap = Boolean(GOOGLE_MAPS_API_KEY) && !mapError;
-
   useEffect(() => {
     if (showGoogleMap || !leafletNodeRef.current) return;
 
@@ -285,9 +285,12 @@ function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect, onClo
     }).addTo(map);
 
     leafletMapRef.current = map;
-    window.setTimeout(() => map.invalidateSize(), 0);
+    const resizeTimers = [0, 120, 320].map((delay) => (
+      window.setTimeout(() => map.invalidateSize({ pan: false }), delay)
+    ));
 
     return () => {
+      resizeTimers.forEach((timer) => window.clearTimeout(timer));
       Object.values(leafletMarkerRefs.current).forEach((marker) => marker.remove());
       leafletMarkerRefs.current = {};
       map.remove();
@@ -299,6 +302,7 @@ function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect, onClo
     if (showGoogleMap || !leafletMapRef.current) return;
 
     const map = leafletMapRef.current;
+    map.invalidateSize({ pan: false });
     Object.values(leafletMarkerRefs.current).forEach((marker) => marker.remove());
     leafletMarkerRefs.current = {};
 
@@ -338,6 +342,36 @@ function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect, onClo
       leafletMapRef.current.setView([selected.lat, selected.lng], 16, { animate: true });
     }
   }, [focusKey, markers, selectedId, showGoogleMap]);
+
+  useEffect(() => {
+    const node = showGoogleMap ? mapNodeRef.current : leafletNodeRef.current;
+    if (!node) return;
+
+    const refreshMapSize = () => {
+      if (showGoogleMap && mapReady && mapRef.current && window.google?.maps) {
+        const center = mapRef.current.getCenter?.();
+        window.google.maps.event.trigger(mapRef.current, 'resize');
+        if (center) mapRef.current.setCenter(center);
+      }
+
+      if (!showGoogleMap && leafletMapRef.current) {
+        leafletMapRef.current.invalidateSize({ pan: false });
+      }
+    };
+
+    const resizeTimers = [0, 160, 420].map((delay) => window.setTimeout(refreshMapSize, delay));
+    const resizeObserver = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(refreshMapSize) : null;
+    resizeObserver?.observe(node);
+    window.addEventListener('resize', refreshMapSize);
+    window.addEventListener('orientationchange', refreshMapSize);
+
+    return () => {
+      resizeTimers.forEach((timer) => window.clearTimeout(timer));
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', refreshMapSize);
+      window.removeEventListener('orientationchange', refreshMapSize);
+    };
+  }, [mapReady, showGoogleMap]);
 
   return (
     <section className="prop-map-main" aria-label="Mapa de propiedades">
