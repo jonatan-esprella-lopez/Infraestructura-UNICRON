@@ -5,12 +5,12 @@ import { FinancialSummaryCard } from '../financial-summary-card/FinancialSummary
 import { formatMoney } from '../../utils/format-money.util';
 
 export const AffordabilityCalculator: React.FC = () => {
-  const [input, setInput] = useState<AffordabilityCalculatorInput>({
-    grossMonthlyIncome: 5000,
-    additionalMonthlyIncome: 0,
-    monthlyDebts: 500,
-    expectedDownPayment: 20000,
-    annualInterestRate: 5.5,
+  const [input, setInput] = useState<Record<string, any>>({
+    grossMonthlyIncome: '',
+    additionalMonthlyIncome: '',
+    monthlyDebts: '',
+    expectedDownPayment: '',
+    annualInterestRate: '',
     loanTermYears: 20,
     maxDebtToIncomeRatio: 35,
     currency: 'USD',
@@ -19,12 +19,27 @@ export const AffordabilityCalculator: React.FC = () => {
   const [result, setResult] = useState<AffordabilityCalculatorResult | null>(null);
 
   useEffect(() => {
-    setResult(AffordabilityCalculatorService.calculate(input));
+    const parsedInput: AffordabilityCalculatorInput = {
+      grossMonthlyIncome: Number(input.grossMonthlyIncome) || 0,
+      additionalMonthlyIncome: Number(input.additionalMonthlyIncome) || 0,
+      monthlyDebts: Number(input.monthlyDebts) || 0,
+      expectedDownPayment: Number(input.expectedDownPayment) || 0,
+      annualInterestRate: Number(input.annualInterestRate) || 0,
+      loanTermYears: Number(input.loanTermYears) || 20,
+      maxDebtToIncomeRatio: Number(input.maxDebtToIncomeRatio) || 35,
+      currency: input.currency as any,
+    };
+    
+    if (parsedInput.grossMonthlyIncome > 0 && parsedInput.annualInterestRate > 0) {
+      setResult(AffordabilityCalculatorService.calculate(parsedInput));
+    } else {
+      setResult(null);
+    }
   }, [input]);
 
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setInput((prev) => ({ ...prev, [name]: parseFloat(value) || 0 }));
+    setInput((prev) => ({ ...prev, [name]: value === '' ? '' : parseFloat(value) }));
   };
 
   const getRiskLabel = (level: string) => {
@@ -41,24 +56,24 @@ export const AffordabilityCalculator: React.FC = () => {
         <div className="fin-form-row">
           <div className="fin-form-group">
             <label>Ingreso Mensual Bruto ({input.currency})</label>
-            <input type="number" name="grossMonthlyIncome" value={input.grossMonthlyIncome} onChange={handleNumberChange} min={0} />
+            <input type="number" name="grossMonthlyIncome" value={input.grossMonthlyIncome} onChange={handleNumberChange} min={0} placeholder="Ej: 5000" />
           </div>
           <div className="fin-form-group">
             <label>Deudas Mensuales ({input.currency})</label>
-            <input type="number" name="monthlyDebts" value={input.monthlyDebts} onChange={handleNumberChange} min={0} />
+            <input type="number" name="monthlyDebts" value={input.monthlyDebts} onChange={handleNumberChange} min={0} placeholder="Ej: 500" />
           </div>
         </div>
         
         <div className="fin-form-group">
           <label>Ahorro para Pago Inicial ({input.currency})</label>
-          <input type="number" name="expectedDownPayment" value={input.expectedDownPayment} onChange={handleNumberChange} min={0} />
+          <input type="number" name="expectedDownPayment" value={input.expectedDownPayment} onChange={handleNumberChange} min={0} placeholder="Ej: 20000" />
         </div>
 
         <h3 className="fin-calculator__subtitle-small">Condiciones del Préstamo Esperadas</h3>
         <div className="fin-form-row">
           <div className="fin-form-group">
             <label>Tasa de interés (%)</label>
-            <input type="number" name="annualInterestRate" value={input.annualInterestRate} onChange={handleNumberChange} min={0} step="0.1" />
+            <input type="number" name="annualInterestRate" value={input.annualInterestRate} onChange={handleNumberChange} min={0} step="0.1" placeholder="Ej: 5.5" />
           </div>
           
           <div className="fin-form-group">
@@ -89,6 +104,11 @@ export const AffordabilityCalculator: React.FC = () => {
             }}
             explanation={`Con tus ingresos actuales y asumiendo un nivel de endeudamiento del ${input.maxDebtToIncomeRatio}%, la cuota mensual máxima que deberías asumir es de ${formatMoney(result.recommendedMonthlyPayment, input.currency)}.`}
           />
+        )}
+        {!result && (
+          <div style={{ color: '#64748b', textAlign: 'center', padding: '2rem 0' }}>
+            Ingresa tu ingreso mensual y la tasa de interés para ver tu capacidad de compra.
+          </div>
         )}
       </div>
     </div>
