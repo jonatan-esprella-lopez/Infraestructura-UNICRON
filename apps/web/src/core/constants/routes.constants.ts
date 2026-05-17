@@ -3,6 +3,7 @@ export const ROUTES = {
   propiedades: '/propiedades',
   servicios: '/servicios',
   nosotros: '/nosotros',
+  valorizaPropiedad: '/valoriza-tu-propiedad',
   login: '/login',
   register: '/register',
   app: '/app',

@@ -1,10 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ReactCountryFlag from "react-country-flag";
-import { City, Country, State, type ICity, type ICountry, type IState } from "country-state-city";
+import { GetCity, GetCountries, GetState } from "react-country-state-city";
 import { detectBrowserLocation } from "../../services/location.service";
 import type { BrowserLocationAddress } from "../../services/location.service";
 import type { LocationSelectorProps, LocationValue } from "./location-selector.types";
 import "./location-selector.css";
+
+type CountryOption = Awaited<ReturnType<typeof GetCountries>>[number];
+type StateOption = Awaited<ReturnType<typeof GetState>>[number];
+type CityOption = Awaited<ReturnType<typeof GetCity>>[number];
 
 const DEFAULT_COUNTRY_CODE = "BO";
 
@@ -18,9 +22,17 @@ function normalizeName(value?: string) {
     .trim();
 }
 
-function findCountry(countries: ICountry[], location: BrowserLocationAddress) {
+function getCountryCode(country: CountryOption) {
+  return country.iso2;
+}
+
+function getStateCode(state: StateOption) {
+  return state.state_code || String(state.id);
+}
+
+function findCountry(countries: CountryOption[], location: BrowserLocationAddress) {
   if (location.countryCode) {
-    const byCode = countries.find((country) => country.isoCode === location.countryCode);
+    const byCode = countries.find((country) => getCountryCode(country) === location.countryCode);
     if (byCode) return byCode;
   }
 
@@ -28,7 +40,7 @@ function findCountry(countries: ICountry[], location: BrowserLocationAddress) {
   return countries.find((country) => normalizeName(country.name) === countryName);
 }
 
-function findState(states: IState[], stateName?: string) {
+function findState(states: StateOption[], stateName?: string) {
   const normalized = normalizeName(stateName);
   if (!normalized) return undefined;
 
@@ -38,7 +50,7 @@ function findState(states: IState[], stateName?: string) {
   });
 }
 
-function findCity(cities: ICity[], cityName?: string) {
+function findCity(cities: CityOption[], cityName?: string) {
   const normalized = normalizeName(cityName);
   if (!normalized) return undefined;
 
@@ -48,9 +60,9 @@ function findCity(cities: ICity[], cityName?: string) {
   });
 }
 
-function countryToLocation(country?: ICountry): LocationValue {
+function countryToLocation(country?: CountryOption): LocationValue {
   return {
-    countryCode: country?.isoCode,
+    countryCode: country ? getCountryCode(country) : undefined,
     countryName: country?.name,
   };
 }
@@ -63,59 +75,75 @@ export function LocationSelector({
   onChange,
 }: LocationSelectorProps) {
   const hasAutoDetected = useRef(false);
+  const [countries, setCountries] = useState<CountryOption[]>([]);
+  const [states, setStates] = useState<StateOption[]>([]);
+  const [cities, setCities] = useState<CityOption[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
   const [detecting, setDetecting] = useState(false);
   const [status, setStatus] = useState("");
   const [statusType, setStatusType] = useState<"info" | "error">("info");
 
-  const countries = useMemo(() => {
-    const all = Country.getAllCountries();
-    return [...all].sort((a, b) => {
-      if (a.isoCode === DEFAULT_COUNTRY_CODE) return -1;
-      if (b.isoCode === DEFAULT_COUNTRY_CODE) return 1;
+  const orderedCountries = useMemo(() => {
+    return [...countries].sort((a, b) => {
+      if (getCountryCode(a) === DEFAULT_COUNTRY_CODE) return -1;
+      if (getCountryCode(b) === DEFAULT_COUNTRY_CODE) return 1;
       return a.name.localeCompare(b.name);
     });
-  }, []);
+  }, [countries]);
 
   const selectedCountry = useMemo(() => {
-    return Country.getCountryByCode(value.countryCode ?? DEFAULT_COUNTRY_CODE);
-  }, [value.countryCode]);
-
-  const states = useMemo(() => {
-    if (!selectedCountry) return [];
-    return State.getStatesOfCountry(selectedCountry.isoCode);
-  }, [selectedCountry]);
+    const code = value.countryCode ?? DEFAULT_COUNTRY_CODE;
+    return countries.find((country) => getCountryCode(country) === code);
+  }, [countries, value.countryCode]);
 
   const selectedState = useMemo(() => {
-    if (!selectedCountry || !value.stateCode) return undefined;
-    return State.getStateByCodeAndCountry(value.stateCode, selectedCountry.isoCode);
-  }, [selectedCountry, value.stateCode]);
-
-  const cities = useMemo(() => {
-    if (!selectedCountry || !selectedState) return [];
-    return City.getCitiesOfState(selectedCountry.isoCode, selectedState.isoCode);
-  }, [selectedCountry, selectedState]);
+    return states.find((state) => getStateCode(state) === value.stateCode);
+  }, [states, value.stateCode]);
 
   const applyLocation = (next: LocationValue) => {
     onChange(next);
   };
 
-  const handleCountryChange = (countryCode: string) => {
-    const country = Country.getCountryByCode(countryCode);
-    applyLocation(countryToLocation(country));
-    setStatus("");
+  const loadStates = async (country: CountryOption) => {
+    const nextStates = await GetState(country.id);
+    setStates(nextStates);
+    return nextStates;
   };
 
-  const handleStateChange = (stateCode: string) => {
-    const state = states.find((item) => item.isoCode === stateCode);
+  const loadCities = async (country: CountryOption, state: StateOption) => {
+    const nextCities = await GetCity(country.id, state.id);
+    setCities(nextCities);
+    return nextCities;
+  };
+
+  const handleCountryChange = async (countryCode: string) => {
+    const country = countries.find((item) => getCountryCode(item) === countryCode);
+    setCities([]);
+    setStates([]);
+    applyLocation(countryToLocation(country));
+    setStatus("");
+
+    if (country) {
+      await loadStates(country);
+    }
+  };
+
+  const handleStateChange = async (stateCode: string) => {
+    const state = states.find((item) => getStateCode(item) === stateCode);
+    setCities([]);
     applyLocation({
       ...value,
-      stateCode: state?.isoCode,
+      stateCode: state ? getStateCode(state) : undefined,
       stateName: state?.name,
       cityName: "",
       latitude: state?.latitude ? Number(state.latitude) : value.latitude,
       longitude: state?.longitude ? Number(state.longitude) : value.longitude,
     });
     setStatus("");
+
+    if (selectedCountry && state) {
+      await loadCities(selectedCountry, state);
+    }
   };
 
   const handleCityChange = (cityName: string) => {
@@ -136,16 +164,16 @@ export function LocationSelector({
 
     try {
       const detected = await detectBrowserLocation();
-      const country = findCountry(countries, detected) ?? Country.getCountryByCode(DEFAULT_COUNTRY_CODE);
-      const countryStates = country ? State.getStatesOfCountry(country.isoCode) : [];
+      const country = findCountry(countries, detected) ?? countries.find((item) => getCountryCode(item) === DEFAULT_COUNTRY_CODE);
+      const countryStates = country ? await loadStates(country) : [];
       const state = findState(countryStates, detected.stateName);
-      const stateCities = country && state ? City.getCitiesOfState(country.isoCode, state.isoCode) : [];
+      const stateCities = country && state ? await loadCities(country, state) : [];
       const city = findCity(stateCities, detected.cityName);
 
       applyLocation({
-        countryCode: country?.isoCode,
+        countryCode: country ? getCountryCode(country) : detected.countryCode,
         countryName: country?.name ?? detected.countryName,
-        stateCode: state?.isoCode,
+        stateCode: state ? getStateCode(state) : undefined,
         stateName: state?.name ?? detected.stateName,
         cityName: city?.name ?? detected.cityName ?? "",
         latitude: detected.latitude,
@@ -155,7 +183,7 @@ export function LocationSelector({
       setStatusType("info");
       setStatus("Ubicacion detectada desde el navegador.");
     } catch {
-      const fallbackCountry = Country.getCountryByCode(DEFAULT_COUNTRY_CODE);
+      const fallbackCountry = countries.find((item) => getCountryCode(item) === DEFAULT_COUNTRY_CODE);
       applyLocation({
         ...countryToLocation(fallbackCountry),
         stateCode: value.stateCode,
@@ -170,17 +198,66 @@ export function LocationSelector({
   };
 
   useEffect(() => {
-    if (!value.countryCode) {
-      const fallbackCountry = Country.getCountryByCode(DEFAULT_COUNTRY_CODE);
-      onChange(countryToLocation(fallbackCountry));
-    }
-  }, [onChange, value.countryCode]);
+    let alive = true;
+
+    const loadCountries = async () => {
+      setLoadingData(true);
+      try {
+        const nextCountries = await GetCountries();
+        if (!alive) return;
+        setCountries(nextCountries);
+      } finally {
+        if (alive) setLoadingData(false);
+      }
+    };
+
+    void loadCountries();
+
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   useEffect(() => {
-    if (!autoDetect || hasAutoDetected.current) return;
+    if (!selectedCountry) return;
+
+    let alive = true;
+    void GetState(selectedCountry.id).then((nextStates) => {
+      if (alive) setStates(nextStates);
+    });
+
+    return () => {
+      alive = false;
+    };
+  }, [selectedCountry]);
+
+  useEffect(() => {
+    if (!selectedCountry || !selectedState) {
+      setCities([]);
+      return;
+    }
+
+    let alive = true;
+    void GetCity(selectedCountry.id, selectedState.id).then((nextCities) => {
+      if (alive) setCities(nextCities);
+    });
+
+    return () => {
+      alive = false;
+    };
+  }, [selectedCountry, selectedState]);
+
+  useEffect(() => {
+    if (value.countryCode || countries.length === 0) return;
+    const fallbackCountry = countries.find((country) => getCountryCode(country) === DEFAULT_COUNTRY_CODE);
+    onChange(countryToLocation(fallbackCountry));
+  }, [countries, onChange, value.countryCode]);
+
+  useEffect(() => {
+    if (!autoDetect || hasAutoDetected.current || countries.length === 0) return;
     hasAutoDetected.current = true;
     void handleDetect();
-  }, [autoDetect]);
+  }, [autoDetect, countries]);
 
   return (
     <div className={`location-selector ${className}`}>
@@ -193,7 +270,7 @@ export function LocationSelector({
           type="button"
           className="location-selector__detect"
           onClick={() => void handleDetect()}
-          disabled={detecting}
+          disabled={detecting || loadingData || countries.length === 0}
         >
           {detecting ? "Detectando..." : "Usar mi ubicacion"}
         </button>
@@ -203,20 +280,21 @@ export function LocationSelector({
         <label className="location-selector__field">
           <span>Pais</span>
           <div className="location-selector__select-wrap">
-            {selectedCountry?.isoCode && (
+            {selectedCountry && (
               <ReactCountryFlag
-                countryCode={selectedCountry.isoCode}
+                countryCode={getCountryCode(selectedCountry)}
                 className="location-selector__flag"
                 aria-label={selectedCountry.name}
               />
             )}
             <select
               className="location-selector__select location-selector__select--country"
-              value={selectedCountry?.isoCode ?? ""}
-              onChange={(event) => handleCountryChange(event.target.value)}
+              value={selectedCountry ? getCountryCode(selectedCountry) : ""}
+              onChange={(event) => void handleCountryChange(event.target.value)}
+              disabled={loadingData}
             >
-              {countries.map((country) => (
-                <option key={country.isoCode} value={country.isoCode}>
+              {orderedCountries.map((country) => (
+                <option key={getCountryCode(country)} value={getCountryCode(country)}>
                   {country.name}
                 </option>
               ))}
@@ -229,12 +307,12 @@ export function LocationSelector({
           <select
             className="location-selector__select"
             value={value.stateCode ?? ""}
-            onChange={(event) => handleStateChange(event.target.value)}
-            disabled={!selectedCountry}
+            onChange={(event) => void handleStateChange(event.target.value)}
+            disabled={!selectedCountry || states.length === 0}
           >
             <option value="">Selecciona</option>
             {states.map((state) => (
-              <option key={state.isoCode} value={state.isoCode}>
+              <option key={getStateCode(state)} value={getStateCode(state)}>
                 {state.name}
               </option>
             ))}
@@ -247,14 +325,14 @@ export function LocationSelector({
             className="location-selector__select"
             value={value.cityName ?? ""}
             onChange={(event) => handleCityChange(event.target.value)}
-            disabled={!selectedState}
+            disabled={!selectedState || cities.length === 0}
           >
             <option value="">Selecciona</option>
             {value.cityName && !cities.some((city) => city.name === value.cityName) && (
               <option value={value.cityName}>{value.cityName}</option>
             )}
             {cities.map((city) => (
-              <option key={`${city.stateCode}-${city.name}`} value={city.name}>
+              <option key={`${city.id}-${city.name}`} value={city.name}>
                 {city.name}
               </option>
             ))}
