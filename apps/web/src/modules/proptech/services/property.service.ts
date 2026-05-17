@@ -11,12 +11,27 @@ function authHeaders(): Record<string, string> {
 }
 
 export const propertyService = {
+  /** Uso interno (panel agente/admin) — envía token Bearer para filtrado por rol */
   async findAll(filters: PropertyFilters = {}): Promise<PropertyListResponse> {
     const params = new URLSearchParams();
     Object.entries(filters).forEach(([k, v]) => {
       if (v !== undefined && v !== null) params.set(k, String(v));
     });
     const res = await fetch(`${BASE}?${params}`, { headers: authHeaders() });
+    if (!res.ok) throw new Error('Error al obtener propiedades');
+    const json = (await res.json()) as { data: PropertyListResponse };
+    return json.data;
+  },
+
+  /** Uso público (listado abierto) — sin token para evitar filtrado por rol */
+  async findAllPublic(filters: PropertyFilters = {}): Promise<PropertyListResponse> {
+    const params = new URLSearchParams();
+    Object.entries(filters).forEach(([k, v]) => {
+      if (v !== undefined && v !== null) params.set(k, String(v));
+    });
+    const res = await fetch(`${BASE}?${params}`, {
+      headers: { 'Content-Type': 'application/json' },
+    });
     if (!res.ok) throw new Error('Error al obtener propiedades');
     const json = (await res.json()) as { data: PropertyListResponse };
     return json.data;
