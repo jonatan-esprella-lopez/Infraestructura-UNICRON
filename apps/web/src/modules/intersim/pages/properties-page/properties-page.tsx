@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
-import { MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight, Search } from 'lucide-react';
+import { MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight, Search, Map as MapIcon } from 'lucide-react';
 import { propertyService } from '@modules/proptech/services/property.service';
 import type { Property, PropertyFilters, OperationType, PropertyType } from '@modules/proptech/types/property.types';
 import './properties-page.css';
@@ -160,6 +160,14 @@ export function PropertiesPage() {
               <option value="land">Terreno</option>
               <option value="office">Oficina</option>
             </select>
+            <button 
+              className="prop-map-btn" 
+              onClick={() => navigate('/propiedades/mapa')}
+              style={{ backgroundImage: 'url(/map_btn_bg.png)' }}
+            >
+              <MapIcon size={22} />
+              <span>Buscar en mapa</span>
+            </button>
           </div>
 
           {loading ? (

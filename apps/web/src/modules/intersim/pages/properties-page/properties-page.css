@@ -67,6 +67,33 @@
   gap: 2rem;
 }
 
+.prop-map-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  background-color: rgba(15, 23, 42, 0.75);
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: multiply;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: max-content;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.prop-map-btn:hover {
+  transform: translateY(-2px);
+  background-blend-mode: overlay;
+  background-color: rgba(30, 41, 59, 0.85);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
 .prop-card {
   background: #fff;
   border-radius: 16px;

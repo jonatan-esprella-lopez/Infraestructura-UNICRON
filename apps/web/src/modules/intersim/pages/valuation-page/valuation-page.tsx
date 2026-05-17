@@ -10,6 +10,14 @@ import {
   Ruler,
   ShieldCheck,
   TrendingUp,
+  Building,
+  Tag,
+  Maximize,
+  Bed,
+  Bath,
+  Sparkles,
+  FileCheck,
+  Map
 } from 'lucide-react';
 import { ROUTES } from '@core/constants/routes.constants';
 import { LocationSelector } from '@modules/proptech/shared/components/location-selector/location-selector';
@@ -260,85 +268,113 @@ export function ValuationPage() {
 
             <label className="valuation-field valuation-field--wide">
               <span>Zona / barrio</span>
-              <input
-                value={form.zone}
-                onChange={(event) => updateField('zone', event.target.value)}
-                placeholder="Ej. Cala Cala, Equipetrol, Calacoto"
-              />
+              <div className="valuation-input-wrapper">
+                <Map size={18} className="valuation-input-icon" />
+                <input
+                  className="with-icon"
+                  value={form.zone}
+                  onChange={(event) => updateField('zone', event.target.value)}
+                  placeholder="Ej. Cala Cala, Equipetrol, Calacoto"
+                />
+              </div>
             </label>
 
             <div className="valuation-form__row">
               <label className="valuation-field">
                 <span>Tipo de inmueble</span>
-                <select value={form.propertyType} onChange={(event) => updateField('propertyType', event.target.value as PropertyType)}>
-                  <option value="apartment">Departamento</option>
-                  <option value="house">Casa</option>
-                  <option value="land">Terreno</option>
-                  <option value="commercial">Local comercial</option>
-                </select>
+                <div className="valuation-input-wrapper">
+                  <Building size={18} className="valuation-input-icon" />
+                  <select className="with-icon" value={form.propertyType} onChange={(event) => updateField('propertyType', event.target.value as PropertyType)}>
+                    <option value="apartment">Departamento</option>
+                    <option value="house">Casa</option>
+                    <option value="land">Terreno</option>
+                    <option value="commercial">Local comercial</option>
+                  </select>
+                </div>
               </label>
 
               <label className="valuation-field">
                 <span>Operacion objetivo</span>
-                <select value={form.operation} onChange={(event) => updateField('operation', event.target.value as OperationType)}>
-                  <option value="sale">Venta</option>
-                  <option value="rent">Alquiler</option>
-                  <option value="anticretic">Anticrético</option>
-                </select>
+                <div className="valuation-input-wrapper">
+                  <Tag size={18} className="valuation-input-icon" />
+                  <select className="with-icon" value={form.operation} onChange={(event) => updateField('operation', event.target.value as OperationType)}>
+                    <option value="sale">Venta</option>
+                    <option value="rent">Alquiler</option>
+                    <option value="anticretic">Anticrético</option>
+                  </select>
+                </div>
               </label>
             </div>
 
             <div className="valuation-form__row valuation-form__row--thirds">
               <label className="valuation-field">
                 <span>Superficie m2</span>
-                <input
-                  type="number"
-                  min={20}
-                  value={form.surface}
-                  onChange={(event) => updateField('surface', Number(event.target.value))}
-                />
+                <div className="valuation-input-wrapper">
+                  <Maximize size={18} className="valuation-input-icon" />
+                  <input
+                    className="with-icon"
+                    type="number"
+                    min={20}
+                    value={form.surface}
+                    onChange={(event) => updateField('surface', Number(event.target.value))}
+                  />
+                </div>
               </label>
 
               <label className="valuation-field">
                 <span>Dormitorios</span>
-                <input
-                  type="number"
-                  min={0}
-                  value={form.bedrooms}
-                  onChange={(event) => updateField('bedrooms', Number(event.target.value))}
-                  disabled={form.propertyType === 'land'}
-                />
+                <div className="valuation-input-wrapper">
+                  <Bed size={18} className="valuation-input-icon" />
+                  <input
+                    className="with-icon"
+                    type="number"
+                    min={0}
+                    value={form.bedrooms}
+                    onChange={(event) => updateField('bedrooms', Number(event.target.value))}
+                    disabled={form.propertyType === 'land'}
+                  />
+                </div>
               </label>
 
               <label className="valuation-field">
                 <span>Baños</span>
-                <input
-                  type="number"
-                  min={0}
-                  value={form.bathrooms}
-                  onChange={(event) => updateField('bathrooms', Number(event.target.value))}
-                  disabled={form.propertyType === 'land'}
-                />
+                <div className="valuation-input-wrapper">
+                  <Bath size={18} className="valuation-input-icon" />
+                  <input
+                    className="with-icon"
+                    type="number"
+                    min={0}
+                    value={form.bathrooms}
+                    onChange={(event) => updateField('bathrooms', Number(event.target.value))}
+                    disabled={form.propertyType === 'land'}
+                  />
+                </div>
               </label>
             </div>
 
             <div className="valuation-form__row">
               <label className="valuation-field">
                 <span>Estado físico</span>
-                <select value={form.condition} onChange={(event) => updateField('condition', event.target.value as ConditionType)}>
-                  <option value="new">Nuevo / remodelado</option>
-                  <option value="good">Bueno y habitable</option>
-                  <option value="renovate">Requiere mejoras</option>
-                </select>
+                <div className="valuation-input-wrapper">
+                  <Sparkles size={18} className="valuation-input-icon" />
+                  <select className="with-icon" value={form.condition} onChange={(event) => updateField('condition', event.target.value as ConditionType)}>
+                    <option value="new">Nuevo / remodelado</option>
+                    <option value="good">Bueno y habitable</option>
+                    <option value="renovate">Requiere mejoras</option>
+                  </select>
+                </div>
               </label>
 
               <label className="valuation-field">
                 <span>Documentación</span>
-                <select value={form.legalStatus} onChange={(event) => updateField('legalStatus', event.target.value as LegalStatus)}>
-                  <option value="complete">Papeles listos</option>
-                  <option value="review">En revision</option>
-                  <option value="pending">Faltan documentos</option>
-                </select>
+                <div className="valuation-input-wrapper">
+                  <FileCheck size={18} className="valuation-input-icon" />
+                  <select className="with-icon" value={form.legalStatus} onChange={(event) => updateField('legalStatus', event.target.value as LegalStatus)}>
+                    <option value="complete">Papeles listos</option>
+                    <option value="review">En revision</option>
+                    <option value="pending">Faltan documentos</option>
+                  </select>
+                </div>
               </label>
             </div>
 
