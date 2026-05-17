@@ -1,24 +1,25 @@
 .valuation-factor-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  border: 1px solid #e5e7eb;
+  border: 1px solid #dbe3ef;
   border-radius: 12px;
-  background: #ffffff;
+  background: #fff;
   overflow: hidden;
 }
 
 .valuation-factor-list__header {
-  padding: 16px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #f9fafb;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  background: #f8fafc;
 }
 
 .valuation-factor-list__title {
   margin: 0;
-  font-size: 15px;
-  font-weight: 600;
-  color: #111827;
+  font-size: 0.78rem;
+  font-weight: 900;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
 
 .valuation-factor-list__items {
@@ -30,61 +31,75 @@
 }
 
 .valuation-factor-list__item {
-  padding: 16px;
-  border-bottom: 1px solid #f3f4f6;
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #f8fafc;
   display: flex;
   align-items: flex-start;
-  gap: 12px;
+  gap: 0.75rem;
+  border-left: 3px solid transparent;
+  transition: background 0.12s;
 }
 
 .valuation-factor-list__item:last-child {
   border-bottom: none;
 }
 
+.valuation-factor-list__item:hover {
+  background: #fafafa;
+}
+
 .valuation-factor-list__item--positive {
-  border-left: 4px solid #10b981;
+  border-left-color: #10b981;
 }
 
 .valuation-factor-list__item--negative {
-  border-left: 4px solid #ef4444;
+  border-left-color: #ef4444;
 }
 
 .valuation-factor-list__item--neutral {
-  border-left: 4px solid #9ca3af;
+  border-left-color: #9ca3af;
 }
 
 .valuation-factor-list__content {
   flex: 1;
+  min-width: 0;
 }
 
 .valuation-factor-list__header-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4px;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
 }
 
 .valuation-factor-list__label {
-  font-size: 14px;
-  color: #111827;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .valuation-factor-list__impact {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 0.8rem;
+  font-weight: 800;
+  flex-shrink: 0;
 }
 
 .valuation-factor-list__item--positive .valuation-factor-list__impact {
-  color: #10b981;
+  color: #059669;
 }
 
 .valuation-factor-list__item--negative .valuation-factor-list__impact {
-  color: #ef4444;
+  color: #dc2626;
+}
+
+.valuation-factor-list__item--neutral .valuation-factor-list__impact {
+  color: #6b7280;
 }
 
 .valuation-factor-list__reason {
   margin: 0;
-  font-size: 13px;
-  color: #4b5563;
+  font-size: 0.8rem;
+  color: #64748b;
   line-height: 1.5;
 }

@@ -18,7 +18,8 @@
       "Bash(node -e \"require\\('fs'\\).statSync\\('apps/api/dist/main.js'\\)\")",
       "Bash(node --import tsx/esm --watch apps/api/src/main.ts)",
       "Bash(Select-Object -First 20)",
-      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\usser\\\\Desktop\\\\Infraestructura UNICRON\" -Recurse -Directory | Where-Object { $_.Name -match \"apps|web|api\" } | Select-Object -First 20 -ExpandProperty FullName)"
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\usser\\\\Desktop\\\\Infraestructura UNICRON\" -Recurse -Directory | Where-Object { $_.Name -match \"apps|web|api\" } | Select-Object -First 20 -ExpandProperty FullName)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\usser\\\\Desktop\\\\Infraestructura UNICRON\\\\apps\\\\web\\\\src\\\\modules\\\\proptech\\\\pages\" -Recurse | ForEach-Object { $_.FullName })"
     ]
   }
 }

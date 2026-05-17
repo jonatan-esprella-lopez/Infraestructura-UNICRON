@@ -1,100 +1,143 @@
+/* ── Card root ──────────────────────────────────────────────── */
 .valuation-result-card {
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  border: 1px solid #dbeafe;
-  border-radius: 18px;
-  padding: 20px;
-  background: #eff6ff;
+  gap: 0;
+  border: 1px solid #dbe3ef;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
+/* ── Top gradient band ──────────────────────────────────────── */
 .valuation-result-card__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 12px;
+  gap: 1rem;
+  padding: 1.25rem 1.25rem 1rem;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
 }
 
 .valuation-result-card__eyebrow {
-  margin: 0 0 4px;
-  font-size: 12px;
-  font-weight: 700;
-  color: #1d4ed8;
+  margin: 0 0 0.3rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #93c5fd;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.08em;
 }
 
 .valuation-result-card__title {
   margin: 0;
-  font-size: 18px;
-  color: #111827;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
 }
 
+/* ── Main value section ─────────────────────────────────────── */
 .valuation-result-card__main-value {
-  font-size: 36px;
-  font-weight: 800;
-  color: #1e3a8a;
+  padding: 1.25rem 1.25rem 1rem;
+  background: #1e3a8a;
+  font-size: 2.6rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
+/* ── Range items ────────────────────────────────────────────── */
 .valuation-result-card__range {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
+  gap: 0;
+  background: #1e3a8a;
+  padding: 0 1.25rem 1.25rem;
 }
 
 .valuation-result-card__range-item {
-  border-radius: 14px;
-  padding: 12px;
-  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255,255,255,0.12);
+  margin-right: 0.5rem;
+}
+
+.valuation-result-card__range-item:last-child {
+  margin-right: 0;
 }
 
 .valuation-result-card__range-label {
   display: block;
-  margin-bottom: 4px;
-  font-size: 12px;
-  color: #6b7280;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.65);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .valuation-result-card__range-value {
-  font-size: 15px;
-  color: #111827;
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: #fff;
 }
 
+/* ── Summary & rest ─────────────────────────────────────────── */
 .valuation-result-card__summary {
   margin: 0;
-  font-size: 14px;
+  padding: 1rem 1.25rem;
+  font-size: 0.875rem;
   line-height: 1.6;
-  color: #374151;
+  color: #475569;
+  border-bottom: 1px solid #f1f5f9;
 }
 
 .valuation-result-card__warnings {
-  border-radius: 14px;
-  padding: 14px;
+  border-radius: 0;
+  padding: 1rem 1.25rem;
   background: #fff7ed;
+  border-top: 1px solid #fed7aa;
 }
 
 .valuation-result-card__warnings-title {
-  margin: 0 0 8px;
-  font-size: 14px;
+  margin: 0 0 0.6rem;
+  font-size: 0.82rem;
+  font-weight: 800;
   color: #9a3412;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .valuation-result-card__warnings-list {
   margin: 0;
-  padding-left: 18px;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
 }
 
 .valuation-result-card__warning {
-  font-size: 13px;
+  font-size: 0.84rem;
   color: #9a3412;
+  line-height: 1.5;
 }
 
+/* ── Responsive ─────────────────────────────────────────────── */
 @media (max-width: 720px) {
   .valuation-result-card__range {
     grid-template-columns: 1fr;
+    gap: 0.45rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .valuation-result-card__range-item {
+    margin-right: 0;
   }
 
   .valuation-result-card__main-value {
-    font-size: 30px;
+    font-size: 2rem;
   }
 }

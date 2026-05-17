@@ -1,3 +1,4 @@
+import { BarChart3, Building2, Calculator, MapPin, Zap } from 'lucide-react';
 import { useLandValuation } from "../../hooks/use-land-valuation";
 import { ValuationForm } from "../../components/valuation-form/valuation-form";
 import { ValuationResultCard } from "../../components/valuation-result-card/valuation-result-card";
@@ -15,27 +16,40 @@ export function AgentLandValuationPage() {
   };
 
   return (
-    <section className="agent-land-valuation-page">
-      <header className="agent-land-valuation-page__header">
-        <div>
-          <p className="agent-land-valuation-page__eyebrow">
-            Herramienta de valoración
-          </p>
-
-          <h1 className="agent-land-valuation-page__title">
-            Estimador de valor de terrenos
-          </h1>
-
-          <p className="agent-land-valuation-page__description">
-            Calcula un rango estimado del valor comercial de un terreno usando
-            precio por metro cuadrado, ubicación, servicios, documentación y
-            comparables de mercado.
-          </p>
+    <section className="alv">
+      <header className="alv__header">
+        <div className="alv__header-inner">
+          <div>
+            <p className="alv__eyebrow">
+              <BarChart3 size={13} />
+              Herramienta de valoración
+            </p>
+            <h1 className="alv__title">Estimador de valor de terrenos</h1>
+            <p className="alv__desc">
+              Calcula un rango estimado del valor comercial de un terreno usando
+              precio por metro cuadrado, ubicación, servicios, documentación y
+              comparables de mercado.
+            </p>
+          </div>
+          <div className="alv__header-stats">
+            <div className="alv__stat">
+              <strong>3</strong>
+              <span>ciudades</span>
+            </div>
+            <div className="alv__stat">
+              <strong>8+</strong>
+              <span>variables</span>
+            </div>
+            <div className="alv__stat">
+              <strong>100%</strong>
+              <span>gratuito</span>
+            </div>
+          </div>
         </div>
       </header>
 
-      <div className="agent-land-valuation-page__layout">
-        <div className="agent-land-valuation-page__form-panel">
+      <div className="alv__layout">
+        <div className="alv__form-panel">
           <ValuationForm
             isLoading={isLoading}
             onSubmit={handleSubmit}
@@ -43,19 +57,22 @@ export function AgentLandValuationPage() {
           />
         </div>
 
-        <div className="agent-land-valuation-page__result-panel">
+        <div className="alv__result-panel">
           {error && (
-            <div className="agent-land-valuation-page__error">{error}</div>
+            <div className="alv__error">{error}</div>
           )}
 
           {!result && !isLoading && !error && (
-            <div className="agent-land-valuation-page__empty">
-              Ingresa los datos del terreno para generar una estimación.
+            <div className="alv__empty">
+              <Building2 size={48} className="alv__empty-icon" />
+              <strong>Listo para calcular</strong>
+              <span>Ingresa los datos del terreno en el formulario<br />y presiona «Calcular valor» para obtener la estimación.</span>
             </div>
           )}
 
           {isLoading && (
-            <div className="agent-land-valuation-page__loading">
+            <div className="alv__loading">
+              <div className="alv__loading-spinner" />
               Calculando estimación...
             </div>
           )}
