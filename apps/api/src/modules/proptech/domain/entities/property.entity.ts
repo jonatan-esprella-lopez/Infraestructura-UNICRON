@@ -32,6 +32,11 @@ export interface Property {
   longitude?: number;
   legalStatus: LegalStatus;
   isFeatured: boolean;
+  imageUrls?: string[];
+  agentName?: string;
+  agentPhone?: string;
+  agentAgency?: string;
+  agentEmail?: string;
   publishedAt?: Date;
   createdAt: Date;
   updatedAt: Date;

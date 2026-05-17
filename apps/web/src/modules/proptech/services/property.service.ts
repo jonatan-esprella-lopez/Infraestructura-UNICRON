@@ -44,6 +44,13 @@ export const propertyService = {
     return json.data;
   },
 
+  async findByIdPublic(id: string): Promise<Property> {
+    const res = await fetch(`${BASE}/${id}`, { headers: { 'Content-Type': 'application/json' } });
+    if (!res.ok) throw new Error('Propiedad no encontrada');
+    const json = (await res.json()) as { data: Property };
+    return json.data;
+  },
+
   async create(data: Partial<Property>): Promise<Property> {
     const res = await fetch(BASE, {
       method: 'POST',

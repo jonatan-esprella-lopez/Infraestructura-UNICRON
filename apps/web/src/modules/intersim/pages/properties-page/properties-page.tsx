@@ -1,7 +1,11 @@
-import { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ROUTES } from '@core/constants/routes.constants';
-import { MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight, Search, Map as MapIcon } from 'lucide-react';
+import { useState, useEffect, useCallback, type ReactNode } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import {
+  MapPin, Bed, Bath, Square, ArrowRight, Loader2,
+  ChevronLeft, ChevronRight, ChevronFirst, ChevronLast,
+  Search, Map as MapIcon, Home, Building2, Trees, Briefcase,
+  X, SlidersHorizontal, AlertCircle,
+} from 'lucide-react';
 import { propertyService } from '@modules/proptech/services/property.service';
 import type { Property, PropertyFilters, OperationType, PropertyType } from '@modules/proptech/types/property.types';
 import './properties-page.css';
@@ -65,40 +69,55 @@ function buildPageNumbers(current: number, total: number): (number | '...')[] {
 
 export function PropertiesPage() {
   const navigate = useNavigate();
-  const [urlParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const [properties, setProperties] = useState<Property[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
-  // Pagination state
-  const [page, setPage] = useState(1);
-  const pageSize = 6;
+  const page = Math.max(1, parseInt(searchParams.get('page') || '1', 10));
+  const query = searchParams.get('query') || '';
+  const operationType = searchParams.get('operation') || '';
+  const propertyType = searchParams.get('type') || '';
+  const city = searchParams.get('city') || '';
+  const minPrice = searchParams.get('minPrice') || '';
+  const maxPrice = searchParams.get('maxPrice') || '';
+  const minBedrooms = searchParams.get('minBedrooms') || '';
+  const petsAllowed = searchParams.get('petsAllowed') === 'true';
 
-  // Seed filters from URL params (set by CasaLens chat)
-  const [filters, setFilters] = useState<PropertyFilters>(() => {
-    const initial: PropertyFilters = { publicationStatus: 'published' };
-    const op = urlParams.get('operation') as OperationType | null;
-    if (op) initial.operationType = op;
-    const zone = urlParams.get('zone');
-    if (zone) initial.zone = zone;
-    const budget = urlParams.get('budget');
-    if (budget) initial.maxPrice = Number(budget);
-    const rooms = urlParams.get('rooms');
-    if (rooms) initial.minBedrooms = Number(rooms);
-    return initial;
-  });
-  const [searchTerm, setSearchTerm] = useState(urlParams.get('zone') ?? '');
+  const [localQuery, setLocalQuery] = useState(query);
 
-  // Banner shown when coming from CasaLens
-  const fromChat = urlParams.has('operation') || urlParams.has('zone') || urlParams.has('rooms');
+  const updateParam = useCallback((key: string, value: string | boolean | number | undefined) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (value === undefined || value === '' || value === false || value === 0) {
+        next.delete(key);
+      } else {
+        next.set(key, String(value));
+      }
+      if (key !== 'page') next.set('page', '1');
+      return next;
+    });
+  }, [setSearchParams]);
 
-  // Debounce search term
+  const goToPage = useCallback((p: number) => {
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('page', String(p));
+      return next;
+    });
+    window.scrollTo({ top: 360, behavior: 'smooth' });
+  }, [setSearchParams]);
+
+  // Debounce search query → URL
   useEffect(() => {
     const timer = setTimeout(() => {
       if (localQuery !== query) updateParam('query', localQuery);
     }, 420);
     return () => clearTimeout(timer);
-  }, [localQuery]);
+  }, [localQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const fetchProperties = useCallback(async () => {
     setLoading(true);
@@ -109,36 +128,23 @@ export function PropertiesPage() {
         publicationStatus: 'published',
         limit: PAGE_SIZE,
         offset,
-      });
-      if (res.items.length > 0) {
-        setProperties(res.items);
-        setTotal(res.total);
-      } else {
-        // Fallback to mock data if DB is empty for demo purposes
-        const mockFiltered = MOCK_PROPERTIES.filter((p) => {
-          if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) return false;
-          if (currentFilters.operationType && p.operationType !== currentFilters.operationType) return false;
-          if (currentFilters.zone && !p.address.toLowerCase().includes(currentFilters.zone.toLowerCase()) && !p.city.toLowerCase().includes(currentFilters.zone.toLowerCase())) return false;
-          if (currentFilters.minBedrooms && (p.bedrooms ?? 0) < currentFilters.minBedrooms) return false;
-          if (currentFilters.maxPrice && p.price > currentFilters.maxPrice) return false;
-          return true;
-        });
-        setProperties(mockFiltered.slice(offset, offset + pageSize));
-        setTotal(mockFiltered.length);
-      }
+        query: query || undefined,
+        operationType: (operationType as OperationType) || undefined,
+        propertyType: (propertyType as PropertyType) || undefined,
+        city: city || undefined,
+        minPrice: minPrice ? Number(minPrice) : undefined,
+        maxPrice: maxPrice ? Number(maxPrice) : undefined,
+        minBedrooms: minBedrooms ? Number(minBedrooms) : undefined,
+        petsAllowed: petsAllowed || undefined,
+      };
+      const res = await propertyService.findAllPublic(filters);
+      setProperties(res.items);
+      setTotal(res.total);
     } catch (err) {
-      console.error('Failed to fetch properties, using mocks:', err);
-      const offset = (currentPage - 1) * pageSize;
-      const mockFiltered = MOCK_PROPERTIES.filter((p) => {
-        if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) return false;
-        if (currentFilters.operationType && p.operationType !== currentFilters.operationType) return false;
-        if (currentFilters.zone && !p.address.toLowerCase().includes(currentFilters.zone.toLowerCase()) && !p.city.toLowerCase().includes(currentFilters.zone.toLowerCase())) return false;
-        if (currentFilters.minBedrooms && (p.bedrooms ?? 0) < currentFilters.minBedrooms) return false;
-        if (currentFilters.maxPrice && p.price > currentFilters.maxPrice) return false;
-        return true;
-      });
-      setProperties(mockFiltered.slice(offset, offset + pageSize));
-      setTotal(mockFiltered.length);
+      console.error('Error fetching properties:', err);
+      setError('No se pudo conectar con el servidor. Verifica que la API esté en ejecución.');
+      setProperties([]);
+      setTotal(0);
     } finally {
       setLoading(false);
     }
@@ -151,7 +157,7 @@ export function PropertiesPage() {
   const totalPages = Math.ceil(total / PAGE_SIZE) || 1;
   const pageNumbers = buildPageNumbers(page, totalPages);
 
-  const activeFilterCount = [operationType, propertyType, city, minPrice, maxPrice, minBedrooms, petsAllowed]
+  const activeFilterCount = [operationType, propertyType, city, minPrice, maxPrice, minBedrooms, petsAllowed ? 'yes' : '']
     .filter(Boolean).length;
 
   const clearFilters = () => {
@@ -175,7 +181,7 @@ export function PropertiesPage() {
       <section className="properties-section">
         <div className="properties-container">
 
-          {/* ── Filter Bar ─────────────────────────────────────────────── */}
+          {/* ── Filter Bar ─────────────────────────────────────────── */}
           <div className="prop-filter-bar">
             <div className="prop-search-wrapper">
               <Search className="prop-search-icon" size={18} />
@@ -281,29 +287,21 @@ export function PropertiesPage() {
             )}
           </div>
 
-          {fromChat && (
-            <div className="casalens-banner">
-              <span className="casalens-banner__icon">🏠</span>
-              <span>
-                Mostrando propiedades filtradas por tu búsqueda en <strong>CasaLens</strong>
-                {filters.operationType && ` · ${filters.operationType === 'rent' ? 'Alquiler' : filters.operationType === 'anticretico' ? 'Anticrético' : 'Venta'}`}
-                {filters.zone && ` · ${filters.zone}`}
-                {filters.minBedrooms && ` · ${filters.minBedrooms}+ dorm.`}
-                {filters.maxPrice && ` · hasta USD ${Number(filters.maxPrice).toLocaleString()}`}
+          {/* ── Results Header ──────────────────────────────────────── */}
+          {!loading && !error && (
+            <div className="prop-results-header">
+              <span className="prop-results-count">
+                {total === 0
+                  ? 'No se encontraron propiedades'
+                  : `${total.toLocaleString('es-BO')} propiedad${total !== 1 ? 'es' : ''} encontrada${total !== 1 ? 's' : ''}`}
               </span>
-              <button
-                className="casalens-banner__clear"
-                onClick={() => {
-                  setFilters({ publicationStatus: 'published' });
-                  setSearchTerm('');
-                  navigate('/propiedades', { replace: true });
-                }}
-              >
-                Limpiar filtros ✕
-              </button>
+              {total > 0 && (
+                <span className="prop-results-page">Página {page} de {totalPages}</span>
+              )}
             </div>
           )}
 
+          {/* ── States ──────────────────────────────────────────────── */}
           {loading ? (
             <div className="prop-loading">
               <Loader2 className="spinner" size={44} />
@@ -331,7 +329,6 @@ export function PropertiesPage() {
                 ))}
               </div>
 
-              {/* ── Pagination ─────────────────────────────────────────── */}
               {totalPages > 1 && (
                 <Pagination
                   page={page}
@@ -348,7 +345,7 @@ export function PropertiesPage() {
   );
 }
 
-/* ── Sub-components ─────────────────────────────────────────────────────── */
+/* ── Sub-components ──────────────────────────────────────────────────────── */
 
 function PropertyCard({ prop }: { prop: Property }) {
   const image = getPropertyImage(prop);
@@ -375,19 +372,13 @@ function PropertyCard({ prop }: { prop: Property }) {
         </div>
         <div className="prop-features">
           {(prop.bedrooms ?? 0) > 0 && (
-            <span className="prop-feature">
-              <Bed size={14} /> {prop.bedrooms} hab.
-            </span>
+            <span className="prop-feature"><Bed size={14} /> {prop.bedrooms} hab.</span>
           )}
           {(prop.bathrooms ?? 0) > 0 && (
-            <span className="prop-feature">
-              <Bath size={14} /> {prop.bathrooms} baños
-            </span>
+            <span className="prop-feature"><Bath size={14} /> {prop.bathrooms} baños</span>
           )}
           {(prop.areaTotal ?? 0) > 0 && (
-            <span className="prop-feature">
-              <Square size={14} /> {prop.areaTotal} m²
-            </span>
+            <span className="prop-feature"><Square size={14} /> {prop.areaTotal} m²</span>
           )}
         </div>
         <button className="prop-card-btn">
@@ -408,20 +399,10 @@ interface PaginationProps {
 function Pagination({ page, totalPages, pageNumbers, onGoTo }: PaginationProps) {
   return (
     <nav className="prop-pagination" aria-label="Paginación de propiedades">
-      <button
-        className="prop-page-btn prop-page-btn--icon"
-        disabled={page === 1}
-        onClick={() => onGoTo(1)}
-        title="Primera página"
-      >
+      <button className="prop-page-btn prop-page-btn--icon" disabled={page === 1} onClick={() => onGoTo(1)} title="Primera página">
         <ChevronFirst size={17} />
       </button>
-      <button
-        className="prop-page-btn prop-page-btn--icon"
-        disabled={page === 1}
-        onClick={() => onGoTo(page - 1)}
-        title="Página anterior"
-      >
+      <button className="prop-page-btn prop-page-btn--icon" disabled={page === 1} onClick={() => onGoTo(page - 1)} title="Anterior">
         <ChevronLeft size={17} />
       </button>
 
@@ -442,20 +423,10 @@ function Pagination({ page, totalPages, pageNumbers, onGoTo }: PaginationProps) 
         )}
       </div>
 
-      <button
-        className="prop-page-btn prop-page-btn--icon"
-        disabled={page === totalPages}
-        onClick={() => onGoTo(page + 1)}
-        title="Página siguiente"
-      >
+      <button className="prop-page-btn prop-page-btn--icon" disabled={page === totalPages} onClick={() => onGoTo(page + 1)} title="Siguiente">
         <ChevronRight size={17} />
       </button>
-      <button
-        className="prop-page-btn prop-page-btn--icon"
-        disabled={page === totalPages}
-        onClick={() => onGoTo(totalPages)}
-        title="Última página"
-      >
+      <button className="prop-page-btn prop-page-btn--icon" disabled={page === totalPages} onClick={() => onGoTo(totalPages)} title="Última página">
         <ChevronLast size={17} />
       </button>
     </nav>
