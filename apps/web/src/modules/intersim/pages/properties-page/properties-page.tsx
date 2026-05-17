@@ -348,6 +348,7 @@ export function PropertiesPage() {
 /* ── Sub-components ──────────────────────────────────────────────────────── */
 
 function PropertyCard({ prop }: { prop: Property }) {
+  const navigate = useNavigate();
   const image = getPropertyImage(prop);
   const opLabel = OPERATION_LABELS[prop.operationType] ?? prop.operationType;
   const typeLabel = PROPERTY_TYPE_LABELS[prop.propertyType] ?? prop.propertyType;
@@ -381,7 +382,7 @@ function PropertyCard({ prop }: { prop: Property }) {
             <span className="prop-feature"><Square size={14} /> {prop.areaTotal} m²</span>
           )}
         </div>
-        <button className="prop-card-btn">
+        <button className="prop-card-btn" onClick={() => navigate(`/propiedades/${prop.id}`)}>
           Ver detalles <ArrowRight size={15} />
         </button>
       </div>
