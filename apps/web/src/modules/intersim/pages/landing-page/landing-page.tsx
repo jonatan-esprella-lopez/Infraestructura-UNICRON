@@ -1,90 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
 import { Building2, Key, Home, Briefcase, Bot, FileSignature, ShieldCheck, BarChart3, CheckCircle2 } from 'lucide-react';
 import { ChatModal, type ChatOperationType } from '@modules/chat/components/ChatModal';
+import { propertyService } from '@modules/proptech/services/property.service';
+import type { Property } from '@modules/proptech/types/property.types';
 import './landing-page.css';
 
-const FEATURED = [
-  {
-    id: 1,
-    title: 'Departamento en Equipetrol',
-    type: 'Departamento',
-    operation: 'Venta',
-    price: '$us 145,000',
-    bedrooms: 3,
-    area: '120 m²',
-    city: 'Santa Cruz',
-    zone: 'Equipetrol Norte',
-    badge: 'Destacado',
-    emoji: '🏢',
-  },
-  {
-    id: 2,
-    title: 'Casa residencial en Las Palmas',
-    type: 'Casa',
-    operation: 'Venta',
-    price: '$us 280,000',
-    bedrooms: 4,
-    area: '320 m²',
-    city: 'Santa Cruz',
-    zone: 'Las Palmas',
-    badge: 'Nuevo',
-    emoji: '🏡',
-  },
-  {
-    id: 3,
-    title: 'Oficina en Torre Empresarial',
-    type: 'Oficina',
-    operation: 'Alquiler',
-    price: '$us 1,800/mes',
-    bedrooms: 0,
-    area: '85 m²',
-    city: 'Santa Cruz',
-    zone: 'Centro Empresarial',
-    badge: null,
-    emoji: '🏙️',
-  },
-  {
-    id: 4,
-    title: 'Penthouse Bello Horizonte',
-    type: 'Penthouse',
-    operation: 'Anticrético',
-    price: 'Bs. 120,000',
-    bedrooms: 3,
-    area: '200 m²',
-    city: 'Cochabamba',
-    zone: 'Bello Horizonte',
-    badge: 'Premium',
-    emoji: '🌆',
-  },
-  {
-    id: 5,
-    title: 'Terreno urbanizado en Warnes',
-    type: 'Terreno',
-    operation: 'Venta',
-    price: '$us 35,000',
-    bedrooms: 0,
-    area: '500 m²',
-    city: 'Santa Cruz',
-    zone: 'Warnes',
-    badge: null,
-    emoji: '🌱',
-  },
-  {
-    id: 6,
-    title: 'Dpto. amoblado San Miguel',
-    type: 'Departamento',
-    operation: 'Alquiler',
-    price: '$us 650/mes',
-    bedrooms: 2,
-    area: '75 m²',
-    city: 'Santa Cruz',
-    zone: 'San Miguel',
-    badge: 'Amoblado',
-    emoji: '🏠',
-  },
-];
+const OP_LABELS: Record<string, string> = { sale: 'Venta', rent: 'Alquiler', anticretico: 'Anticrético' };
+const TYPE_LABELS: Record<string, string> = {
+  house: 'Casa', apartment: 'Departamento', land: 'Terreno',
+  office: 'Oficina', commercial: 'Comercial', warehouse: 'Almacén', parking: 'Estacionamiento',
+};
+
+function formatPrice(price: number, currency: string, op: string) {
+  const fmt = new Intl.NumberFormat('es-BO', { style: 'currency', currency: currency || 'USD', maximumFractionDigits: 0 }).format(price);
+  return op === 'rent' ? `${fmt}/mes` : fmt;
+}
 
 const SERVICES = [
   { id: 'compra', title: 'Compra de propiedades', desc: 'Encuentra tu hogar ideal entre cientos de opciones verificadas.', image: '/service_compra.png' },
@@ -112,6 +44,16 @@ const WHY_ITEMS = [
 export function LandingPage() {
   const navigate = useNavigate();
   const [chatOp, setChatOp] = useState<ChatOperationType | null>(null);
+  const [latestProps, setLatestProps] = useState<Property[]>([]);
+  const [propsLoading, setPropsLoading] = useState(true);
+
+  useEffect(() => {
+    setPropsLoading(true);
+    propertyService.findAllPublic({ publicationStatus: 'published', limit: 6 })
+      .then((res) => setLatestProps(res.items))
+      .catch(() => {})
+      .finally(() => setPropsLoading(false));
+  }, []);
 
   return (
     <div className="lp">
@@ -160,42 +102,67 @@ export function LandingPage() {
         </div>
       </section>
 
-      {/* ── Featured properties ───────────────────────────── */}
+      {/* ── Latest properties ─────────────────────────────── */}
       <section className="lp-section">
         <div className="lp-section-inner">
           <div className="lp-section-header">
             <div>
               <span className="lp-section-eyebrow">Propiedades</span>
-              <h2 className="lp-section-title">Destacadas esta semana</h2>
+              <h2 className="lp-section-title">Últimas publicaciones</h2>
             </div>
-            <button className="lp-btn-ghost" onClick={() => navigate(ROUTES.login)}>
+            <button className="lp-btn-ghost" onClick={() => navigate(ROUTES.propiedades)}>
               Ver todas →
             </button>
           </div>
 
           <div className="lp-properties-grid">
-            {FEATURED.map((p) => (
-              <div key={p.id} className="lp-prop-card" onClick={() => navigate(ROUTES.login)}>
-                <div className="lp-prop-media">
-                  <span className="lp-prop-emoji">{p.emoji}</span>
-                  {p.badge && <span className="lp-prop-badge">{p.badge}</span>}
-                  <span className="lp-prop-op-tag">{p.operation}</span>
-                </div>
-                <div className="lp-prop-body">
-                  <div className="lp-prop-type">{p.type} · {p.city}</div>
-                  <h3 className="lp-prop-title">{p.title}</h3>
-                  <div className="lp-prop-meta">
-                    {p.bedrooms > 0 && <span>🛏 {p.bedrooms} dorm.</span>}
-                    <span>📐 {p.area}</span>
-                    <span>📍 {p.zone}</span>
+            {propsLoading
+              ? Array.from({ length: 6 }).map((_, i) => (
+                  <div key={i} className="lp-prop-card lp-prop-skeleton">
+                    <div className="lp-prop-skeleton-img" />
+                    <div className="lp-prop-body">
+                      <div className="lp-skeleton-line lp-skeleton-line--short" />
+                      <div className="lp-skeleton-line" />
+                      <div className="lp-skeleton-line lp-skeleton-line--mid" />
+                    </div>
                   </div>
-                  <div className="lp-prop-footer">
-                    <span className="lp-prop-price">{p.price}</span>
-                    <button className="lp-prop-cta">Ver más</button>
-                  </div>
-                </div>
-              </div>
-            ))}
+                ))
+              : latestProps.map((p) => {
+                  const img = p.imageUrls && p.imageUrls.length > 0 ? p.imageUrls[0] : null;
+                  const opLabel = OP_LABELS[p.operationType] ?? p.operationType;
+                  const typeLabel = TYPE_LABELS[p.propertyType] ?? p.propertyType;
+                  return (
+                    <div key={p.id} className="lp-prop-card" onClick={() => navigate(`/propiedades/${p.id}`)}>
+                      <div className="lp-prop-media">
+                        {img
+                          ? <img src={img} alt={p.title} className="lp-prop-img" onError={(e) => { (e.target as HTMLImageElement).src = '/properties_hero.png'; }} />
+                          : <span className="lp-prop-emoji">🏠</span>
+                        }
+                        {p.isFeatured && <span className="lp-prop-badge">Destacado</span>}
+                        <span className="lp-prop-op-tag">{opLabel}</span>
+                      </div>
+                      <div className="lp-prop-body">
+                        <div className="lp-prop-type">{typeLabel} · {p.city}</div>
+                        <h3 className="lp-prop-title">{p.title}</h3>
+                        <div className="lp-prop-meta">
+                          {(p.bedrooms ?? 0) > 0 && <span>🛏 {p.bedrooms} dorm.</span>}
+                          {(p.areaTotal ?? 0) > 0 && <span>📐 {p.areaTotal} m²</span>}
+                          {p.zone && <span>📍 {p.zone}</span>}
+                        </div>
+                        <div className="lp-prop-footer">
+                          <span className="lp-prop-price">{formatPrice(p.price, p.currency, p.operationType)}</span>
+                          <button
+                            className="lp-prop-cta"
+                            onClick={(e) => { e.stopPropagation(); navigate(`/propiedades/${p.id}`); }}
+                          >
+                            Ver más
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })
+            }
           </div>
         </div>
       </section>

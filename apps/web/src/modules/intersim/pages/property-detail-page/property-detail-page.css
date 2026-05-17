@@ -2,6 +2,7 @@
 .pd-page {
   min-height: 100vh;
   background: #f5f6fa;
+  padding-top: 64px;
   padding-bottom: 64px;
 }
 
@@ -13,8 +14,8 @@
   background: #fff;
   border-bottom: 1px solid #e5e7eb;
   position: sticky;
-  top: 0;
-  z-index: 100;
+  top: 64px;
+  z-index: 99;
 }
 
 .pd-back-btn {
@@ -349,7 +350,7 @@
 /* ── Right Sidebar ──────────────────────────────────────────────────── */
 .pd-sidebar {
   position: sticky;
-  top: 73px;
+  top: 137px;
   display: flex;
   flex-direction: column;
   gap: 16px;
