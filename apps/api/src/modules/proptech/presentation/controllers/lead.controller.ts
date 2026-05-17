@@ -1,13 +1,24 @@
 import type { RouteDefinition, RequestContext, ApiResponse, AuthenticatedUser } from '../../../../core/types/api.types.js';
 import type { LeadService } from '../../application/services/lead.service.js';
+import type { IPropertyRepository } from '../../domain/repositories/property.repository.js';
 import type { Lead } from '../../domain/entities/lead.entity.js';
-import { ok, created, notFound } from '../../../../shared/interceptors/response.interceptor.js';
+import { ok, created, notFound, badRequest } from '../../../../shared/interceptors/response.interceptor.js';
 
 export class LeadController {
-  constructor(private readonly service: LeadService) {}
+  constructor(
+    private readonly service: LeadService,
+    private readonly propertyRepo?: IPropertyRepository,
+  ) {}
 
   routes(): RouteDefinition[] {
     return [
+      /* ── Public: visitor contact form (no auth required) ── */
+      {
+        method: 'POST',
+        path: '/proptech/leads/public',
+        public: true,
+        handler: (ctx) => this.createPublic(ctx),
+      },
       {
         method: 'GET',
         path: '/proptech/leads',
@@ -34,6 +45,49 @@ export class LeadController {
         handler: (ctx) => this.delete(ctx),
       },
     ];
+  }
+
+  /* Visitor fills contact form on property detail page (no login needed) */
+  private async createPublic(ctx: RequestContext): Promise<ApiResponse> {
+    const body = ctx.body as Record<string, unknown>;
+    const firstName = (body['firstName'] as string | undefined)?.trim();
+    const lastName  = (body['lastName']  as string | undefined)?.trim();
+    if (!firstName || !lastName) return badRequest('Nombre y apellido son requeridos');
+
+    const propertyId = body['propertyId'] as string | undefined;
+    let agentId      = body['agentId']   as string | undefined;
+    let propertyTitle = body['propertyTitle'] as string | undefined;
+
+    // Look up property to fill agentId + title if not supplied
+    if (propertyId && this.propertyRepo) {
+      const prop = await this.propertyRepo.findById(propertyId);
+      if (prop) {
+        agentId       = agentId       ?? prop.agentId;
+        propertyTitle = propertyTitle ?? prop.title;
+      }
+    }
+
+    const lead = await this.service.create({
+      tenantId: 'intersim-default',
+      agentId,
+      propertyId,
+      propertyTitle,
+      firstName,
+      lastName,
+      email:    (body['email']   as string | undefined) || undefined,
+      phone:    (body['phone']   as string | undefined) || undefined,
+      source:   'website',
+      status:   'new',
+      operationType: body['operationType'] as string | undefined,
+      propertyType:  body['propertyType']  as string | undefined,
+      currency: 'USD',
+      preferredCity: body['preferredCity'] as string | undefined,
+      notes: body['message'] as string | undefined,
+      budgetMin: undefined,
+      budgetMax: undefined,
+    });
+
+    return created({ id: lead.id, message: 'Solicitud recibida. El asesor te contactará pronto.' });
   }
 
   private async list(ctx: RequestContext): Promise<ApiResponse> {

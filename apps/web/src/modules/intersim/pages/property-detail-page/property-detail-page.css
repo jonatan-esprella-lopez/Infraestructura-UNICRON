@@ -380,6 +380,17 @@
   color: #1d4ed8;
 }
 
+.pd-btn--ghost {
+  background: transparent;
+  border-color: #cbd5e1;
+  color: #64748b;
+}
+
+.pd-btn--ghost:hover {
+  background: #f1f5f9;
+  color: #334155;
+}
+
 .pd-icon-btn {
   width: 42px;
   height: 44px;
@@ -750,6 +761,101 @@
 
 .pd-mobile-contact {
   display: none;
+}
+
+/* ── Contact form card ─────────────────────────────────── */
+.pd-contact-form-card {
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 1.25rem 1.35rem 1.45rem;
+}
+
+.pd-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.pd-contact-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+
+.pd-contact-input,
+.pd-contact-textarea {
+  width: 100%;
+  padding: 0.58rem 0.8rem;
+  font-size: 0.85rem;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  color: #0f172a;
+  transition: border-color 0.18s;
+  outline: none;
+  font-family: inherit;
+}
+
+.pd-contact-input:focus,
+.pd-contact-textarea:focus {
+  border-color: #3b82f6;
+  background: #fff;
+}
+
+.pd-contact-textarea {
+  resize: vertical;
+  min-height: 72px;
+}
+
+.pd-btn--full {
+  width: 100%;
+  justify-content: center;
+}
+
+.pd-spinner-sm {
+  animation: pd-spin 0.9s linear infinite;
+}
+
+@keyframes pd-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.pd-contact-error {
+  font-size: 0.82rem;
+  color: #dc2626;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  padding: 0.4rem 0.7rem;
+}
+
+.pd-contact-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 1.2rem 0.5rem;
+  text-align: center;
+  color: #16a34a;
+}
+
+.pd-contact-success strong {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.pd-contact-success p {
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.pd-contact-success .pd-btn--ghost {
+  margin-top: 0.5rem;
+  font-size: 0.82rem;
 }
 
 .pd-loading,

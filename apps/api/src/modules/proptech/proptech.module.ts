@@ -95,7 +95,7 @@ export function createProptechModule(services: AppServices): ApplicationModule {
         handler: () => ok({ module: ModuleName.Proptech, status: 'ready' }),
       },
       ...new ProptechDashboardController(dashboardService).routes(),
-      ...createProptechRoutes({ propertyService, visitService, matchingService, contractService, saleService, reportService, leadService }),
+      ...createProptechRoutes({ propertyService, visitService, matchingService, contractService, saleService, reportService, leadService, propertyRepository }),
     ],
   };
 }

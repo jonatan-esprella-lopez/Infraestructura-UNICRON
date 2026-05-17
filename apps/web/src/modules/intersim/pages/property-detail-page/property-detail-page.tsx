@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   AlertCircle,
@@ -34,6 +34,7 @@ import {
   type LucideIcon,
 } from 'lucide-react';
 import { propertyService } from '@modules/proptech/services/property.service';
+import { leadService } from '@modules/proptech/services/lead.service';
 import type { Property } from '@modules/proptech/types/property.types';
 import {
   LEGAL_STATUS_LABELS,
@@ -136,6 +137,36 @@ export function PropertyDetailPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeImg, setActiveImg] = useState(0);
   const [lightbox, setLightbox] = useState(false);
+
+  const [contactForm, setContactForm] = useState({ firstName: '', lastName: '', phone: '', email: '', message: '' });
+  const [contactSending, setContactSending] = useState(false);
+  const [contactSent, setContactSent] = useState(false);
+  const [contactError, setContactError] = useState('');
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!contactForm.firstName || !contactForm.lastName) { setContactError('Nombre y apellido son requeridos'); return; }
+    setContactSending(true); setContactError('');
+    try {
+      await leadService.createPublic({
+        firstName: contactForm.firstName,
+        lastName: contactForm.lastName,
+        phone: contactForm.phone || undefined,
+        email: contactForm.email || undefined,
+        message: contactForm.message || undefined,
+        propertyId: property?.id,
+        propertyTitle: property?.title,
+        agentId: property?.agentId,
+        operationType: property?.operationType,
+        propertyType: property?.propertyType,
+        preferredCity: property?.city,
+      });
+      setContactSent(true);
+      setContactForm({ firstName: '', lastName: '', phone: '', email: '', message: '' });
+    } catch { setContactError('No se pudo enviar. Intenta de nuevo.'); }
+    finally { setContactSending(false); }
+  };
 
   useEffect(() => {
     if (!id) return;
@@ -534,6 +565,64 @@ export function PropertyDetailPage() {
               <span>Operación</span>
               <strong>{operationLabel}</strong>
             </div>
+          </div>
+
+          <div className="pd-contact-form-card">
+            <div className="pd-sidebar-title">
+              <MessageCircle size={18} />
+              Solicitar información
+            </div>
+            {contactSent ? (
+              <div className="pd-contact-success">
+                <CheckCircle size={28} />
+                <strong>¡Solicitud enviada!</strong>
+                <p>El asesor te contactará pronto.</p>
+                <button className="pd-btn pd-btn--ghost" onClick={() => setContactSent(false)}>Enviar otra consulta</button>
+              </div>
+            ) : (
+              <form ref={formRef} className="pd-contact-form" onSubmit={(e) => { void handleContactSubmit(e); }}>
+                {contactError && <div className="pd-contact-error">{contactError}</div>}
+                <div className="pd-contact-row">
+                  <input
+                    className="pd-contact-input"
+                    placeholder="Nombre *"
+                    value={contactForm.firstName}
+                    onChange={(e) => setContactForm((f) => ({ ...f, firstName: e.target.value }))}
+                    required
+                  />
+                  <input
+                    className="pd-contact-input"
+                    placeholder="Apellido *"
+                    value={contactForm.lastName}
+                    onChange={(e) => setContactForm((f) => ({ ...f, lastName: e.target.value }))}
+                    required
+                  />
+                </div>
+                <input
+                  className="pd-contact-input"
+                  placeholder="Teléfono / WhatsApp"
+                  value={contactForm.phone}
+                  onChange={(e) => setContactForm((f) => ({ ...f, phone: e.target.value }))}
+                />
+                <input
+                  className="pd-contact-input"
+                  type="email"
+                  placeholder="Email"
+                  value={contactForm.email}
+                  onChange={(e) => setContactForm((f) => ({ ...f, email: e.target.value }))}
+                />
+                <textarea
+                  className="pd-contact-textarea"
+                  placeholder="¿Qué te gustaría saber sobre esta propiedad?"
+                  rows={3}
+                  value={contactForm.message}
+                  onChange={(e) => setContactForm((f) => ({ ...f, message: e.target.value }))}
+                />
+                <button type="submit" className="pd-btn pd-btn--primary pd-btn--full" disabled={contactSending}>
+                  {contactSending ? <><Loader2 size={16} className="pd-spinner-sm" /> Enviando...</> : 'Enviar solicitud'}
+                </button>
+              </form>
+            )}
           </div>
         </aside>
       </div>

@@ -5,6 +5,8 @@ export interface Lead {
   id: string;
   tenantId: string;
   agentId?: string;
+  propertyId?: string;
+  propertyTitle?: string;
   firstName: string;
   lastName: string;
   email?: string;

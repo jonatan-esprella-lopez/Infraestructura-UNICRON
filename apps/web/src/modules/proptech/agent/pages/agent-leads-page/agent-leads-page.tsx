@@ -309,6 +309,12 @@ export function AgentLeadsPage() {
                         </div>
                       </div>
 
+                      {lead.propertyTitle && (
+                        <p className="alp-card__property">
+                          🏠 {lead.propertyTitle}
+                        </p>
+                      )}
+
                       {(lead.operationType || lead.propertyType || lead.preferredCity) && (
                         <div className="alp-card__tags">
                           {lead.operationType && (

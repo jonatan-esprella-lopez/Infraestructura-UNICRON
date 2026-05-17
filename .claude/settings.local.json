@@ -36,7 +36,8 @@
       "PowerShell(Get-Item *)",
       "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('total:', d['data']['total'], '| primer titulo:', d['data']['items'][0]['title'][:50]\\)\")",
       "PowerShell(Get-NetTCPConnection *)",
-      "Bash(powershell -Command \"\\(Get-Item src/main.ts\\).LastWriteTime = Get-Date\")"
+      "Bash(powershell -Command \"\\(Get-Item src/main.ts\\).LastWriteTime = Get-Date\")",
+      "Bash(Select-Object FullName)"
     ]
   }
 }

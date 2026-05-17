@@ -10,10 +10,10 @@ interface DemoUser {
 }
 
 const DEMO_USERS: DemoUser[] = [
-  { id: 'usr_admin_01', email: 'admin@intersim.bo', password: 'admin123', name: 'Carlos Mendoza', roles: ['admin'], tenantId: 'tenant_intersim' },
-  { id: 'usr_agent_01', email: 'agente@intersim.bo', password: 'agente123', name: 'María García', roles: ['agent'], tenantId: 'tenant_intersim' },
-  { id: 'usr_owner_01', email: 'propietario@intersim.bo', password: 'prop123', name: 'Roberto Vargas', roles: ['owner'], tenantId: 'tenant_intersim' },
-  { id: 'usr_client_01', email: 'cliente@intersim.bo', password: 'cliente123', name: 'Ana López', roles: ['client'], tenantId: 'tenant_intersim' },
+  { id: 'usr_admin_01', email: 'admin@intersim.bo', password: 'admin123', name: 'Carlos Mendoza', roles: ['admin'], tenantId: 'intersim-default' },
+  { id: 'usr_agent_01', email: 'agente@intersim.bo', password: 'agente123', name: 'María García', roles: ['agent'], tenantId: 'intersim-default' },
+  { id: 'usr_owner_01', email: 'propietario@intersim.bo', password: 'prop123', name: 'Roberto Vargas', roles: ['owner'], tenantId: 'intersim-default' },
+  { id: 'usr_client_01', email: 'cliente@intersim.bo', password: 'cliente123', name: 'Ana López', roles: ['client'], tenantId: 'intersim-default' },
 ];
 
 function createToken(user: { id: string; email: string; name: string; roles: string[]; tenantId: string; permissions?: string[] }): string {
@@ -52,8 +52,8 @@ export function createAuthModule(services: AppServices) {
             // 2. Check real DB users
             if (services.turso) {
               const res = await services.turso.execute(
-                'SELECT id, first_name, last_name, email, password_hash, role, agency FROM users WHERE email = ? AND deleted_at IS NULL',
-                [email],
+                'SELECT id, first_name, last_name, email, password_hash, role, agency FROM users WHERE email = :email',
+                { email },
               );
               const row = res.rows[0] as Record<string, unknown> | undefined;
               if (row) {
@@ -100,8 +100,8 @@ export function createAuthModule(services: AppServices) {
             if (inDemo) return badRequest('El email ya está registrado');
 
             const existing = await services.turso.execute(
-              'SELECT id FROM users WHERE email = ?',
-              [email],
+              'SELECT id FROM users WHERE email = :email',
+              { email },
             );
             if (existing.rows.length > 0) return badRequest('El email ya está registrado');
 
@@ -110,8 +110,8 @@ export function createAuthModule(services: AppServices) {
             const now = new Date().toISOString();
             await services.turso.execute(
               `INSERT INTO users (id, tenant_id, first_name, last_name, email, password_hash, role, phone, agency, created_at, updated_at)
-               VALUES (?, ?, ?, ?, ?, ?, 'agent', ?, ?, ?, ?)`,
-              [id, TENANT_ID, firstName, lastName, email, `plain:${password}`, phone, agency || 'Independiente', now, now],
+               VALUES (:id, :tenantId, :firstName, :lastName, :email, :passwordHash, 'agent', :phone, :agency, :createdAt, :updatedAt)`,
+              { id, tenantId: TENANT_ID, firstName, lastName, email, passwordHash: `plain:${password}`, phone, agency: agency || 'Independiente', createdAt: now, updatedAt: now },
             );
 
             const newUser = { id, email, name: `${firstName} ${lastName}`, roles: ['agent'], tenantId: TENANT_ID };

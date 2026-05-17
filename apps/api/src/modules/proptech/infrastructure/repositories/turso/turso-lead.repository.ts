@@ -8,6 +8,8 @@ function toLead(row: Record<string, unknown>): Lead {
     id: row['id'] as string,
     tenantId: row['tenant_id'] as string,
     agentId: row['agent_id'] as string | undefined,
+    propertyId: row['property_id'] as string | undefined,
+    propertyTitle: row['property_title'] as string | undefined,
     firstName: row['first_name'] as string,
     lastName: row['last_name'] as string,
     email: row['email'] as string | undefined,
@@ -62,16 +64,18 @@ export class TursoLeadRepository implements ILeadRepository {
     const now = new Date().toISOString();
     const id = randomUUID();
     await this.db.execute(
-      `INSERT INTO leads (id, tenant_id, agent_id, first_name, last_name, email, phone, source, status,
-        operation_type, property_type, budget_min, budget_max, currency, preferred_city, notes, converted_at,
-        created_at, updated_at)
-       VALUES (:id, :tenantId, :agentId, :firstName, :lastName, :email, :phone, :source, :status,
-        :operationType, :propertyType, :budgetMin, :budgetMax, :currency, :preferredCity, :notes, :convertedAt,
-        :createdAt, :updatedAt)`,
+      `INSERT INTO leads (id, tenant_id, agent_id, property_id, property_title, first_name, last_name,
+        email, phone, source, status, operation_type, property_type, budget_min, budget_max, currency,
+        preferred_city, notes, converted_at, created_at, updated_at)
+       VALUES (:id, :tenantId, :agentId, :propertyId, :propertyTitle, :firstName, :lastName,
+        :email, :phone, :source, :status, :operationType, :propertyType, :budgetMin, :budgetMax, :currency,
+        :preferredCity, :notes, :convertedAt, :createdAt, :updatedAt)`,
       {
         id,
         tenantId: data.tenantId,
         agentId: data.agentId ?? null,
+        propertyId: data.propertyId ?? null,
+        propertyTitle: data.propertyTitle ?? null,
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email ?? null,

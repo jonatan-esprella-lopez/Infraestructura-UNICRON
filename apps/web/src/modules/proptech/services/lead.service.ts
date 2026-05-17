@@ -3,6 +3,20 @@ import type { Lead, LeadFilters, CreateLeadPayload } from '../types/lead.types';
 
 const BASE = `${environment.apiBaseUrl}/v1/proptech/leads`;
 
+export interface PublicLeadPayload {
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone?: string;
+  message?: string;
+  propertyId?: string;
+  propertyTitle?: string;
+  agentId?: string;
+  operationType?: string;
+  propertyType?: string;
+  preferredCity?: string;
+}
+
 function authHeaders(): Record<string, string> {
   const token = localStorage.getItem('intersim.token');
   const headers: Record<string, string> = { 'Content-Type': 'application/json' };
@@ -53,5 +67,16 @@ export const leadService = {
 
   async delete(id: string): Promise<void> {
     await fetch(`${BASE}/${id}`, { method: 'DELETE', headers: authHeaders() });
+  },
+
+  async createPublic(data: PublicLeadPayload): Promise<{ id: string; message: string }> {
+    const res = await fetch(`${BASE}/public`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Error al enviar solicitud');
+    const json = (await res.json()) as { data: { id: string; message: string } };
+    return json.data;
   },
 };

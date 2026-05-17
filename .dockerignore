@@ -1,0 +1,36 @@
+# Dependencies — instaladas dentro del contenedor vía npm ci
+node_modules
+**/node_modules
+
+# Builds locales
+apps/api/dist
+apps/web/dist
+**/dist
+
+# DB local
+apps/api/local.db
+apps/api/*.db
+
+# Archivos de desarrollo
+**/.env.local
+**/*.log
+**/.DS_Store
+**/Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Tests / coverage
+**/coverage
+**/__tests__
+**/*.test.ts
+**/*.spec.ts
+
+# Docker
+infra/docker
+.dockerignore
+
+# Docs / tools de desarrollo
+tools
+docs
