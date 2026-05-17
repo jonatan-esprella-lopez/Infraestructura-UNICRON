@@ -181,4 +181,33 @@ CREATE TABLE IF NOT EXISTS leads (
 
 CREATE INDEX IF NOT EXISTS idx_leads_agent ON leads(agent_id);
 CREATE INDEX IF NOT EXISTS idx_leads_status ON leads(status);
+
+CREATE TABLE IF NOT EXISTS agent_plans (
+  id TEXT PRIMARY KEY,
+  name TEXT NOT NULL,
+  slug TEXT UNIQUE NOT NULL,
+  price_usd REAL NOT NULL,
+  duration_days INTEGER NOT NULL DEFAULT 30,
+  max_active_properties INTEGER NOT NULL,
+  max_leads INTEGER NOT NULL DEFAULT 100,
+  features TEXT NOT NULL DEFAULT '[]',
+  created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS agent_subscriptions (
+  id TEXT PRIMARY KEY,
+  agent_id TEXT NOT NULL,
+  plan_id TEXT NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  started_at TEXT NOT NULL,
+  expires_at TEXT NOT NULL,
+  active_properties_count INTEGER NOT NULL DEFAULT 0,
+  created_at TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  FOREIGN KEY (agent_id) REFERENCES users(id),
+  FOREIGN KEY (plan_id) REFERENCES agent_plans(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_subscriptions_agent ON agent_subscriptions(agent_id);
+CREATE INDEX IF NOT EXISTS idx_subscriptions_status ON agent_subscriptions(status);
 `;
