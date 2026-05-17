@@ -109,13 +109,17 @@ async def chat(payload: ChatIn):
 
 
 def _suggestions_for_type(question_type: str) -> tuple[list[str], str | None]:
+    # Cities and property types are based on real Century 21 dataset (100 properties):
+    # Cities: Cochabamba, Santa Cruz, La Paz, Tarija, Potosí, Beni, Chuquisaca
+    # Property types: apartment (40), house (28), land (12), office (4)
+    # Operations: rent (44), sale (56) — no anticretico in dataset
+    # Bedrooms: 1-4 cover 95% of inventory
     mapping: dict[str, tuple[list[str], str | None]] = {
-        "operation_type": (["Alquiler", "Anticrético", "Compra"], None),
+        "operation_type": (["Alquiler", "Compra"], None),
         "property_type": (["Departamento", "Casa", "Terreno", "Oficina"], None),
-        "city": (["Cochabamba", "Santa Cruz", "La Paz", "Escribir otra opción"], None),
-        "zones": (["Recoleta", "Cala Cala", "Queru Queru", "Sur", "Escribir otra opción"], None),
+        "city": (["Cochabamba", "Santa Cruz", "La Paz", "Tarija"], None),
         "rooms": (["1 dormitorio", "2 dormitorios", "3 dormitorios", "4 o más"], None),
-        "budget": ([], "Escribí el monto en USD, ej: 25000"),
+        "budget": ([], "Escribí el monto en USD, ej: 50000"),
         "timing": (["Esta semana", "Este mes", "En 2-3 meses", "Sin urgencia"], None),
         "parking": (["Sí, necesito parking", "No necesito parking"], None),
         "pets": (["Sí, tengo mascota", "No tengo mascotas"], None),
