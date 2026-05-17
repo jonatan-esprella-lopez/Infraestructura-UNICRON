@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ROUTES } from '@core/constants/routes.constants';
 import { MapPin, Bed, Bath, Square, ArrowRight, Loader2, ChevronLeft, ChevronRight, Search, Map as MapIcon } from 'lucide-react';
 import { propertyService } from '@modules/proptech/services/property.service';
@@ -29,6 +29,7 @@ const getOperationLabel = (type: string) => {
 
 export function PropertiesPage() {
   const navigate = useNavigate();
+  const [urlParams] = useSearchParams();
   const [properties, setProperties] = useState<Property[]>([]);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -37,11 +38,23 @@ export function PropertiesPage() {
   const [page, setPage] = useState(1);
   const pageSize = 6;
 
-  // Filter state
-  const [filters, setFilters] = useState<PropertyFilters>({
-    publicationStatus: 'published',
+  // Seed filters from URL params (set by CasaLens chat)
+  const [filters, setFilters] = useState<PropertyFilters>(() => {
+    const initial: PropertyFilters = { publicationStatus: 'published' };
+    const op = urlParams.get('operation') as OperationType | null;
+    if (op) initial.operationType = op;
+    const zone = urlParams.get('zone');
+    if (zone) initial.zone = zone;
+    const budget = urlParams.get('budget');
+    if (budget) initial.maxPrice = Number(budget);
+    const rooms = urlParams.get('rooms');
+    if (rooms) initial.minBedrooms = Number(rooms);
+    return initial;
   });
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState(urlParams.get('zone') ?? '');
+
+  // Banner shown when coming from CasaLens
+  const fromChat = urlParams.has('operation') || urlParams.has('zone') || urlParams.has('rooms');
 
   // Debounce search term
   useEffect(() => {
@@ -71,15 +84,12 @@ export function PropertiesPage() {
       } else {
         // Fallback to mock data if DB is empty for demo purposes
         const mockFiltered = MOCK_PROPERTIES.filter((p) => {
-          let match = true;
-          if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) {
-            match = false;
-          }
-          if (currentFilters.operationType && p.operationType !== currentFilters.operationType) {
-            match = false;
-          }
-          // Note: mock data doesn't have propertyType explicitly set, so we skip filtering by it locally
-          return match;
+          if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) return false;
+          if (currentFilters.operationType && p.operationType !== currentFilters.operationType) return false;
+          if (currentFilters.zone && !p.address.toLowerCase().includes(currentFilters.zone.toLowerCase()) && !p.city.toLowerCase().includes(currentFilters.zone.toLowerCase())) return false;
+          if (currentFilters.minBedrooms && (p.bedrooms ?? 0) < currentFilters.minBedrooms) return false;
+          if (currentFilters.maxPrice && p.price > currentFilters.maxPrice) return false;
+          return true;
         });
         setProperties(mockFiltered.slice(offset, offset + pageSize));
         setTotal(mockFiltered.length);
@@ -88,14 +98,12 @@ export function PropertiesPage() {
       console.error('Failed to fetch properties, using mocks:', err);
       const offset = (currentPage - 1) * pageSize;
       const mockFiltered = MOCK_PROPERTIES.filter((p) => {
-        let match = true;
-        if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) {
-          match = false;
-        }
-        if (currentFilters.operationType && p.operationType !== currentFilters.operationType) {
-          match = false;
-        }
-        return match;
+        if (currentFilters.city && !p.city.toLowerCase().includes(currentFilters.city.toLowerCase()) && !p.title.toLowerCase().includes(currentFilters.city.toLowerCase())) return false;
+        if (currentFilters.operationType && p.operationType !== currentFilters.operationType) return false;
+        if (currentFilters.zone && !p.address.toLowerCase().includes(currentFilters.zone.toLowerCase()) && !p.city.toLowerCase().includes(currentFilters.zone.toLowerCase())) return false;
+        if (currentFilters.minBedrooms && (p.bedrooms ?? 0) < currentFilters.minBedrooms) return false;
+        if (currentFilters.maxPrice && p.price > currentFilters.maxPrice) return false;
+        return true;
       });
       setProperties(mockFiltered.slice(offset, offset + pageSize));
       setTotal(mockFiltered.length);
@@ -169,6 +177,29 @@ export function PropertiesPage() {
               <span>Buscar en mapa</span>
             </button>
           </div>
+
+          {fromChat && (
+            <div className="casalens-banner">
+              <span className="casalens-banner__icon">🏠</span>
+              <span>
+                Mostrando propiedades filtradas por tu búsqueda en <strong>CasaLens</strong>
+                {filters.operationType && ` · ${filters.operationType === 'rent' ? 'Alquiler' : filters.operationType === 'anticretico' ? 'Anticrético' : 'Venta'}`}
+                {filters.zone && ` · ${filters.zone}`}
+                {filters.minBedrooms && ` · ${filters.minBedrooms}+ dorm.`}
+                {filters.maxPrice && ` · hasta USD ${Number(filters.maxPrice).toLocaleString()}`}
+              </span>
+              <button
+                className="casalens-banner__clear"
+                onClick={() => {
+                  setFilters({ publicationStatus: 'published' });
+                  setSearchTerm('');
+                  navigate('/propiedades', { replace: true });
+                }}
+              >
+                Limpiar filtros ✕
+              </button>
+            </div>
+          )}
 
           {loading ? (
             <div className="prop-loading">
