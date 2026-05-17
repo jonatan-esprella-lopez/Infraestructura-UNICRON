@@ -91,6 +91,16 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
+.lp-nav-link--valuation {
+  color: #fff;
+  background: rgba(245, 158, 11, 0.16);
+  border: 1px solid rgba(245, 158, 11, 0.28);
+}
+
+.lp-nav-link--valuation:hover {
+  background: rgba(245, 158, 11, 0.24);
+}
+
 .lp-nav-actions {
   display: flex;
   align-items: center;

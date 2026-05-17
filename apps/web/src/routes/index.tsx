@@ -21,6 +21,9 @@ const ServicesPage = lazy(() =>
 const AboutPage = lazy(() =>
   import('@modules/intersim/pages/about-page/about-page').then((m) => ({ default: m.AboutPage })),
 );
+const ValuationPage = lazy(() =>
+  import('@modules/intersim/pages/valuation-page/valuation-page').then((m) => ({ default: m.ValuationPage })),
+);
 
 export function AppRoutes() {
   return (
@@ -32,6 +35,7 @@ export function AppRoutes() {
           <Route path="/propiedades" element={<PropertiesPage />} />
           <Route path="/servicios" element={<ServicesPage />} />
           <Route path="/nosotros" element={<AboutPage />} />
+          <Route path="/valoriza-tu-propiedad" element={<ValuationPage />} />
         </Route>
 
         {/* Auth */}

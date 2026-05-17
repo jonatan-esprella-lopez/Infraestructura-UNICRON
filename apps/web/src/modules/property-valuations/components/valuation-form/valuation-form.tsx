@@ -89,26 +89,20 @@ export function ValuationForm({
       <div className="valuation-form__section">
         <h2 className="valuation-form__section-title">Ubicación</h2>
 
-        <label className="valuation-form__field">
-          <span className="valuation-form__label">Ciudad</span>
-          <input
-            className="valuation-form__input"
-            value={form.city}
-            onChange={(event) => updateField("city", event.target.value)}
-          />
-        </label>
-
-        <label className="valuation-form__field">
-          <span className="valuation-form__label">Municipio</span>
-          <input
-            className="valuation-form__input"
-            placeholder="Ej: Cercado, Sacaba, Tiquipaya"
-            value={form.municipality}
-            onChange={(event) =>
-              updateField("municipality", event.target.value)
-            }
-          />
-        </label>
+        <LocationSelector
+          autoDetect
+          label="Ubicacion del terreno"
+          value={{
+            countryCode: form.countryCode,
+            countryName: form.countryName,
+            stateCode: form.stateCode,
+            stateName: form.stateName,
+            cityName: form.city,
+            latitude: form.latitude,
+            longitude: form.longitude,
+          }}
+          onChange={handleLocationChange}
+        />
 
         <label className="valuation-form__field">
           <span className="valuation-form__label">Zona</span>
