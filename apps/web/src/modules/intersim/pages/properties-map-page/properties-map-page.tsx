@@ -38,12 +38,23 @@ export function PropertiesMapPage() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    // Disable body scroll to force Google Maps embed into "greedy" gesture handling mode
-    // (so it doesn't ask for ctrl+scroll to zoom)
-    const originalStyle = window.getComputedStyle(document.body).overflow;
+    // Force strict 100% height and hidden overflow on both html and body
+    // This tells the Google Maps Embed API that the window is absolutely not scrollable
+    const htmlOverflow = document.documentElement.style.overflow;
+    const htmlHeight = document.documentElement.style.height;
+    const bodyOverflow = document.body.style.overflow;
+    const bodyHeight = document.body.style.height;
+    
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.height = '100%';
     document.body.style.overflow = 'hidden';
+    document.body.style.height = '100%';
+
     return () => {
-      document.body.style.overflow = originalStyle;
+      document.documentElement.style.overflow = htmlOverflow;
+      document.documentElement.style.height = htmlHeight;
+      document.body.style.overflow = bodyOverflow;
+      document.body.style.height = bodyHeight;
     };
   }, []);
 
@@ -178,9 +189,9 @@ export function PropertiesMapPage() {
 
       {/* MAIN: Map */}
       <main className="prop-map-main">
-        {/* Placeholder Google Maps iframe pointing to Cochabamba as center */}
+        {/* Using the legacy Google Maps embed which ignores cooperative scroll gestures */}
         <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d122247.45781313783!2d-66.24050212762265!3d-17.39384795267156!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x93e373f1d939c361%3A0xbccf06f50b467ec7!2sCochabamba!5e0!3m2!1sen!2sbo!4v1700000000000!5m2!1sen!2sbo" 
+          src="https://maps.google.com/maps?q=Cochabamba&t=m&z=13&output=embed&iwloc=near" 
           width="100%" 
           height="100%" 
           style={{ border: 0 }} 
