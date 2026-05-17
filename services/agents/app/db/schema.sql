@@ -32,3 +32,22 @@ CREATE TABLE IF NOT EXISTS properties (
 
 CREATE INDEX IF NOT EXISTS properties_embedding_idx
     ON properties USING hnsw (embedding vector_cosine_ops);
+
+CREATE TABLE IF NOT EXISTS financial_docs (
+    id        SERIAL PRIMARY KEY,
+    source    TEXT,
+    chunk     TEXT,
+    embedding vector(512)
+);
+
+CREATE INDEX IF NOT EXISTS financial_docs_embedding_idx
+    ON financial_docs USING hnsw (embedding vector_cosine_ops);
+
+CREATE TABLE IF NOT EXISTS financial_profiles (
+    id          TEXT PRIMARY KEY,
+    session_id  TEXT UNIQUE,
+    profile     JSONB,
+    evaluation  JSONB,
+    verdict     TEXT,
+    created_at  TIMESTAMPTZ DEFAULT NOW()
+);
