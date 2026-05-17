@@ -50,3 +50,32 @@ async def save_lead(*, chat_id: int, profile: dict) -> str:
         )
 
     return row["id"]
+
+
+async def save_financial_profile(*, session_id: str, profile: dict, evaluation: dict) -> str:
+    import json
+    import uuid
+
+    pool = await get_pool()
+    profile_id = f"FP-{uuid.uuid4().hex[:8].upper()}"
+    verdict = evaluation.get("verdict", "condicionado")
+
+    async with pool.acquire() as conn:
+        row = await conn.fetchrow(
+            """
+            INSERT INTO financial_profiles (id, session_id, profile, evaluation, verdict)
+            VALUES ($1, $2, $3, $4, $5)
+            ON CONFLICT (session_id) DO UPDATE
+              SET profile    = EXCLUDED.profile,
+                  evaluation = EXCLUDED.evaluation,
+                  verdict    = EXCLUDED.verdict
+            RETURNING id
+            """,
+            profile_id,
+            session_id,
+            json.dumps(profile),
+            json.dumps(evaluation),
+            verdict,
+        )
+
+    return row["id"]
