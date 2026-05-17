@@ -5,7 +5,6 @@ import {
   ArrowLeft,
   Bath,
   Bed,
-  Building2,
   Car,
   ChevronLeft,
   ChevronRight,
@@ -13,6 +12,7 @@ import {
   ListFilter,
   Loader2,
   MapPin,
+  MessageCircle,
   Navigation,
   Ruler,
   Search,
@@ -131,6 +131,13 @@ function toLocatedProperty(property: Property): LocatedProperty | null {
   return { property, lat, lng };
 }
 
+function getWhatsAppUrl(phone: string, title: string) {
+  const clean = phone.replace(/\D/g, '');
+  const intl = clean.startsWith('591') ? clean : `591${clean}`;
+  const msg = encodeURIComponent(`Hola! Vi la propiedad "${title}" en Intersim y me gustaría recibir más información.`);
+  return `https://wa.me/${intl}?text=${msg}`;
+}
+
 function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
 }
@@ -168,9 +175,10 @@ interface MapCanvasProps {
   selectedId: string | null;
   focusKey: number;
   onSelect: (propertyId: string) => void;
+  onClose: () => void;
 }
 
-function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect }: MapCanvasProps) {
+function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect, onClose }: MapCanvasProps) {
   const mapNodeRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<any>(null);
   const markerRefs = useRef<Record<string, any>>({});
@@ -333,19 +341,6 @@ function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect }: Map
 
   return (
     <section className="prop-map-main" aria-label="Mapa de propiedades">
-      <div className="prop-map-toolbar">
-        {selectedMarker && (
-          <a
-            href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${selectedMarker.lat},${selectedMarker.lng}`)}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            <Navigation size={16} />
-            Abrir ruta
-          </a>
-        )}
-      </div>
-
       <div className="prop-map-canvas">
         {showGoogleMap ? (
           <div ref={mapNodeRef} className="prop-map-google" />
@@ -364,14 +359,74 @@ function PropertiesMapCanvas({ properties, selectedId, focusKey, onSelect }: Map
         )}
 
         {selectedMarker && (
-          <article className="prop-map-selected">
-            <div>
-              <span>{PROPERTY_TYPE_LABELS[selectedMarker.property.propertyType] ?? 'Inmueble'}</span>
-              <h3>{selectedMarker.property.title}</h3>
-              <p>{getLocationLabel(selectedMarker.property)}</p>
+          <div className="prop-map-popup">
+            <button className="prop-map-popup__close" onClick={onClose} aria-label="Cerrar">
+              <X size={15} />
+            </button>
+
+            <div className="prop-map-popup__img">
+              <img
+                src={getPropertyImage(selectedMarker.property)}
+                alt={selectedMarker.property.title}
+                onError={(e) => { (e.target as HTMLImageElement).src = '/properties_hero.png'; }}
+              />
+              <span className="prop-map-popup__op-tag">
+                {OPERATION_TYPE_LABELS[selectedMarker.property.operationType] ?? 'Inmueble'}
+              </span>
             </div>
-            <strong>{formatPrice(selectedMarker.property.price, selectedMarker.property.currency, selectedMarker.property.operationType)}</strong>
-          </article>
+
+            <div className="prop-map-popup__body">
+              <p className="prop-map-popup__type">
+                {PROPERTY_TYPE_LABELS[selectedMarker.property.propertyType] ?? 'Propiedad'}
+              </p>
+              <h3 className="prop-map-popup__title">{selectedMarker.property.title}</h3>
+
+              <div className="prop-map-popup__location">
+                <MapPin size={13} />
+                <span>{getLocationLabel(selectedMarker.property)}</span>
+              </div>
+
+              <div className="prop-map-popup__stats">
+                {(selectedMarker.property.bedrooms ?? 0) > 0 && (
+                  <span><Bed size={13} /> {selectedMarker.property.bedrooms} dorm.</span>
+                )}
+                {(selectedMarker.property.bathrooms ?? 0) > 0 && (
+                  <span><Bath size={13} /> {selectedMarker.property.bathrooms} baños</span>
+                )}
+                {(selectedMarker.property.areaTotal ?? 0) > 0 && (
+                  <span><Ruler size={13} /> {selectedMarker.property.areaTotal} m²</span>
+                )}
+              </div>
+
+              <div className="prop-map-popup__footer">
+                <strong className="prop-map-popup__price">
+                  {formatPrice(selectedMarker.property.price, selectedMarker.property.currency, selectedMarker.property.operationType)}
+                </strong>
+                <div className="prop-map-popup__actions">
+                  {selectedMarker.property.agentPhone && (
+                    <a
+                      href={getWhatsAppUrl(selectedMarker.property.agentPhone, selectedMarker.property.title)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="prop-map-popup__wa"
+                    >
+                      <MessageCircle size={14} />
+                      Contactar ahora
+                    </a>
+                  )}
+                  <a
+                    href={`https://www.google.com/maps/search/?api=1&query=${selectedMarker.lat},${selectedMarker.lng}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="prop-map-popup__route"
+                  >
+                    <Navigation size={13} />
+                    Ruta
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </section>
@@ -754,6 +809,7 @@ export function PropertiesMapPage() {
         selectedId={selectedId}
         focusKey={focusKey}
         onSelect={focusPropertyOnMap}
+        onClose={() => setSelectedId(null)}
       />
 
       <div className="prop-map-mobile-count">
