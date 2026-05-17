@@ -11,6 +11,7 @@ export interface PropertyFilters {
   minPrice?: number;
   maxPrice?: number;
   minBedrooms?: number;
+  maxBedrooms?: number;
   publicationStatus?: string;
   status?: string;
   query?: string;

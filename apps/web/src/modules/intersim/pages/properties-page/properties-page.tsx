@@ -85,7 +85,9 @@ export function PropertiesPage() {
   const minPrice = searchParams.get('minPrice') || '';
   const maxPrice = searchParams.get('maxPrice') || '';
   const minBedrooms = searchParams.get('minBedrooms') || '';
+  const maxBedrooms = searchParams.get('maxBedrooms') || '';
   const petsAllowed = searchParams.get('petsAllowed') === 'true';
+  const fromChat = searchParams.has('minBedrooms') && searchParams.has('maxBedrooms');
 
   const [localQuery, setLocalQuery] = useState(query);
 
@@ -135,6 +137,7 @@ export function PropertiesPage() {
         minPrice: minPrice ? Number(minPrice) : undefined,
         maxPrice: maxPrice ? Number(maxPrice) : undefined,
         minBedrooms: minBedrooms ? Number(minBedrooms) : undefined,
+        maxBedrooms: maxBedrooms ? Number(maxBedrooms) : undefined,
         petsAllowed: petsAllowed || undefined,
       };
       const res = await propertyService.findAllPublic(filters);
@@ -148,7 +151,7 @@ export function PropertiesPage() {
     } finally {
       setLoading(false);
     }
-  }, [page, query, operationType, propertyType, city, minPrice, maxPrice, minBedrooms, petsAllowed]);
+  }, [page, query, operationType, propertyType, city, minPrice, maxPrice, minBedrooms, maxBedrooms, petsAllowed]);
 
   useEffect(() => {
     fetchProperties();
@@ -286,6 +289,23 @@ export function PropertiesPage() {
               </div>
             )}
           </div>
+
+          {/* ── CasaLens banner ────────────────────────────────────── */}
+          {fromChat && (
+            <div className="casalens-banner">
+              <span className="casalens-banner__icon">🏠</span>
+              <span>
+                Resultados aproximados de tu búsqueda en <strong>CasaLens</strong>
+                {operationType && ` · ${operationType === 'rent' ? 'Alquiler' : 'Venta'}`}
+                {city && ` · ${city}`}
+                {minBedrooms && maxBedrooms && ` · ${minBedrooms}–${maxBedrooms} dorm.`}
+                {minPrice && maxPrice && ` · USD ${Number(minPrice).toLocaleString()}–${Number(maxPrice).toLocaleString()}`}
+              </span>
+              <button className="casalens-banner__clear" onClick={clearFilters}>
+                Limpiar filtros ✕
+              </button>
+            </div>
+          )}
 
           {/* ── Results Header ──────────────────────────────────────── */}
           {!loading && !error && (
