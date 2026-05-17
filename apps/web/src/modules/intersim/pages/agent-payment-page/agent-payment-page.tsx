@@ -3,8 +3,11 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, BadgeCheck, Building2, CheckCircle2, ChevronRight,
   CreditCard, Lock, QrCode, ShieldCheck, Star,
+  User, Mail, Phone, KeyRound, Eye, EyeOff, AlertCircle, Loader2,
 } from 'lucide-react';
 import { ROUTES } from '@core/constants/routes.constants';
+import { useRootStore } from '@store/root-store';
+import { authService } from '@modules/auth/services/auth.service';
 import './agent-payment-page.css';
 
 /* ── Plan catalog ────────────────────────────────────────────── */
@@ -68,19 +71,150 @@ function formatExpiry(value: string) {
   return digits;
 }
 
+/* ── Register Modal ───────────────────────────────────────────── */
+
+interface RegisterModalProps {
+  planName: string;
+  onSuccess: () => void;
+}
+
+function RegisterModal({ planName, onSuccess }: RegisterModalProps) {
+  const { setCurrentUser } = useRootStore();
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName]   = useState('');
+  const [email, setEmail]         = useState('');
+  const [phone, setPhone]         = useState('');
+  const [agency, setAgency]       = useState('');
+  const [password, setPassword]   = useState('');
+  const [confirm, setConfirm]     = useState('');
+  const [showPw, setShowPw]       = useState(false);
+  const [loading, setLoading]     = useState(false);
+  const [error, setError]         = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+    if (password !== confirm) { setError('Las contraseñas no coinciden'); return; }
+    if (password.length < 6)  { setError('La contraseña debe tener al menos 6 caracteres'); return; }
+    setLoading(true);
+    try {
+      const { token, user } = await authService.register({ firstName, lastName, email, password, phone, agency });
+      localStorage.setItem('intersim.token', token);
+      setCurrentUser(user);
+      onSuccess();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al registrar');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="apm-reg-backdrop">
+      <div className="apm-reg-modal">
+        <div className="apm-reg-header">
+          <div className="apm-reg-icon"><User size={22} /></div>
+          <div>
+            <h2 className="apm-reg-title">Crea tu cuenta de agente</h2>
+            <p className="apm-reg-sub">Para activar el <strong>Plan {planName}</strong> necesitas una cuenta</p>
+          </div>
+        </div>
+
+        <form className="apm-reg-form" onSubmit={handleSubmit}>
+          <div className="apm-reg-row">
+            <label className="apm-reg-field">
+              <span>Nombre</span>
+              <input type="text" placeholder="Tu nombre" value={firstName} onChange={(e) => setFirstName(e.target.value)} required autoFocus />
+            </label>
+            <label className="apm-reg-field">
+              <span>Apellido</span>
+              <input type="text" placeholder="Tu apellido" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+            </label>
+          </div>
+
+          <label className="apm-reg-field">
+            <span>Correo electrónico</span>
+            <div className="apm-reg-input-wrap">
+              <Mail size={15} className="apm-reg-input-icon" />
+              <input type="email" placeholder="tu@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
+            </div>
+          </label>
+
+          <div className="apm-reg-row">
+            <label className="apm-reg-field">
+              <span>Teléfono</span>
+              <div className="apm-reg-input-wrap">
+                <Phone size={15} className="apm-reg-input-icon" />
+                <input type="tel" placeholder="+591 7XXXXXXX" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              </div>
+            </label>
+            <label className="apm-reg-field">
+              <span>Inmobiliaria / Empresa <span className="apm-reg-optional">(opcional)</span></span>
+              <div className="apm-reg-input-wrap">
+                <Building2 size={15} className="apm-reg-input-icon" />
+                <input type="text" placeholder="RE/MAX, Century 21…" value={agency} onChange={(e) => setAgency(e.target.value)} />
+              </div>
+            </label>
+          </div>
+
+          <label className="apm-reg-field">
+            <span>Contraseña</span>
+            <div className="apm-reg-input-wrap">
+              <KeyRound size={15} className="apm-reg-input-icon" />
+              <input type={showPw ? 'text' : 'password'} placeholder="Mínimo 6 caracteres" value={password} onChange={(e) => setPassword(e.target.value)} required />
+              <button type="button" className="apm-reg-eye" onClick={() => setShowPw((v) => !v)}>
+                {showPw ? <EyeOff size={15} /> : <Eye size={15} />}
+              </button>
+            </div>
+          </label>
+
+          <label className="apm-reg-field">
+            <span>Confirmar contraseña</span>
+            <div className="apm-reg-input-wrap">
+              <KeyRound size={15} className="apm-reg-input-icon" />
+              <input type={showPw ? 'text' : 'password'} placeholder="Repite tu contraseña" value={confirm} onChange={(e) => setConfirm(e.target.value)} required />
+            </div>
+          </label>
+
+          {error && (
+            <div className="apm-reg-error">
+              <AlertCircle size={15} /> {error}
+            </div>
+          )}
+
+          <button type="submit" className="apm-reg-submit" disabled={loading}>
+            {loading
+              ? <><Loader2 className="apm-reg-spinner" size={17} /> Creando cuenta...</>
+              : <><CheckCircle2 size={17} /> Crear cuenta y continuar al pago</>
+            }
+          </button>
+
+          <p className="apm-reg-login-link">
+            ¿Ya tienes cuenta?{' '}
+            <Link to={ROUTES.login}>Inicia sesión</Link>
+          </p>
+        </form>
+      </div>
+    </div>
+  );
+}
+
 /* ── Component ────────────────────────────────────────────────── */
 
 export function AgentPaymentPage() {
   const { plan } = useParams<{ plan: string }>();
   const navigate = useNavigate();
+  const { currentUser } = useRootStore();
+  const isLoggedIn = Boolean(currentUser.id);
+
   const planData = PLAN_DATA[plan ?? ''];
   const [method, setMethod] = useState<PayMethod>('card');
   const [cardNumber, setCardNumber] = useState('');
-  const [cardName, setCardName] = useState('');
-  const [expiry, setExpiry] = useState('');
-  const [cvv, setCvv] = useState('');
-  const [paying, setPaying] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [cardName, setCardName]     = useState('');
+  const [expiry, setExpiry]         = useState('');
+  const [cvv, setCvv]               = useState('');
+  const [paying, setPaying]         = useState(false);
+  const [success, setSuccess]       = useState(false);
 
   if (!planData) {
     return (

@@ -12,7 +12,26 @@ interface LoginApiResponse {
   };
 }
 
+interface RegisterPayload {
+  firstName: string; lastName: string; email: string;
+  password: string; phone?: string; agency?: string;
+}
+
 export const authService = {
+  async register(data: RegisterPayload): Promise<{ token: string; user: AppUser }> {
+    const res = await fetch(`${BASE}/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    const json = (await res.json()) as { data?: { token: string; user: { id: string; email: string; name: string; roles: string[]; tenantId: string } }; error?: string };
+    if (!res.ok) throw new Error(json.error ?? 'Error al registrar');
+    const { token, user } = json.data!;
+    const roles = user.roles as Role[];
+    const appUser: AppUser = { id: user.id, email: user.email, name: user.name, roles, permissions: roles.flatMap((r) => ROLE_PERMISSIONS[r] ?? []), tenantId: user.tenantId };
+    return { token, user: appUser };
+  },
+
   async login(email: string, password: string): Promise<{ token: string; user: AppUser }> {
     const res = await fetch(`${BASE}/login`, {
       method: 'POST',

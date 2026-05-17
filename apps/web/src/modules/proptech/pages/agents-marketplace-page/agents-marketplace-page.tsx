@@ -216,7 +216,7 @@ export function AgentsMarketplacePage() {
       const res = await fetch(`${environment.apiBaseUrl}/v1/users/agents`, { headers: authHeaders() });
       if (res.ok) {
         const data = await res.json();
-        setAgents(data.items ?? []);
+        setAgents(data?.data?.items ?? []);
       }
     } catch {
       /* no-op */
