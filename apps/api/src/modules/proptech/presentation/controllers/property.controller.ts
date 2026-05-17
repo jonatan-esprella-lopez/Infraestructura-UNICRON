@@ -51,12 +51,16 @@ export class PropertyController {
   }
 
   private async list(ctx: RequestContext): Promise<ApiResponse> {
-    const { operationType, propertyType, city, zone, minPrice, maxPrice, minBedrooms, publicationStatus, limit, offset, agentId: agentIdQ } =
+    const { operationType, propertyType, city, zone, minPrice, maxPrice, minBedrooms, publicationStatus, limit, offset, agentId: agentIdQ, ownerId: ownerIdQ } =
       ctx.query;
-    const isAgent = ctx.user?.roles.includes('agent');
+    const roles = ctx.user?.roles ?? [];
+    const isAgent = roles.includes('agent');
+    const isOwner = roles.includes('owner');
     const agentId = isAgent ? ctx.user!.id : (agentIdQ ?? undefined);
+    const ownerId = isOwner ? ctx.user!.id : (ownerIdQ ?? undefined);
     const result = await this.service.findAll({
       tenantId: ctx.tenantId,
+      ownerId,
       agentId,
       operationType,
       propertyType,
@@ -74,9 +78,10 @@ export class PropertyController {
 
   private async create(ctx: RequestContext): Promise<ApiResponse> {
     const body = ctx.body as Record<string, unknown>;
+    const isOwner = ctx.user?.roles.includes('owner');
     const property = await this.service.create({
       tenantId: ctx.tenantId ?? body['tenantId'] as string,
-      ownerId: body['ownerId'] as string,
+      ownerId: isOwner ? ctx.user!.id : body['ownerId'] as string,
       agentId: body['agentId'] as string | undefined,
       title: body['title'] as string,
       description: body['description'] as string ?? '',
