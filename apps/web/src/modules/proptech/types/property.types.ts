@@ -45,6 +45,7 @@ export interface PropertyListResponse {
 
 export interface PropertyFilters {
   ownerId?: string;
+  agentId?: string;
   operationType?: OperationType;
   propertyType?: PropertyType;
   city?: string;
@@ -53,6 +54,8 @@ export interface PropertyFilters {
   maxPrice?: number;
   minBedrooms?: number;
   publicationStatus?: PublicationStatus;
+  query?: string;
+  petsAllowed?: boolean;
   limit?: number;
   offset?: number;
 }

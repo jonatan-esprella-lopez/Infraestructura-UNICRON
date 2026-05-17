@@ -87,7 +87,7 @@ const PLATFORM_FEATURES = [
 const WHY_ROWS = [
   {
     side: 'left',
-    gradient: 'linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%)',
+    image: '/agent_promo_deals.png',
     icon: TrendingUp,
     iconColor: 'blue',
     title: 'Más cierres, menos esfuerzo',
@@ -96,7 +96,7 @@ const WHY_ROWS = [
   },
   {
     side: 'right',
-    gradient: 'linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%)',
+    image: '/agent_promo_contracts.png',
     icon: ClipboardList,
     iconColor: 'purple',
     title: 'Contratos que se defienden solos',
@@ -105,7 +105,7 @@ const WHY_ROWS = [
   },
   {
     side: 'left',
-    gradient: 'linear-gradient(135deg, #064e3b 0%, #10b981 100%)',
+    image: '/agent_promo_dashboard.png',
     icon: Layers,
     iconColor: 'emerald',
     title: 'Panel de control profesional',
@@ -168,7 +168,7 @@ export function AgentPromoPage() {
           </div>
         </div>
 
-        <div className="ap-hero__badges">
+        {/* <div className="ap-hero__badges">
           <div className="ap-hero__badge ap-hero__badge--1">
             <Home size={20} />
             <div>
@@ -190,7 +190,7 @@ export function AgentPromoPage() {
               <span>Tecnología de punta</span>
             </div>
           </div>
-        </div>
+        </div> */}
 
         <div className="ap-hero__scroll-hint" aria-hidden="true">
           <span />
@@ -212,15 +212,8 @@ export function AgentPromoPage() {
             style={{ animationDelay: `${i * 0.15}s` }}
           >
             {row.side === 'left' && (
-              <div className="ap-why__visual" style={{ background: row.gradient }}>
-                <div className="ap-why__visual-inner">
-                  <div className={`ap-why__visual-icon icon-${row.iconColor}`}>
-                    <row.icon size={56} />
-                  </div>
-                  <div className="ap-why__visual-lines">
-                    <span /><span /><span />
-                  </div>
-                </div>
+              <div className="ap-why__image-wrap">
+                <img src={row.image} alt={row.title} className="ap-why__image" loading="lazy" />
               </div>
             )}
             <div className="ap-why__content">
@@ -236,15 +229,8 @@ export function AgentPromoPage() {
               </ul>
             </div>
             {row.side === 'right' && (
-              <div className="ap-why__visual ap-why__visual--right" style={{ background: row.gradient }}>
-                <div className="ap-why__visual-inner">
-                  <div className={`ap-why__visual-icon icon-${row.iconColor}`}>
-                    <row.icon size={56} />
-                  </div>
-                  <div className="ap-why__visual-lines">
-                    <span /><span /><span />
-                  </div>
-                </div>
+              <div className="ap-why__image-wrap ap-why__image-wrap--right">
+                <img src={row.image} alt={row.title} className="ap-why__image" loading="lazy" />
               </div>
             )}
           </div>

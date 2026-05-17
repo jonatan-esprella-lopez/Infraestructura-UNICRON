@@ -57,6 +57,15 @@ export class TursoPropertyRepository implements IPropertyRepository {
     if (filters.minPrice !== undefined) { sql += ' AND price >= :minPrice'; args['minPrice'] = filters.minPrice; }
     if (filters.maxPrice !== undefined) { sql += ' AND price <= :maxPrice'; args['maxPrice'] = filters.maxPrice; }
     if (filters.minBedrooms !== undefined) { sql += ' AND bedrooms >= :minBedrooms'; args['minBedrooms'] = filters.minBedrooms; }
+    if (filters.petsAllowed !== undefined) {
+      if (filters.petsAllowed) {
+        sql += ' AND features LIKE :pets'; args['pets'] = '%pets_allowed%';
+      }
+    }
+    if (filters.query) {
+      sql += ' AND (title LIKE :query OR address LIKE :query OR city LIKE :query OR zone LIKE :query)';
+      args['query'] = `%${filters.query}%`;
+    }
 
     const countRes = await this.db.execute(`SELECT COUNT(*) as cnt FROM (${sql})`, args);
     const total = Number((countRes.rows[0] as Record<string, unknown>)['cnt'] ?? 0);

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { MapPin, Bed, Bath, Square, Loader2, Search, ArrowLeft } from 'lucide-react';
 import { propertyService } from '@modules/proptech/services/property.service';
 import type { Property, PropertyFilters, OperationType, PropertyType } from '@modules/proptech/types/property.types';
@@ -32,10 +32,40 @@ function getOperationLabel(type: string | undefined) {
 
 export function PropertiesMapPage() {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [properties, setProperties] = useState<Property[]>(MOCK_PROPERTIES as any[]);
   const [loading, setLoading] = useState(false);
-  const [filters, setFilters] = useState<PropertyFilters>({});
-  const [searchTerm, setSearchTerm] = useState('');
+
+  // Parse filters from URL
+  const query = searchParams.get('query') || '';
+  const operationType = searchParams.get('operation') || '';
+  const propertyType = searchParams.get('type') || '';
+  const minPrice = searchParams.get('minPrice') || '';
+  const maxPrice = searchParams.get('maxPrice') || '';
+  const minBedrooms = searchParams.get('minBedrooms') || '';
+  const petsAllowed = searchParams.get('petsAllowed') === 'true';
+
+  const [localQuery, setLocalQuery] = useState(query);
+
+  const updateParam = (key: string, value: string | boolean | number | undefined) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (value === undefined || value === '' || value === false) {
+      newParams.delete(key);
+    } else {
+      newParams.set(key, String(value));
+    }
+    if (key !== 'page') newParams.delete('page');
+    setSearchParams(newParams);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (localQuery !== query) {
+        updateParam('query', localQuery);
+      }
+    }, 400);
+    return () => clearTimeout(timer);
+  }, [localQuery]);
 
   useEffect(() => {
     // Force strict 100% height and hidden overflow on both html and body
@@ -51,51 +81,50 @@ export function PropertiesMapPage() {
     document.body.style.height = '100%';
 
     return () => {
-      document.documentElement.style.overflow = htmlOverflow;
-      document.documentElement.style.height = htmlHeight;
-      document.body.style.overflow = bodyOverflow;
-      document.body.style.height = bodyHeight;
+      if (htmlOverflow) document.documentElement.style.overflow = htmlOverflow;
+      else document.documentElement.style.removeProperty('overflow');
+      
+      if (htmlHeight) document.documentElement.style.height = htmlHeight;
+      else document.documentElement.style.removeProperty('height');
+      
+      if (bodyOverflow) document.body.style.overflow = bodyOverflow;
+      else document.body.style.removeProperty('overflow');
+      
+      if (bodyHeight) document.body.style.height = bodyHeight;
+      else document.body.style.removeProperty('height');
     };
   }, []);
 
-  // Fetch properties (same as properties-page)
-  useEffect(() => {
-    let isMounted = true;
-    async function fetchProperties() {
-      setLoading(true);
-      try {
-        const queryParams: PropertyFilters = { ...filters };
-        if (searchTerm) {
-          queryParams.city = searchTerm;
-        }
-        queryParams.limit = 50; // map can handle more markers
-        const result = await propertyService.findAll(queryParams);
-        if (isMounted) {
-          if (result && result.items && result.items.length > 0) {
-            setProperties(result.items);
-          } else {
-            setProperties(MOCK_PROPERTIES as any[]);
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching properties for map:', err);
-        if (isMounted) {
-          setProperties(MOCK_PROPERTIES as any[]);
-        }
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+  const fetchProperties = async () => {
+    setLoading(true);
+    try {
+      const apiFilters: PropertyFilters = {
+        limit: 50, // map can handle more markers
+        query: query || undefined,
+        operationType: (operationType as OperationType) || undefined,
+        propertyType: (propertyType as PropertyType) || undefined,
+        minPrice: minPrice ? Number(minPrice) : undefined,
+        maxPrice: maxPrice ? Number(maxPrice) : undefined,
+        minBedrooms: minBedrooms ? Number(minBedrooms) : undefined,
+        petsAllowed: petsAllowed || undefined,
+      };
+      const result = await propertyService.findAll(apiFilters);
+      if (result && result.items && result.items.length > 0) {
+        setProperties(result.items);
+      } else {
+        setProperties(MOCK_PROPERTIES as any[]);
       }
+    } catch (err) {
+      console.error('Error fetching properties for map:', err);
+      setProperties(MOCK_PROPERTIES as any[]);
+    } finally {
+      setLoading(false);
     }
-    const timeoutId = setTimeout(() => {
-      fetchProperties();
-    }, 500);
-    return () => {
-      isMounted = false;
-      clearTimeout(timeoutId);
-    };
-  }, [filters, searchTerm]);
+  };
+
+  useEffect(() => {
+    fetchProperties();
+  }, [query, operationType, propertyType, minPrice, maxPrice, minBedrooms, petsAllowed]);
 
   return (
     <div className="prop-map-layout">
@@ -115,15 +144,15 @@ export function PropertiesMapPage() {
                 type="text"
                 placeholder="Busca ciudad o zona..."
                 className="prop-map-filter-input with-icon"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                value={localQuery}
+                onChange={(e) => setLocalQuery(e.target.value)}
               />
             </div>
             <div className="prop-map-filter-row">
               <select
                 className="prop-map-filter-select"
-                value={filters.operationType || ''}
-                onChange={(e) => setFilters((prev) => ({ ...prev, operationType: (e.target.value as OperationType) || undefined }))}
+                value={operationType}
+                onChange={(e) => updateParam('operation', e.target.value)}
               >
                 <option value="">Operación</option>
                 <option value="sale">Venta</option>
@@ -132,8 +161,8 @@ export function PropertiesMapPage() {
               </select>
               <select
                 className="prop-map-filter-select"
-                value={filters.propertyType || ''}
-                onChange={(e) => setFilters((prev) => ({ ...prev, propertyType: (e.target.value as PropertyType) || undefined }))}
+                value={propertyType}
+                onChange={(e) => updateParam('type', e.target.value)}
               >
                 <option value="">Inmueble</option>
                 <option value="house">Casa</option>
@@ -142,6 +171,36 @@ export function PropertiesMapPage() {
                 <option value="office">Oficina</option>
               </select>
             </div>
+            <div className="prop-map-filter-row">
+              <select
+                className="prop-map-filter-select"
+                value={minPrice}
+                onChange={(e) => updateParam('minPrice', e.target.value)}
+              >
+                <option value="">Precio Min</option>
+                <option value="50000">$50,000</option>
+                <option value="100000">$100,000</option>
+                <option value="200000">$200,000</option>
+              </select>
+              <select
+                className="prop-map-filter-select"
+                value={minBedrooms}
+                onChange={(e) => updateParam('minBedrooms', e.target.value)}
+              >
+                <option value="">Habitaciones</option>
+                <option value="1">1+ Hab.</option>
+                <option value="2">2+ Hab.</option>
+                <option value="3">3+ Hab.</option>
+              </select>
+            </div>
+            <label className="prop-filter-checkbox" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer', fontSize: '0.8rem', color: '#334155', marginTop: '0.5rem' }}>
+              <input 
+                type="checkbox" 
+                checked={petsAllowed} 
+                onChange={(e) => updateParam('petsAllowed', e.target.checked)}
+              />
+              Aceptan Mascotas
+            </label>
           </div>
           
           <div className="prop-map-results-count">
