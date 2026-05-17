@@ -23,7 +23,9 @@
       "Bash(Select-Object -ExpandProperty FullName)",
       "Bash(Sort-Object)",
       "Bash(grep -v \"intersim\\\\\\\\\\\\\\\\pages\\\\\\\\\\\\\\\\properties-map-page\")",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Bash(Select-Object -Property FullName)",
+      "Bash(node -e \"const l = require\\('./node_modules/lucide-react'\\); console.log\\('ChevronFirst:', !!l.ChevronFirst, 'ChevronLast:', !!l.ChevronLast, 'AlertCircle:', !!l.AlertCircle, 'Trees:', !!l.Trees, 'Building2:', !!l.Building2\\)\")"
     ]
   }
 }

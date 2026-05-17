@@ -51,7 +51,7 @@ export class PropertyController {
   }
 
   private async list(ctx: RequestContext): Promise<ApiResponse> {
-    const { operationType, propertyType, city, zone, minPrice, maxPrice, minBedrooms, publicationStatus, limit, offset, agentId: agentIdQ, ownerId: ownerIdQ } =
+    const { operationType, propertyType, city, zone, minPrice, maxPrice, minBedrooms, publicationStatus, limit, offset, agentId: agentIdQ, ownerId: ownerIdQ, query, petsAllowed } =
       ctx.query;
     const roles = ctx.user?.roles ?? [];
     const isAgent = roles.includes('agent');
@@ -70,6 +70,8 @@ export class PropertyController {
       maxPrice: maxPrice ? Number(maxPrice) : undefined,
       minBedrooms: minBedrooms ? Number(minBedrooms) : undefined,
       publicationStatus,
+      query,
+      petsAllowed: petsAllowed === 'true' || petsAllowed === '1' ? true : undefined,
       limit: limit ? Number(limit) : 20,
       offset: offset ? Number(offset) : 0,
     });

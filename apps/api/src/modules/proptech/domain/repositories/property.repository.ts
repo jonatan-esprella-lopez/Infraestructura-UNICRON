@@ -13,6 +13,8 @@ export interface PropertyFilters {
   minBedrooms?: number;
   publicationStatus?: string;
   status?: string;
+  query?: string;
+  petsAllowed?: boolean;
   limit?: number;
   offset?: number;
 }
