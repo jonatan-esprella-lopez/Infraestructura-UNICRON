@@ -17,6 +17,7 @@ interface ImportMetaEnv {
   readonly VITE_ROLES_ENABLED?: string;
   readonly VITE_SETTINGS_ENABLED?: string;
   readonly VITE_WORKFLOWS_ENABLED?: string;
+  readonly VITE_GOOGLE_MAPS_API_KEY?: string;
 }
 
 interface ImportMeta {

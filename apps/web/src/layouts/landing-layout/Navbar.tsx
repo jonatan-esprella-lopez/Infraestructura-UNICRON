@@ -25,7 +25,7 @@ export function Navbar() {
   };
 
   const isAuthPage = location.pathname.includes('login') || location.pathname.includes('register');
-  const isSolid = scrolled || isAuthPage;
+  const isSolid = scrolled || isAuthPage || location.pathname.includes('mapa');
 
   return (
     <nav className={`lp-nav ${isSolid ? 'scrolled' : ''}`}>

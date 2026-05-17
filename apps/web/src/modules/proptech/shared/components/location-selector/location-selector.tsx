@@ -70,6 +70,7 @@ function countryToLocation(country?: CountryOption): LocationValue {
 export function LocationSelector({
   autoDetect = false,
   className = "",
+  defaultCountryCode = DEFAULT_COUNTRY_CODE,
   label = "Ubicacion",
   value,
   onChange,
@@ -85,16 +86,16 @@ export function LocationSelector({
 
   const orderedCountries = useMemo(() => {
     return [...countries].sort((a, b) => {
-      if (getCountryCode(a) === DEFAULT_COUNTRY_CODE) return -1;
-      if (getCountryCode(b) === DEFAULT_COUNTRY_CODE) return 1;
+      if (defaultCountryCode && getCountryCode(a) === defaultCountryCode) return -1;
+      if (defaultCountryCode && getCountryCode(b) === defaultCountryCode) return 1;
       return a.name.localeCompare(b.name);
     });
-  }, [countries]);
+  }, [countries, defaultCountryCode]);
 
   const selectedCountry = useMemo(() => {
-    const code = value.countryCode ?? DEFAULT_COUNTRY_CODE;
+    const code = value.countryCode ?? defaultCountryCode ?? "";
     return countries.find((country) => getCountryCode(country) === code);
-  }, [countries, value.countryCode]);
+  }, [countries, defaultCountryCode, value.countryCode]);
 
   const selectedState = useMemo(() => {
     return states.find((state) => getStateCode(state) === value.stateCode);
@@ -164,7 +165,8 @@ export function LocationSelector({
 
     try {
       const detected = await detectBrowserLocation();
-      const country = findCountry(countries, detected) ?? countries.find((item) => getCountryCode(item) === DEFAULT_COUNTRY_CODE);
+      const country = findCountry(countries, detected)
+        ?? countries.find((item) => defaultCountryCode && getCountryCode(item) === defaultCountryCode);
       const countryStates = country ? await loadStates(country) : [];
       const state = findState(countryStates, detected.stateName);
       const stateCities = country && state ? await loadCities(country, state) : [];
@@ -183,7 +185,7 @@ export function LocationSelector({
       setStatusType("info");
       setStatus("Ubicacion detectada desde el navegador.");
     } catch {
-      const fallbackCountry = countries.find((item) => getCountryCode(item) === DEFAULT_COUNTRY_CODE);
+      const fallbackCountry = countries.find((item) => defaultCountryCode && getCountryCode(item) === defaultCountryCode);
       applyLocation({
         ...countryToLocation(fallbackCountry),
         stateCode: value.stateCode,
@@ -248,10 +250,10 @@ export function LocationSelector({
   }, [selectedCountry, selectedState]);
 
   useEffect(() => {
-    if (value.countryCode || countries.length === 0) return;
-    const fallbackCountry = countries.find((country) => getCountryCode(country) === DEFAULT_COUNTRY_CODE);
+    if (value.countryCode || countries.length === 0 || !defaultCountryCode) return;
+    const fallbackCountry = countries.find((country) => getCountryCode(country) === defaultCountryCode);
     onChange(countryToLocation(fallbackCountry));
-  }, [countries, onChange, value.countryCode]);
+  }, [countries, defaultCountryCode, onChange, value.countryCode]);
 
   useEffect(() => {
     if (!autoDetect || hasAutoDetected.current || countries.length === 0) return;
@@ -293,6 +295,7 @@ export function LocationSelector({
               onChange={(event) => void handleCountryChange(event.target.value)}
               disabled={loadingData}
             >
+              <option value="">Selecciona</option>
               {orderedCountries.map((country) => (
                 <option key={getCountryCode(country)} value={getCountryCode(country)}>
                   {country.name}

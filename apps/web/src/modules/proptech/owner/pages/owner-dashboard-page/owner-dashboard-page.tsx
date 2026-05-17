@@ -1,5 +1,6 @@
 import { useProptechDashboard } from '../../../shared/hooks/use-proptech-dashboard';
 import type { OwnerDashboard } from '../../../shared/hooks/use-proptech-dashboard';
+import { ROUTES } from '@core/constants/routes.constants';
 import './owner-dashboard-page.css';
 
 export function OwnerDashboardPage() {
@@ -42,6 +43,7 @@ export function OwnerDashboardPage() {
         <h3>¿Qué quieres hacer?</h3>
         <div className="owner-dashboard__action-cards">
           {[
+            { title: 'Registrar propiedad', description: 'Crea un inmueble con vista previa antes de guardarlo.', href: ROUTES.proptechPropertyNew },
             { title: 'Ver mis propiedades', description: 'Revisa el estado y rendimiento de cada inmueble.', href: '/app/proptech/properties' },
             { title: 'Ver visitas', description: 'Consulta las visitas agendadas y sus resultados.', href: '/app/proptech/visits' },
             { title: 'Ver ofertas', description: 'Revisa las ofertas que han recibido tus inmuebles.', href: '/app/proptech/leads' },

@@ -11,6 +11,7 @@ export interface LocationValue {
 export interface LocationSelectorProps {
   autoDetect?: boolean;
   className?: string;
+  defaultCountryCode?: string | null;
   label?: string;
   value: LocationValue;
   onChange: (value: LocationValue) => void;

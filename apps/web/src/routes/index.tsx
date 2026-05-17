@@ -15,6 +15,9 @@ const LandingPage = lazy(() =>
 const PropertiesPage = lazy(() =>
   import('@modules/intersim/pages/properties-page/properties-page').then((m) => ({ default: m.PropertiesPage })),
 );
+const PropertiesMapPage = lazy(() =>
+  import('@modules/intersim/pages/properties-map-page/properties-map-page').then((m) => ({ default: m.PropertiesMapPage })),
+);
 const ServicesPage = lazy(() =>
   import('@modules/intersim/pages/services-page/services-page').then((m) => ({ default: m.ServicesPage })),
 );
@@ -33,6 +36,7 @@ export function AppRoutes() {
         <Route element={<LandingLayout />}>
           <Route path="/" element={<LandingPage />} />
           <Route path="/propiedades" element={<PropertiesPage />} />
+          <Route path="/propiedades/mapa" element={<PropertiesMapPage />} />
           <Route path="/servicios" element={<ServicesPage />} />
           <Route path="/nosotros" element={<AboutPage />} />
           <Route path="/valoriza-tu-propiedad" element={<ValuationPage />} />

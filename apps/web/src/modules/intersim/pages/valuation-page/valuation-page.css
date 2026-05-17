@@ -6,8 +6,8 @@
 
 .valuation-hero {
   position: relative;
-  min-height: 640px;
-  padding: 118px 1.5rem 3rem;
+  min-height: 720px;
+  padding: 118px 1.5rem 8rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -285,6 +285,24 @@
 .valuation-field input:disabled {
   background: #f1f5f9;
   color: #94a3b8;
+}
+
+.valuation-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.valuation-input-icon {
+  position: absolute;
+  left: 0.85rem;
+  color: #64748b;
+  pointer-events: none;
+}
+
+.valuation-field input.with-icon,
+.valuation-field select.with-icon {
+  padding-left: 2.5rem;
 }
 
 .valuation-checks {

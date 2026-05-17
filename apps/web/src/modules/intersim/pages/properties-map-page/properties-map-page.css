@@ -1,0 +1,237 @@
+.prop-map-layout {
+  display: flex;
+  height: calc(100vh - 84px); /* assuming navbar is around 84px */
+  margin-top: 84px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.prop-map-sidebar {
+  width: 450px;
+  min-width: 450px;
+  background: white;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 0 16px rgba(0,0,0,0.05);
+  z-index: 10;
+}
+
+.prop-map-sidebar-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.prop-map-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 1rem;
+  transition: color 0.2s;
+}
+
+.prop-map-back-btn:hover {
+  color: #0f172a;
+}
+
+.prop-map-sidebar-header h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 1.25rem 0;
+}
+
+.prop-map-filters {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.prop-map-search-wrapper {
+  position: relative;
+}
+
+.prop-map-search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+}
+
+.prop-map-filter-input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #f8fafc;
+  outline: none;
+}
+
+.prop-map-filter-input:focus {
+  border-color: #3b82f6;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.prop-map-filter-row {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.prop-map-filter-select {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: #f8fafc;
+  outline: none;
+}
+
+.prop-map-filter-select:focus {
+  border-color: #3b82f6;
+  background: white;
+}
+
+.prop-map-results-count {
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+}
+
+/* List */
+.prop-map-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.prop-map-loading {
+  display: flex;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.prop-map-card {
+  display: flex;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  height: 140px;
+}
+
+.prop-map-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  border-color: #cbd5e1;
+}
+
+.prop-map-card-image {
+  width: 140px;
+  min-width: 140px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.prop-map-card-body {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.prop-map-card-price {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.prop-map-card-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #334155;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prop-map-card-location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  color: #64748b;
+}
+
+.prop-map-card-features {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: #475569;
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+.prop-map-card-features span {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.prop-map-card-coords {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #0ea5e9;
+  background: #f0f9ff;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  width: max-content;
+  margin-top: 0.2rem;
+}
+
+/* Main */
+.prop-map-main {
+  flex: 1;
+  position: relative;
+}
+
+@media (max-width: 1024px) {
+  .prop-map-layout {
+    flex-direction: column-reverse;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .prop-map-sidebar {
+    width: 100%;
+    min-width: 100%;
+    height: 60vh;
+  }
+  
+  .prop-map-main {
+    height: 50vh;
+  }
+}
