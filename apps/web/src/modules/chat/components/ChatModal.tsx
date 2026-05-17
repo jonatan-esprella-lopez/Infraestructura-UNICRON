@@ -47,10 +47,9 @@ function buildPropertyUrl(profile: Record<string, unknown>): string {
   const params = new URLSearchParams();
   const op = profile.operation_type as string | undefined;
   if (op) params.set('operation', OP_TO_FILTER[op] ?? op);
-  if (profile.rooms) params.set('rooms', String(profile.rooms));
-  if (profile.budget_usd) params.set('budget', String(profile.budget_usd));
-  const zones = profile.zones as string[] | undefined;
-  if (zones?.length) params.set('zone', zones[0]);
+  if (profile.city) params.set('city', String(profile.city));
+  if (profile.rooms) params.set('minBedrooms', String(profile.rooms));
+  if (profile.budget_usd) params.set('maxPrice', String(profile.budget_usd));
   return `/propiedades?${params.toString()}`;
 }
 

@@ -8,30 +8,30 @@ import json
 from app.config import LEAD_MODEL, DEEPSEEK_API_KEY
 
 SYSTEM_PROMPT = """Sos CasaLens, asistente inmobiliario boliviano. Tu trabajo es entender qué busca esta persona
-en 4-6 preguntas naturales, no como formulario. Usá modismos bolivianos suaves cuando encaje.
+en 4-5 preguntas naturales, no como formulario. Usá modismos bolivianos suaves cuando encaje.
 Datos que necesitas extraer:
-- operation_type: "alquiler" | "anticretico" | "venta"
-- budget_usd: número aproximado (en alquiler es mensual, en anticretico y venta es total)
-- zones: lista de zonas (ej: ["Recoleta", "Cala Cala"])
+- operation_type: "alquiler" | "venta"
+- budget_usd: número aproximado (en alquiler es mensual, en venta es total)
+- city: ciudad de Bolivia donde busca (Cochabamba, Santa Cruz, La Paz, Tarija, Potosí, Beni, Chuquisaca)
 - rooms: dormitorios deseados
-- timing_weeks: cuán urgente es (en semanas)
-- extras: pet_friendly, parking, etc.
+- timing_weeks: cuán urgente es (en semanas, opcional)
+- extras: mascotas, parking, etc.
 
 Estilo: corto, UNA sola pregunta por mensaje. Si la persona ya dio info, no la vuelvas a pedir.
-Cuando tengas operation_type, budget_usd, zones y rooms completos, decí exactamente:
+Cuando tengas operation_type, budget_usd, city y rooms completos, decí exactamente:
 "Perfecto, ya tengo lo que necesito. Te paso unas propiedades en un momento." y no hagas más preguntas."""
 
 EXTRACT_PROMPT = """De la conversación siguiente, extraé un JSON con estos campos exactos:
 
-- operation_type: "alquiler" | "anticretico" | "venta" | null
+- operation_type: "alquiler" | "venta" | null
 - budget_usd: número | null
-- zones: lista de strings | null
+- city: "Cochabamba" | "Santa Cruz" | "La Paz" | "Tarija" | "Potosí" | "Beni" | "Chuquisaca" | null
 - rooms: número entero | null
 - timing_weeks: número entero | null
 - extras: dict | null
 - question_type: qué campo está pidiendo CasaLens en su ÚLTIMO mensaje.
   Elegí EXACTAMENTE UNO de estos valores:
-  "operation_type" | "property_type" | "city" | "zones" | "rooms" | "budget" | "timing" | "parking" | "pets" | "none"
+  "operation_type" | "property_type" | "city" | "rooms" | "budget" | "timing" | "parking" | "pets" | "none"
   Si el último mensaje de CasaLens no tiene pregunta (es el mensaje de cierre), usá "none".
 
 Reglas:
@@ -64,7 +64,7 @@ llm_extract = ChatOpenAI(
 )
 
 VALID_QUESTION_TYPES = {
-    "operation_type", "property_type", "city", "zones",
+    "operation_type", "property_type", "city",
     "rooms", "budget", "timing", "parking", "pets", "none",
 }
 
@@ -101,7 +101,7 @@ async def extract_node(state: LeadState) -> dict:
     profile = {
         "operation_type": data.get("operation_type"),
         "budget_usd": data.get("budget_usd"),
-        "zones": data.get("zones"),
+        "city": data.get("city"),
         "rooms": data.get("rooms"),
         "timing_weeks": data.get("timing_weeks"),
         "extras": data.get("extras"),
@@ -112,7 +112,7 @@ async def extract_node(state: LeadState) -> dict:
         if v is None and prev.get(k) is not None:
             profile[k] = prev[k]
 
-    required = ["operation_type", "budget_usd", "zones", "rooms"]
+    required = ["operation_type", "budget_usd", "city", "rooms"]
     complete = all(profile.get(k) for k in required)
 
     last_reply = state["messages"][-1].content if state["messages"] else ""

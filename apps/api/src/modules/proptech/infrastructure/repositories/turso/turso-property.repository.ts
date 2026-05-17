@@ -64,7 +64,7 @@ export class TursoPropertyRepository implements IPropertyRepository {
     if (filters.propertyType) { sql += ' AND property_type = :propType'; args['propType'] = filters.propertyType; }
     if (filters.status) { sql += ' AND status = :status'; args['status'] = filters.status; }
     if (filters.city) { sql += ' AND city = :city'; args['city'] = filters.city; }
-    if (filters.zone) { sql += ' AND zone = :zone'; args['zone'] = filters.zone; }
+    if (filters.zone) { sql += ' AND zone LIKE :zone'; args['zone'] = `%${filters.zone}%`; }
     if (filters.publicationStatus) { sql += ' AND publication_status = :pubStatus'; args['pubStatus'] = filters.publicationStatus; }
     if (filters.agentId) { sql += ' AND agent_id = :agentId'; args['agentId'] = filters.agentId; }
     if (filters.minPrice !== undefined) { sql += ' AND price >= :minPrice'; args['minPrice'] = filters.minPrice; }
