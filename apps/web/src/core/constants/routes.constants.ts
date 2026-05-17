@@ -43,4 +43,7 @@ export const ROUTES = {
   agentePago: '/agente-inmobiliario/pago',
   // Propietario landing
   propietario: '/propietario',
+  // Financial Tools
+  proptechFinancialTools: '/app/proptech/financial-tools',
+  financialCalculators: '/finanzas',
 } as const;

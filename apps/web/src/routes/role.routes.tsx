@@ -20,6 +20,7 @@ import {
   Users,
   WalletCards,
   Workflow,
+  PieChart,
   type LucideIcon,
 } from 'lucide-react';
 import type { FeatureFlagKey } from '@bootstrap/environment';
@@ -66,4 +67,5 @@ export const roleRoutes: RoleRoute[] = [
   { key: ModuleKey.ProptechSales, label: 'Ventas', path: ROUTES.proptechSales, icon: Receipt, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
   { key: ModuleKey.ProptechReports, label: 'Reportes', path: ROUTES.proptechReports, icon: BarChart3, featureFlag: 'proptech', permissions: [Permission.PropMarketInsightsRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
   { key: ModuleKey.ProptechMySales, label: 'Mis ventas', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Agent] },
+  { key: ModuleKey.ProptechFinancialTools, label: 'Centro Financiero', path: ROUTES.proptechFinancialTools, icon: PieChart, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
 ];

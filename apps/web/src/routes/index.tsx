@@ -39,6 +39,9 @@ const PropertyDetailPage = lazy(() =>
 const PropietarioPage = lazy(() =>
   import('@modules/intersim/pages/propietario-page/propietario-page').then((m) => ({ default: m.PropietarioPage })),
 );
+const FinancialToolsPage = lazy(() =>
+  import('@modules/proptech/financial-tools/pages/financial-tools-page/financial-tools-page').then((m) => ({ default: m.FinancialToolsPage })),
+);
 
 export function AppRoutes() {
   return (
@@ -56,6 +59,7 @@ export function AppRoutes() {
           <Route path="/agente-inmobiliario/pago/:plan" element={<AgentPaymentPage />} />
           <Route path="/propiedades/:id" element={<PropertyDetailPage />} />
           <Route path="/propietario" element={<PropietarioPage />} />
+          <Route path="/finanzas" element={<FinancialToolsPage />} />
         </Route>
 
         {/* Auth */}

@@ -43,6 +43,7 @@ const AgentSalesPage = lazy(() => import('@modules/proptech/agent/pages/agent-sa
 const AgentsMarketplacePage = lazy(() => import('@modules/proptech/pages/agents-marketplace-page/agents-marketplace-page').then((m) => ({ default: m.AgentsMarketplacePage })));
 const ClientProfilePage = lazy(() => import('@modules/proptech/client/pages/client-profile-page/client-profile-page').then((m) => ({ default: m.ClientProfilePage })));
 const AgentLandValuationPage = lazy(() => import('@modules/property-valuations/pages/agent-land-valuation-page/agent-land-valuation-page').then((m) => ({ default: m.AgentLandValuationPage })));
+const FinancialToolsPage = lazy(() => import('@modules/proptech/financial-tools/pages/financial-tools-page/financial-tools-page').then((m) => ({ default: m.FinancialToolsPage })));
 
 export const lazyModuleRoutes = [
   { path: 'dashboard', element: <DashboardPage />, permissions: [Permission.ViewDashboard], roles: [Role.Admin, Role.Manager, Role.Operator, Role.Viewer] },
@@ -96,4 +97,7 @@ export const lazyModuleRoutes = [
 
   // Proptech — owner agents marketplace
   { path: 'proptech/agents', element: <AgentsMarketplacePage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Owner, Role.Admin] },
+  
+  // Proptech - financial tools
+  { path: 'proptech/financial-tools', element: <FinancialToolsPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
 ];

@@ -1,0 +1,101 @@
+.fin-summary-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.04);
+}
+
+.fin-summary-card__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.fin-summary-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: #f8fafc;
+  padding: 1.25rem;
+  border-radius: 12px;
+}
+
+.fin-summary-card__primary,
+.fin-summary-card__secondary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fin-summary-card__label {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.fin-summary-card__value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2563eb;
+  letter-spacing: -0.02em;
+}
+
+.fin-summary-card__value-small {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.fin-summary-card__risk {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  width: max-content;
+}
+
+.fin-summary-card__risk--low {
+  background: #ecfdf5;
+  color: #059669;
+}
+
+.fin-summary-card__risk--medium {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.fin-summary-card__risk--high {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.fin-summary-card__explanation {
+  font-size: 0.9375rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 0;
+  padding-top: 0.5rem;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.fin-summary-card__btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.fin-summary-card__btn:hover {
+  background: #1d4ed8;
+}
