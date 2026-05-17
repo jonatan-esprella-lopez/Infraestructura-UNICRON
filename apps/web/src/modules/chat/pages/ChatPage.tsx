@@ -13,6 +13,23 @@ interface Message {
   hint?: string;
 }
 
+const OP_TO_FILTER: Record<string, string> = {
+  alquiler: 'rent',
+  anticretico: 'anticretico',
+  venta: 'sale',
+};
+
+function buildPropertyUrl(profile: Record<string, unknown>): string {
+  const params = new URLSearchParams();
+  const op = profile.operation_type as string | undefined;
+  if (op) params.set('operation', OP_TO_FILTER[op] ?? op);
+  if (profile.rooms) params.set('rooms', String(profile.rooms));
+  if (profile.budget_usd) params.set('budget', String(profile.budget_usd));
+  const zones = profile.zones as string[] | undefined;
+  if (zones?.length) params.set('zone', zones[0]);
+  return `/propiedades?${params.toString()}`;
+}
+
 function sessionId(): string {
   const key = 'casalens_session';
   let id = localStorage.getItem(key);
@@ -34,6 +51,7 @@ export function ChatPage() {
   const [loading, setLoading] = useState(false);
   const [started, setStarted] = useState(false);
   const [completedLeadId, setCompletedLeadId] = useState<string | null>(null);
+  const [propertyUrl, setPropertyUrl] = useState('/propiedades');
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const sid = sessionId();
@@ -76,6 +94,7 @@ export function ChatPage() {
         };
         setMessages((prev) => [...prev, agentMsg, closingMsg]);
         setCompletedLeadId(data.lead_id);
+        if (data.lead_profile) setPropertyUrl(buildPropertyUrl(data.lead_profile));
       } else {
         setMessages((prev) => [...prev, agentMsg]);
       }
@@ -188,7 +207,7 @@ export function ChatPage() {
       {completedLeadId && (
         <button
           className="wa-match-btn"
-          onClick={() => navigate(`/app/matcher?lead=${completedLeadId}`)}
+          onClick={() => navigate(propertyUrl)}
         >
           Ver propiedades →
         </button>
