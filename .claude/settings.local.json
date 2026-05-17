@@ -33,7 +33,8 @@
       "Bash(findstr \":4000 \")",
       "Bash(taskkill *)",
       "PowerShell(Stop-Process *)",
-      "PowerShell(Get-Item *)"
+      "PowerShell(Get-Item *)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('total:', d['data']['total'], '| primer titulo:', d['data']['items'][0]['title'][:50]\\)\")"
     ]
   }
 }
