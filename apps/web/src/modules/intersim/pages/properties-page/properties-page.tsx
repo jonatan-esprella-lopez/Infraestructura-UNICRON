@@ -4,7 +4,7 @@ import {
   MapPin, Bed, Bath, Square, ArrowRight, Loader2,
   ChevronLeft, ChevronRight, ChevronFirst, ChevronLast,
   Search, Map as MapIcon, Home, Building2, Trees, Briefcase,
-  X, SlidersHorizontal, AlertCircle,
+  X, SlidersHorizontal, AlertCircle, MessageCircle,
 } from 'lucide-react';
 import { propertyService } from '@modules/proptech/services/property.service';
 import type { Property, PropertyFilters, OperationType, PropertyType } from '@modules/proptech/types/property.types';
@@ -44,6 +44,13 @@ function formatPrice(price: number, currency: string, opType: string) {
     maximumFractionDigits: 0,
   }).format(price);
   return opType === 'rent' ? `${formatted}/mes` : formatted;
+}
+
+function getWhatsAppUrl(phone: string, title: string): string {
+  const clean = phone.replace(/\D/g, '');
+  const intl = clean.startsWith('591') ? clean : `591${clean}`;
+  const msg = encodeURIComponent(`Hola! Vi la propiedad "${title}" en Intersim y me gustaría obtener más información. ¿Podría ayudarme?`);
+  return `https://wa.me/${intl}?text=${msg}`;
 }
 
 function getPropertyImage(prop: Property): string {
@@ -372,14 +379,29 @@ function PropertyCard({ prop }: { prop: Property }) {
           <span>{prop.address}{prop.city ? `, ${prop.city}` : ''}</span>
         </div>
         <div className="prop-features">
-          {(prop.bedrooms ?? 0) > 0 && (
-            <span className="prop-feature"><Bed size={14} /> {prop.bedrooms} hab.</span>
-          )}
-          {(prop.bathrooms ?? 0) > 0 && (
-            <span className="prop-feature"><Bath size={14} /> {prop.bathrooms} baños</span>
-          )}
-          {(prop.areaTotal ?? 0) > 0 && (
-            <span className="prop-feature"><Square size={14} /> {prop.areaTotal} m²</span>
+          <div className="prop-features-list">
+            {(prop.bedrooms ?? 0) > 0 && (
+              <span className="prop-feature"><Bed size={13} /> {prop.bedrooms} hab.</span>
+            )}
+            {(prop.bathrooms ?? 0) > 0 && (
+              <span className="prop-feature"><Bath size={13} /> {prop.bathrooms} baños</span>
+            )}
+            {(prop.areaTotal ?? 0) > 0 && (
+              <span className="prop-feature"><Square size={13} /> {prop.areaTotal} m²</span>
+            )}
+          </div>
+          {prop.agentPhone && (
+            <a
+              href={getWhatsAppUrl(prop.agentPhone, prop.title)}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="prop-whatsapp-btn"
+              onClick={(e) => e.stopPropagation()}
+              title="Contactar al asesor por WhatsApp"
+            >
+              <MessageCircle size={13} />
+              Contactar
+            </a>
           )}
         </div>
         <button className="prop-card-btn" onClick={() => navigate(`/propiedades/${prop.id}`)}>

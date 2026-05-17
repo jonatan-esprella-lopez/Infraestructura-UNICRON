@@ -22,7 +22,7 @@ export function AgentLandValuationPage() {
           <div>
             <p className="alv__eyebrow">
               <BarChart3 size={13} />
-              Herramienta de valoración
+              Herramienta de avalúo
             </p>
             <h1 className="alv__title">Estimador de valor de terrenos</h1>
             <p className="alv__desc">
@@ -66,7 +66,7 @@ export function AgentLandValuationPage() {
             <div className="alv__empty">
               <Building2 size={48} className="alv__empty-icon" />
               <strong>Listo para calcular</strong>
-              <span>Ingresa los datos del terreno en el formulario<br />y presiona «Calcular valor» para obtener la estimación.</span>
+              <span>Ingresa los datos del terreno en el formulario<br />y presiona «Calcular avalúo» para obtener la estimación.</span>
             </div>
           )}
 

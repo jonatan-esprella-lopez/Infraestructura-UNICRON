@@ -48,7 +48,7 @@ export function AppRoutes() {
           <Route path="/propiedades/mapa" element={<PropertiesMapPage />} />
           <Route path="/servicios" element={<ServicesPage />} />
           <Route path="/nosotros" element={<AboutPage />} />
-          <Route path="/valoriza-tu-propiedad" element={<ValuationPage />} />
+          <Route path="/avaluo-de-propiedad" element={<ValuationPage />} />
           <Route path="/agente-inmobiliario" element={<AgentPromoPage />} />
           <Route path="/agente-inmobiliario/pago/:plan" element={<AgentPaymentPage />} />
           <Route path="/propiedades/:id" element={<PropertyDetailPage />} />

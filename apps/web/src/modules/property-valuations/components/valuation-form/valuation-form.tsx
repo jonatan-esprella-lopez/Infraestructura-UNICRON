@@ -329,7 +329,7 @@ export function ValuationForm({
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? "Calculando..." : "Calcular valor"}
+          {isLoading ? "Calculando..." : "Calcular avalúo"}
         </button>
       </div>
     </form>

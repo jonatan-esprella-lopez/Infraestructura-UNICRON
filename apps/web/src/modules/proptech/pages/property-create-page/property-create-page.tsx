@@ -657,7 +657,7 @@ export function PropertyCreatePage() {
                 <CircleDollarSign size={20} />
                 <div>
                   <h3>Precio y medidas</h3>
-                  <p>Datos usados para publicación, valoración y comparación.</p>
+                  <p>Datos usados para publicación, avalúo y comparación.</p>
                 </div>
               </div>
               <PriceValidator

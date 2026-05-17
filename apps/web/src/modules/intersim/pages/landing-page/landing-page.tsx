@@ -19,10 +19,10 @@ function formatPrice(price: number, currency: string, op: string) {
 }
 
 const SERVICES = [
-  { id: 'compra', title: 'Compra de propiedades', desc: 'Encuentra tu hogar ideal entre cientos de opciones verificadas.', image: '/service_compra.png' },
-  { id: 'alquiler', title: 'Alquiler', desc: 'Propiedades en alquiler en las mejores zonas de Bolivia.', image: '/service_alquiler.png' },
-  { id: 'anticretico', title: 'Anticrético', desc: 'Modalidad boliviana de arrendamiento con capital.', image: '/service_anticretico.png' },
-  { id: 'legal', title: 'Asesoría legal', desc: 'Revisión de contratos con IA y apoyo de profesionales.', image: '/service_legal.png' },
+  { id: 'compra',      title: 'Compra de propiedades', desc: 'Encuentra tu hogar ideal entre cientos de opciones verificadas.',  image: '/service_compra.png',      route: '/propiedades?operation=sale'        },
+  { id: 'alquiler',   title: 'Alquiler',               desc: 'Propiedades en alquiler en las mejores zonas de Bolivia.',         image: '/service_alquiler.png',    route: '/propiedades?operation=rent'        },
+  { id: 'anticretico',title: 'Anticrético',            desc: 'Modalidad boliviana de arrendamiento con capital.',                image: '/service_anticretico.png', route: '/propiedades?operation=anticretico' },
+  { id: 'legal',      title: 'Asesoría legal',         desc: 'Revisión de contratos con IA y apoyo de profesionales.',          image: '/service_legal.png',       route: ROUTES.servicios                     },
 ];
 
 const STATS = [
@@ -180,7 +180,7 @@ export function LandingPage() {
 
           <div className="lp-services-grid">
             {SERVICES.map((s) => (
-              <div key={s.id} className="lp-service-card" style={{ backgroundImage: `url(${s.image})` }} onClick={() => navigate(ROUTES.login)}>
+              <div key={s.id} className="lp-service-card" style={{ backgroundImage: `url(${s.image})` }} onClick={() => navigate(s.route)}>
                 <div className="lp-service-overlay" />
                 <div className="lp-service-content">
                   <h3 className="lp-service-title">{s.title}</h3>
@@ -216,29 +216,29 @@ export function LandingPage() {
             </button>
           </div>
           <div className="lp-why-right">
-            <div className="lp-why-card">
-              <div className="lp-why-icon-wrap icon-blue"><Bot size={28} strokeWidth={1.5} /></div>
+            <div className="lp-why-card lp-why-card--image" style={{ backgroundImage: "url('/landing_why_matching.png')" }}>
+              <div className="lp-why-card-overlay" />
               <div className="lp-why-card-body">
                 <strong>Matching con IA</strong>
                 <span>Encontramos la propiedad ideal según tu perfil y presupuesto</span>
               </div>
             </div>
-            <div className="lp-why-card">
-              <div className="lp-why-icon-wrap icon-purple"><FileSignature size={28} strokeWidth={1.5} /></div>
+            <div className="lp-why-card lp-why-card--image" style={{ backgroundImage: "url('/landing_why_contracts.png')" }}>
+              <div className="lp-why-card-overlay" />
               <div className="lp-why-card-body">
                 <strong>Contratos inteligentes</strong>
                 <span>IA revisa y detecta cláusulas de riesgo en segundos</span>
               </div>
             </div>
-            <div className="lp-why-card">
-              <div className="lp-why-icon-wrap icon-green"><ShieldCheck size={28} strokeWidth={1.5} /></div>
+            <div className="lp-why-card lp-why-card--image" style={{ backgroundImage: "url('/landing_why_verified.png')" }}>
+              <div className="lp-why-card-overlay" />
               <div className="lp-why-card-body">
                 <strong>Propiedades verificadas</strong>
                 <span>Documentación legal auditada antes de publicar</span>
               </div>
             </div>
-            <div className="lp-why-card">
-              <div className="lp-why-icon-wrap icon-amber"><BarChart3 size={28} strokeWidth={1.5} /></div>
+            <div className="lp-why-card lp-why-card--image" style={{ backgroundImage: "url('/landing_why_reports.png')" }}>
+              <div className="lp-why-card-overlay" />
               <div className="lp-why-card-body">
                 <strong>Reportes en tiempo real</strong>
                 <span>Agentes y administradores con datos actualizados siempre</span>

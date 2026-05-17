@@ -669,34 +669,42 @@
   border-color: rgba(37, 99, 235, 0.2);
 }
 
-.lp-why-icon-wrap {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 56px;
-  height: 56px;
-  border-radius: 14px;
-  margin-bottom: 0.25rem;
+.lp-why-card--image {
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  border: none;
+  padding: 0;
+  min-height: 200px;
+  justify-content: flex-end;
 }
 
-.lp-why-icon-wrap.icon-blue {
-  background: #eff6ff;
-  color: #2563eb;
+.lp-why-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0.2) 100%);
+  z-index: 1;
+  transition: background 0.3s ease;
 }
 
-.lp-why-icon-wrap.icon-purple {
-  background: #f5f3ff;
-  color: #7c3aed;
+.lp-why-card--image:hover .lp-why-card-overlay {
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.98) 0%, rgba(15, 23, 42, 0.4) 100%);
 }
 
-.lp-why-icon-wrap.icon-green {
-  background: #ecfdf5;
-  color: #059669;
+.lp-why-card--image .lp-why-card-body {
+  position: relative;
+  z-index: 2;
+  padding: 1.5rem;
 }
 
-.lp-why-icon-wrap.icon-amber {
-  background: #fffbeb;
-  color: #d97706;
+.lp-why-card--image .lp-why-card-body strong {
+  color: #fff;
+  font-size: 1.125rem;
+}
+
+.lp-why-card--image .lp-why-card-body span {
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .lp-why-card-body {

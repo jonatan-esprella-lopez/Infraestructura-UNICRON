@@ -216,9 +216,9 @@ export function ValuationPage() {
         <div className="valuation-hero__content">
           <div className="valuation-hero__eyebrow">
             <BarChart3 size={18} />
-            Valoración inmobiliaria inteligente
+            Avalúo inmobiliario inteligente
           </div>
-          <h1>Valoriza tu propiedad con datos de mercado</h1>
+          <h1>Avalúo de propiedad con datos de mercado</h1>
           <p>
             Estima un rango comercial para venta, alquiler o anticrético considerando ubicación,
             superficie, estado del inmueble y respaldo documental.
@@ -229,12 +229,12 @@ export function ValuationPage() {
               <Calculator size={18} />
             </a>
             <button className="valuation-btn valuation-btn--glass" onClick={() => navigate(ROUTES.register)}>
-              Guardar mi valoración
+              Guardar mi avalúo
               <ArrowRight size={18} />
             </button>
           </div>
         </div>
-        <div className="valuation-hero__metrics" aria-label="Indicadores de valoración">
+        <div className="valuation-hero__metrics" aria-label="Indicadores de avalúo">
           <div>
             <strong>3</strong>
             <span>ciudades base</span>
@@ -254,7 +254,7 @@ export function ValuationPage() {
         <div className="valuation-tool__header">
           <span>Estimador especializado</span>
           <h2>Ingresa los datos del inmueble</h2>
-          <p>El cálculo entrega una referencia inicial. Un asesor puede validarla con documentos y comparables reales.</p>
+          <p>El avalúo entrega una referencia inicial. Un asesor puede validarla con documentos y comparables reales.</p>
         </div>
 
         <div className="valuation-tool__grid">
@@ -450,7 +450,7 @@ export function ValuationPage() {
       <section className="valuation-factors">
         <div className="valuation-section-head">
           <span>Qué toma en cuenta</span>
-          <h2>Una valoración útil para negociar, publicar o decidir</h2>
+          <h2>Un avalúo útil para negociar, publicar o decidir</h2>
         </div>
         <div className="valuation-factors__grid">
           {FACTORS.map((factor) => {
@@ -471,9 +471,9 @@ export function ValuationPage() {
       <section className="valuation-process">
         <div className="valuation-process__copy">
           <span>Revisión profesional</span>
-          <h2>Del cálculo inicial a un informe defendible</h2>
+          <h2>Del avalúo inicial a un informe defendible</h2>
           <p>
-            La plataforma puede guardar tu valoración, adjuntar papeles del inmueble y preparar una revisión
+            La plataforma puede guardar tu avalúo, adjuntar papeles del inmueble y preparar una revisión
             con un agente para publicar con mejor precio y menor riesgo.
           </p>
           <button className="valuation-btn valuation-btn--dark" onClick={() => navigate(ROUTES.register)}>

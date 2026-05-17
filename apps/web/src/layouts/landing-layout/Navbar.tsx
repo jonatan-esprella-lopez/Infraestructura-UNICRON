@@ -43,8 +43,8 @@ export function Navbar() {
           <Link to={ROUTES.propiedades} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Propiedades</Link>
           <Link to={ROUTES.servicios} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Servicios</Link>
           <Link to={ROUTES.nosotros} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Nosotros</Link>
-          <Link to={ROUTES.valorizaPropiedad} className="lp-nav-link lp-nav-link--valuation" onClick={() => setMenuOpen(false)}>Valoriza tu propiedad</Link>
-          <Link to={ROUTES.agente} className="lp-nav-link lp-nav-link--agent" onClick={() => setMenuOpen(false)}>Agente Inmobiliario</Link>
+          <Link to={ROUTES.avaluoPropiedad} className="lp-nav-link lp-nav-link--valuation" onClick={() => setMenuOpen(false)}>Avalúo de propiedad</Link>
+          <Link to={ROUTES.agente} className="lp-nav-link lp-nav-link--agent" onClick={() => setMenuOpen(false)}>¿Agente Inmobiliario?</Link>
         </div>
 
         <div className="lp-nav-actions">
