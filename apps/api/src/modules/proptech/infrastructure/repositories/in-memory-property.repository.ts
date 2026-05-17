@@ -13,6 +13,7 @@ export class InMemoryPropertyRepository implements IPropertyRepository {
     let items = Array.from(this.store.values()).filter((p) => !p.deletedAt);
 
     if (filters.tenantId) items = items.filter((p) => p.tenantId === filters.tenantId);
+    if (filters.ownerId) items = items.filter((p) => p.ownerId === filters.ownerId);
     if (filters.operationType) items = items.filter((p) => p.operationType === filters.operationType);
     if (filters.propertyType) items = items.filter((p) => p.propertyType === filters.propertyType);
     if (filters.city) items = items.filter((p) => p.city === filters.city);

@@ -46,6 +46,7 @@ export class TursoPropertyRepository implements IPropertyRepository {
     const args: Record<string, unknown> = {};
 
     if (filters.tenantId) { sql += ' AND tenant_id = :tenantId'; args['tenantId'] = filters.tenantId; }
+    if (filters.ownerId) { sql += ' AND owner_id = :ownerId'; args['ownerId'] = filters.ownerId; }
     if (filters.operationType) { sql += ' AND operation_type = :opType'; args['opType'] = filters.operationType; }
     if (filters.propertyType) { sql += ' AND property_type = :propType'; args['propType'] = filters.propertyType; }
     if (filters.status) { sql += ' AND status = :status'; args['status'] = filters.status; }

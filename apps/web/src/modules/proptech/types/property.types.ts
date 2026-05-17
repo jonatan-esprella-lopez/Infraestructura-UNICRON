@@ -43,6 +43,7 @@ export interface PropertyListResponse {
 }
 
 export interface PropertyFilters {
+  ownerId?: string;
   operationType?: OperationType;
   propertyType?: PropertyType;
   city?: string;
