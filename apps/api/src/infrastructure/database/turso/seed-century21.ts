@@ -10,6 +10,7 @@ const logger = {
   error: console.error,
   warn: console.warn,
   debug: console.log,
+  audit: console.log,
 };
 
 async function run() {

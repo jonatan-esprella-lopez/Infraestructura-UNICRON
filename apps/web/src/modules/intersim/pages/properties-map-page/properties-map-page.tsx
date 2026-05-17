@@ -66,13 +66,13 @@ export function PropertiesMapPage() {
       try {
         const queryParams: PropertyFilters = { ...filters };
         if (searchTerm) {
-          queryParams.query = searchTerm;
+          queryParams.city = searchTerm;
         }
         queryParams.limit = 50; // map can handle more markers
-        const result = await propertyService.getProperties(queryParams);
+        const result = await propertyService.findAll(queryParams);
         if (isMounted) {
-          if (result && result.data && result.data.length > 0) {
-            setProperties(result.data);
+          if (result && result.items && result.items.length > 0) {
+            setProperties(result.items);
           } else {
             setProperties(MOCK_PROPERTIES as any[]);
           }
@@ -171,7 +171,7 @@ export function PropertiesMapPage() {
                     <div className="prop-map-card-features">
                       {(prop.bedrooms ?? 0) > 0 && <span><Bed size={14} /> {prop.bedrooms}</span>}
                       {(prop.bathrooms ?? 0) > 0 && <span><Bath size={14} /> {prop.bathrooms}</span>}
-                      <span><Square size={14} /> {prop.areaTotal || prop.area || 0} m²</span>
+                      <span><Square size={14} /> {prop.areaTotal || 0} m²</span>
                     </div>
                     {((prop as any).latitude && (prop as any).longitude) && (
                       <div className="prop-map-card-coords">

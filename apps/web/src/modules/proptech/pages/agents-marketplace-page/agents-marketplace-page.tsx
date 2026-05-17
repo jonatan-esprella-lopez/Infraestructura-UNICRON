@@ -52,7 +52,7 @@ export function AgentsMarketplacePage() {
               <div className="agent-info">
                 <h3 className="agent-name">
                   {agent.name}
-                  {agent.verified && <ShieldCheck size={16} className="text-blue-500" title="Agente Verificado" />}
+                  {agent.verified && <ShieldCheck size={16} className="text-blue-500" aria-label="Agente Verificado" />}
                 </h3>
                 <span className="agent-agency">{agent.agency}</span>
               </div>
