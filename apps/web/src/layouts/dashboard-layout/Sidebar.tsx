@@ -89,6 +89,7 @@ const OWNER_GROUPS: NavGroup[] = [
       { label: 'Mis propiedades', path: ROUTES.proptechProperties, icon: Building2, featureFlag: 'proptech' },
       { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
+      { label: 'Marketplace de agentes', path: ROUTES.proptechAgents, icon: UserRoundSearch, featureFlag: 'proptech' },
     ],
   },
 ];

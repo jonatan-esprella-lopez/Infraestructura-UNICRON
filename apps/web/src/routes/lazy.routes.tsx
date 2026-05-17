@@ -40,6 +40,10 @@ const AgentLeadsPage = lazy(() => import('@modules/proptech/agent/pages/agent-le
 const AgentClientsPage = lazy(() => import('@modules/proptech/agent/pages/agent-clients-page/agent-clients-page').then((m) => ({ default: m.AgentClientsPage })));
 const AgentVisitsPage = lazy(() => import('@modules/proptech/agent/pages/agent-visits-page/agent-visits-page').then((m) => ({ default: m.AgentVisitsPage })));
 const AgentSalesPage = lazy(() => import('@modules/proptech/agent/pages/agent-sales-page/agent-sales-page').then((m) => ({ default: m.AgentSalesPage })));
+const ClientsPage = lazy(() => import('@modules/proptech/pages/clients-page/clients-page').then((m) => ({ default: m.ClientsPage })));
+const SearchPage = lazy(() => import('@modules/proptech/pages/search-page/search-page').then((m) => ({ default: m.SearchPage })));
+const MySalesPage = lazy(() => import('@modules/proptech/pages/my-sales-page/my-sales-page').then((m) => ({ default: m.MySalesPage })));
+const AgentsMarketplacePage = lazy(() => import('@modules/proptech/pages/agents-marketplace-page/agents-marketplace-page').then((m) => ({ default: m.AgentsMarketplacePage })));
 const ClientProfilePage = lazy(() => import('@modules/proptech/client/pages/client-profile-page/client-profile-page').then((m) => ({ default: m.ClientProfilePage })));
 const AgentLandValuationPage = lazy(() => import('@modules/property-valuations/pages/agent-land-valuation-page/agent-land-valuation-page').then((m) => ({ default: m.AgentLandValuationPage })));
 
@@ -92,4 +96,7 @@ export const lazyModuleRoutes = [
 
   // Proptech — agent sales
   { path: 'proptech/my-sales', element: <AgentSalesPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Agent] },
+
+  // Proptech — owner agents marketplace
+  { path: 'proptech/agents', element: <AgentsMarketplacePage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Owner, Role.Admin] },
 ];

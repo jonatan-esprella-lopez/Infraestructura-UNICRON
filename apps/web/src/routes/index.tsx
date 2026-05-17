@@ -27,6 +27,12 @@ const AboutPage = lazy(() =>
 const ValuationPage = lazy(() =>
   import('@modules/intersim/pages/valuation-page/valuation-page').then((m) => ({ default: m.ValuationPage })),
 );
+const AgentPromoPage = lazy(() =>
+  import('@modules/intersim/pages/agent-promo-page/agent-promo-page').then((m) => ({ default: m.AgentPromoPage })),
+);
+const AgentPaymentPage = lazy(() =>
+  import('@modules/intersim/pages/agent-payment-page/agent-payment-page').then((m) => ({ default: m.AgentPaymentPage })),
+);
 
 export function AppRoutes() {
   return (
@@ -40,6 +46,8 @@ export function AppRoutes() {
           <Route path="/servicios" element={<ServicesPage />} />
           <Route path="/nosotros" element={<AboutPage />} />
           <Route path="/valoriza-tu-propiedad" element={<ValuationPage />} />
+          <Route path="/agente-inmobiliario" element={<AgentPromoPage />} />
+          <Route path="/agente-inmobiliario/pago/:plan" element={<AgentPaymentPage />} />
         </Route>
 
         {/* Auth */}

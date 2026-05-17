@@ -36,4 +36,8 @@ export const ROUTES = {
   proptechSales: '/app/proptech/sales',
   proptechReports: '/app/proptech/reports',
   proptechMySales: '/app/proptech/my-sales',
+  proptechAgents: '/app/proptech/agents',
+  // Agent promo
+  agente: '/agente-inmobiliario',
+  agentePago: '/agente-inmobiliario/pago',
 } as const;

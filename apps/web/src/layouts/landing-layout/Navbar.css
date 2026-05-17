@@ -101,6 +101,16 @@
   background: rgba(245, 158, 11, 0.24);
 }
 
+.lp-nav-link--agent {
+  color: #fff;
+  background: rgba(37, 99, 235, 0.18);
+  border: 1px solid rgba(37, 99, 235, 0.35);
+}
+
+.lp-nav-link--agent:hover {
+  background: rgba(37, 99, 235, 0.28);
+}
+
 .lp-nav-actions {
   display: flex;
   align-items: center;
