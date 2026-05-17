@@ -331,7 +331,7 @@ export function AgentPaymentPage() {
                 <p>Una vez realizada la transferencia:</p>
                 <ol>
                   <li>Guarda el comprobante de pago</li>
-                  <li>Envíalo a <strong>pagos@intersim.bo</strong></li>
+                  <li>Envíalo a <strong>pagos@wasi.bo</strong></li>
                   <li>Tu plan se activa en menos de 2 horas hábiles</li>
                 </ol>
               </div>

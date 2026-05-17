@@ -15,7 +15,7 @@ export function CRMPage() {
           <p className="crm-page__eyebrow">CRM enterprise</p>
           <h2 className="crm-page__title">Pipeline comercial</h2>
           <p className="crm-page__description">
-            Leads, scoring y seguimiento listos para adaptar a Quantum, VIVA o INTERSIM.
+            Leads, scoring y seguimiento listos para adaptar a Quantum, VIVA o WASI.
           </p>
         </div>
         <div className="crm-page__stat">

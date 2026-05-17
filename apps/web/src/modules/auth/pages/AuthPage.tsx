@@ -8,10 +8,10 @@ import { LocationSelector, type LocationValue } from '@modules/proptech/shared/c
 import './AuthPage.css';
 
 const DEMO_ACCOUNTS = [
-  { role: 'Administrador', email: 'admin@intersim.bo', password: 'admin123', color: '#dc2626' },
-  { role: 'Agente', email: 'agente@intersim.bo', password: 'agente123', color: '#2563eb' },
-  { role: 'Propietario', email: 'propietario@intersim.bo', password: 'prop123', color: '#059669' },
-  { role: 'Cliente', email: 'cliente@intersim.bo', password: 'cliente123', color: '#7c3aed' },
+  { role: 'Administrador', email: 'admin@wasi.bo', password: 'admin123', color: '#dc2626' },
+  { role: 'Agente', email: 'agente@wasi.bo', password: 'agente123', color: '#2563eb' },
+  { role: 'Propietario', email: 'propietario@wasi.bo', password: 'prop123', color: '#059669' },
+  { role: 'Cliente', email: 'cliente@wasi.bo', password: 'cliente123', color: '#7c3aed' },
 ];
 
 export function AuthPage() {

@@ -109,7 +109,7 @@ function mergeDocuments(savedDocuments?: PurchaseDocument[]) {
 function createDefaultProfile(user: AppUser): ClientProfile {
   return {
     fullName: user.name || 'Ana Lopez',
-    email: user.email || 'cliente@intersim.bo',
+    email: user.email || 'cliente@wasi.bo',
     phone: '+591 700 14567',
     documentId: 'CI 6589214 SC',
     city: 'Santa Cruz',
