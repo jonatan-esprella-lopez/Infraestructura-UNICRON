@@ -33,6 +33,10 @@ export interface Property {
   legalStatus: LegalStatus;
   isFeatured: boolean;
   imageUrls?: string[];
+  agentName?: string;
+  agentPhone?: string;
+  agentAgency?: string;
+  agentEmail?: string;
   publishedAt?: string;
   createdAt: string;
   updatedAt: string;

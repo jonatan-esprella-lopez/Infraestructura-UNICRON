@@ -3,6 +3,11 @@ import type { Property } from '../../../domain/entities/property.entity.js';
 import type { IPropertyRepository, PropertyFilters } from '../../../domain/repositories/property.repository.js';
 import type { TursoService } from '../../../../../infrastructure/database/turso/turso.service.js';
 
+function parseJsonArray(raw: unknown): string[] {
+  if (!raw) return [];
+  try { return JSON.parse(raw as string) as string[]; } catch { return []; }
+}
+
 function toProperty(row: Record<string, unknown>): Property {
   return {
     id: row['id'] as string,
@@ -31,6 +36,14 @@ function toProperty(row: Record<string, unknown>): Property {
     latitude: row['latitude'] as number | undefined,
     longitude: row['longitude'] as number | undefined,
     isFeatured: (row['is_featured'] as number) === 1,
+    imageUrls: parseJsonArray(row['image_urls']),
+    // Agent info (populated by findById JOIN)
+    ...(row['agent_first_name'] ? {
+      agentName: `${row['agent_first_name']} ${row['agent_last_name']}`,
+      agentPhone: row['agent_phone'] as string | undefined,
+      agentAgency: row['agent_agency'] as string | undefined,
+      agentEmail: row['agent_email'] as string | undefined,
+    } : {}),
     publishedAt: row['published_at'] ? new Date(row['published_at'] as string) : undefined,
     deletedAt: row['deleted_at'] ? new Date(row['deleted_at'] as string) : undefined,
     createdAt: new Date(row['created_at'] as string),
@@ -79,7 +92,18 @@ export class TursoPropertyRepository implements IPropertyRepository {
   }
 
   async findById(id: string): Promise<Property | null> {
-    const res = await this.db.execute('SELECT * FROM properties WHERE id = :id AND deleted_at IS NULL', { id });
+    const res = await this.db.execute(
+      `SELECT p.*,
+              u.first_name  AS agent_first_name,
+              u.last_name   AS agent_last_name,
+              u.phone       AS agent_phone,
+              u.agency      AS agent_agency,
+              u.email       AS agent_email
+       FROM properties p
+       LEFT JOIN users u ON u.id = p.agent_id
+       WHERE p.id = :id AND p.deleted_at IS NULL`,
+      { id },
+    );
     const row = res.rows[0];
     return row ? toProperty(row as Record<string, unknown>) : null;
   }

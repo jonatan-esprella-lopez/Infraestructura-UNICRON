@@ -38,6 +38,7 @@ export const ROUTES = {
   proptechMySales: '/app/proptech/my-sales',
   proptechAgents: '/app/proptech/agents',
   // Agent promo
+  propiedadDetalle: '/propiedades/:id',
   agente: '/agente-inmobiliario',
   agentePago: '/agente-inmobiliario/pago',
 } as const;
