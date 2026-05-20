@@ -10,7 +10,6 @@ import { lazyModuleRoutes } from './lazy.routes';
 import { ProtectedRoute } from './protected.routes';
 
 const LandingPage = lazy(() =>
-<<<<<<< HEAD
   import('@modules/wasi/pages/landing-page/landing-page').then((m) => ({ default: m.LandingPage })),
 );
 const PropertiesPage = lazy(() =>
@@ -42,30 +41,6 @@ const PropietarioPage = lazy(() =>
 );
 const FinancialToolsPage = lazy(() =>
   import('@modules/proptech/financial-tools/pages/financial-tools-page/financial-tools-page').then((m) => ({ default: m.FinancialToolsPage })),
-=======
-  import('@modules/intersim/pages/landing-page/landing-page').then((m) => ({ default: m.LandingPage })),
-);
-const PropertiesPage = lazy(() =>
-  import('@modules/intersim/pages/properties-page/properties-page').then((m) => ({ default: m.PropertiesPage })),
-);
-const PropertiesMapPage = lazy(() =>
-  import('@modules/intersim/pages/properties-map-page/properties-map-page').then((m) => ({ default: m.PropertiesMapPage })),
-);
-const ServicesPage = lazy(() =>
-  import('@modules/intersim/pages/services-page/services-page').then((m) => ({ default: m.ServicesPage })),
-);
-const AboutPage = lazy(() =>
-  import('@modules/intersim/pages/about-page/about-page').then((m) => ({ default: m.AboutPage })),
-);
-const ValuationPage = lazy(() =>
-  import('@modules/intersim/pages/valuation-page/valuation-page').then((m) => ({ default: m.ValuationPage })),
-);
-const AgentPromoPage = lazy(() =>
-  import('@modules/intersim/pages/agent-promo-page/agent-promo-page').then((m) => ({ default: m.AgentPromoPage })),
-);
-const AgentPaymentPage = lazy(() =>
-  import('@modules/intersim/pages/agent-payment-page/agent-payment-page').then((m) => ({ default: m.AgentPaymentPage })),
->>>>>>> origin/exp/pres
 );
 
 export function AppRoutes() {
@@ -79,18 +54,12 @@ export function AppRoutes() {
           <Route path="/propiedades/mapa" element={<PropertiesMapPage />} />
           <Route path="/servicios" element={<ServicesPage />} />
           <Route path="/nosotros" element={<AboutPage />} />
-<<<<<<< HEAD
           <Route path="/avaluo-de-propiedad" element={<ValuationPage />} />
           <Route path="/agente-inmobiliario" element={<AgentPromoPage />} />
           <Route path="/agente-inmobiliario/pago/:plan" element={<AgentPaymentPage />} />
           <Route path="/propiedades/:id" element={<PropertyDetailPage />} />
           <Route path="/propietario" element={<PropietarioPage />} />
           <Route path="/finanzas" element={<FinancialToolsPage />} />
-=======
-          <Route path="/valoriza-tu-propiedad" element={<ValuationPage />} />
-          <Route path="/agente-inmobiliario" element={<AgentPromoPage />} />
-          <Route path="/agente-inmobiliario/pago/:plan" element={<AgentPaymentPage />} />
->>>>>>> origin/exp/pres
         </Route>
 
         {/* Auth */}

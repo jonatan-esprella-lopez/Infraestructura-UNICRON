@@ -40,17 +40,11 @@ const AgentLeadsPage = lazy(() => import('@modules/proptech/agent/pages/agent-le
 const AgentClientsPage = lazy(() => import('@modules/proptech/agent/pages/agent-clients-page/agent-clients-page').then((m) => ({ default: m.AgentClientsPage })));
 const AgentVisitsPage = lazy(() => import('@modules/proptech/agent/pages/agent-visits-page/agent-visits-page').then((m) => ({ default: m.AgentVisitsPage })));
 const AgentSalesPage = lazy(() => import('@modules/proptech/agent/pages/agent-sales-page/agent-sales-page').then((m) => ({ default: m.AgentSalesPage })));
-<<<<<<< HEAD
 const AgentAutoPostPage = lazy(() => import('@modules/proptech/agent/pages/agent-auto-post-page/agent-auto-post-page').then((m) => ({ default: m.AgentAutoPostPage })));
 const AgentsMarketplacePage = lazy(() => import('@modules/proptech/pages/agents-marketplace-page/agents-marketplace-page').then((m) => ({ default: m.AgentsMarketplacePage })));
 const ClientProfilePage = lazy(() => import('@modules/proptech/client/pages/client-profile-page/client-profile-page').then((m) => ({ default: m.ClientProfilePage })));
 const AgentLandValuationPage = lazy(() => import('@modules/property-valuations/pages/agent-land-valuation-page/agent-land-valuation-page').then((m) => ({ default: m.AgentLandValuationPage })));
 const FinancialToolsPage = lazy(() => import('@modules/proptech/financial-tools/pages/financial-tools-page/financial-tools-page').then((m) => ({ default: m.FinancialToolsPage })));
-=======
-const AgentsMarketplacePage = lazy(() => import('@modules/proptech/pages/agents-marketplace-page/agents-marketplace-page').then((m) => ({ default: m.AgentsMarketplacePage })));
-const ClientProfilePage = lazy(() => import('@modules/proptech/client/pages/client-profile-page/client-profile-page').then((m) => ({ default: m.ClientProfilePage })));
-const AgentLandValuationPage = lazy(() => import('@modules/property-valuations/pages/agent-land-valuation-page/agent-land-valuation-page').then((m) => ({ default: m.AgentLandValuationPage })));
->>>>>>> origin/exp/pres
 
 export const lazyModuleRoutes = [
   { path: 'dashboard', element: <DashboardPage />, permissions: [Permission.ViewDashboard], roles: [Role.Admin, Role.Manager, Role.Operator, Role.Viewer] },
@@ -102,17 +96,12 @@ export const lazyModuleRoutes = [
   // Proptech — agent sales
   { path: 'proptech/my-sales', element: <AgentSalesPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Agent] },
 
-<<<<<<< HEAD
   // Proptech — agent auto post generator
   { path: 'proptech/auto-post', element: <AgentAutoPostPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Agent, Role.Admin, Role.AgencyAdmin] },
 
   // Proptech — owner agents marketplace
   { path: 'proptech/agents', element: <AgentsMarketplacePage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Owner, Role.Admin] },
-  
+
   // Proptech - financial tools
   { path: 'proptech/financial-tools', element: <FinancialToolsPage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
-=======
-  // Proptech — owner agents marketplace
-  { path: 'proptech/agents', element: <AgentsMarketplacePage />, featureFlag: 'proptech' as FeatureFlagKey, permissions: [Permission.AccessProptech], roles: [Role.Owner, Role.Admin] },
->>>>>>> origin/exp/pres
 ];

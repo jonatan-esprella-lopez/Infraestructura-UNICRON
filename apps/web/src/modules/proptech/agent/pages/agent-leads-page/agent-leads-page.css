@@ -153,10 +153,7 @@
 .alp-tag--city { background: #f0fdf4; color: #15803d; }
 
 /* ── Card details ────────────────────────────────────────── */
-<<<<<<< HEAD
 .alp-card__property { font-size: .72rem; font-weight: 700; color: #1e40af; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-=======
->>>>>>> origin/exp/pres
 .alp-card__budget { font-size: .7rem; font-weight: 600; color: #334155; margin: 0; }
 .alp-card__wa {
   display: inline-flex; align-items: center; gap: .3rem;

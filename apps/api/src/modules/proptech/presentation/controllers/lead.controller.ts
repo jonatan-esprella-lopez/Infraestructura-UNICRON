@@ -1,6 +1,5 @@
 import type { RouteDefinition, RequestContext, ApiResponse, AuthenticatedUser } from '../../../../core/types/api.types.js';
 import type { LeadService } from '../../application/services/lead.service.js';
-<<<<<<< HEAD
 import type { IPropertyRepository } from '../../domain/repositories/property.repository.js';
 import type { Lead } from '../../domain/entities/lead.entity.js';
 import { ok, created, notFound, badRequest } from '../../../../shared/interceptors/response.interceptor.js';
@@ -20,16 +19,6 @@ export class LeadController {
         public: true,
         handler: (ctx) => this.createPublic(ctx),
       },
-=======
-import type { Lead } from '../../domain/entities/lead.entity.js';
-import { ok, created, notFound } from '../../../../shared/interceptors/response.interceptor.js';
-
-export class LeadController {
-  constructor(private readonly service: LeadService) {}
-
-  routes(): RouteDefinition[] {
-    return [
->>>>>>> origin/exp/pres
       {
         method: 'GET',
         path: '/proptech/leads',
@@ -58,7 +47,6 @@ export class LeadController {
     ];
   }
 
-<<<<<<< HEAD
   /* Visitor fills contact form on property detail page (no login needed) */
   private async createPublic(ctx: RequestContext): Promise<ApiResponse> {
     const body = ctx.body as Record<string, unknown>;
@@ -80,7 +68,7 @@ export class LeadController {
     }
 
     const lead = await this.service.create({
-      tenantId: 'intersim-default',
+      tenantId: 'tenant_intersim',
       agentId,
       propertyId,
       propertyTitle,

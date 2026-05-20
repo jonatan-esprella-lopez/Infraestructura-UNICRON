@@ -6,10 +6,7 @@ import type { PropertyContractService } from '../../application/services/propert
 import type { SaleService } from '../../application/services/sale.service.js';
 import type { ReportService } from '../../application/services/report.service.js';
 import type { LeadService } from '../../application/services/lead.service.js';
-<<<<<<< HEAD
 import type { IPropertyRepository } from '../../domain/repositories/property.repository.js';
-=======
->>>>>>> origin/exp/pres
 import { PropertyController } from '../controllers/property.controller.js';
 import { PropertyVisitController } from '../controllers/property-visit.controller.js';
 import { PropertyMatchingController } from '../controllers/property-matching.controller.js';
@@ -26,10 +23,7 @@ export interface ProptechRouteServices {
   saleService: SaleService;
   reportService: ReportService;
   leadService: LeadService;
-<<<<<<< HEAD
   propertyRepository: IPropertyRepository;
-=======
->>>>>>> origin/exp/pres
 }
 
 export function createProptechRoutes(services: ProptechRouteServices): RouteDefinition[] {
@@ -40,10 +34,6 @@ export function createProptechRoutes(services: ProptechRouteServices): RouteDefi
     ...new PropertyContractController(services.contractService).routes(),
     ...new SaleController(services.saleService).routes(),
     ...new ReportController(services.reportService).routes(),
-<<<<<<< HEAD
     ...new LeadController(services.leadService, services.propertyRepository).routes(),
-=======
-    ...new LeadController(services.leadService).routes(),
->>>>>>> origin/exp/pres
   ];
 }
