@@ -90,8 +90,6 @@ export class LeadController {
     return created({ id: lead.id, message: 'Solicitud recibida. El asesor te contactará pronto.' });
   }
 
-=======
->>>>>>> origin/exp/pres
   private async list(ctx: RequestContext): Promise<ApiResponse> {
     const user = ctx.user as AuthenticatedUser | null;
     const status = ctx.query?.['status'] as Lead['status'] | undefined;

@@ -82,16 +82,6 @@ export class TursoPropertyRepository implements IPropertyRepository {
     }
     if (filters.query) {
       sql += ' AND (p.title LIKE :query OR p.address LIKE :query OR p.city LIKE :query OR p.zone LIKE :query)';
-    if (filters.minBedrooms !== undefined) { sql += ' AND bedrooms >= :minBedrooms'; args['minBedrooms'] = filters.minBedrooms; }
-    if (filters.maxBedrooms !== undefined) { sql += ' AND bedrooms <= :maxBedrooms'; args['maxBedrooms'] = filters.maxBedrooms; }
-    if (filters.petsAllowed !== undefined) {
-      if (filters.petsAllowed) {
-        sql += ' AND features LIKE :pets'; args['pets'] = '%pets_allowed%';
-      }
-    }
-    if (filters.query) {
-      sql += ' AND (title LIKE :query OR address LIKE :query OR city LIKE :query OR zone LIKE :query)';
->>>>>>> origin/exp/pres
       args['query'] = `%${filters.query}%`;
     }
 

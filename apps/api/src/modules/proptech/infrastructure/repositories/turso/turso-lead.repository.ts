@@ -74,11 +74,8 @@ export class TursoLeadRepository implements ILeadRepository {
         id,
         tenantId: data.tenantId,
         agentId: data.agentId ?? null,
-<<<<<<< HEAD
         propertyId: data.propertyId ?? null,
         propertyTitle: data.propertyTitle ?? null,
-=======
->>>>>>> origin/exp/pres
         firstName: data.firstName,
         lastName: data.lastName,
         email: data.email ?? null,

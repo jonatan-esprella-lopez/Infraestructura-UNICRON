@@ -30,6 +30,36 @@ export class PropertyContractService {
     return this.repository.create(data);
   }
 
+  async reviewTextWithAi(draftText: string): Promise<ContractAiReview> {
+    const { text } = await this.services.ai.generate({
+      prompt: `Analiza el siguiente contrato inmobiliario y proporciona: nivel de riesgo (low/medium/high), resumen, campos faltantes, cláusulas detectadas, advertencias y recomendaciones. Responde en JSON.\n\n${draftText}`,
+    });
+
+    let review: Partial<ContractAiReview>;
+    try {
+      review = JSON.parse(text) as Partial<ContractAiReview>;
+    } catch {
+      review = {
+        riskLevel: 'medium',
+        summary: text.slice(0, 500),
+        missingFields: [],
+        detectedClauses: [],
+        warnings: ['No se pudo estructurar la respuesta de IA'],
+        recommendations: ['Consulte con un profesional legal'],
+      };
+    }
+
+    return {
+      riskLevel: review.riskLevel ?? 'medium',
+      summary: review.summary ?? 'Revisión preliminar completada',
+      missingFields: review.missingFields ?? [],
+      detectedClauses: review.detectedClauses ?? [],
+      warnings: review.warnings ?? [],
+      recommendations: review.recommendations ?? [],
+      disclaimer: 'La revisión con IA es preliminar y no reemplaza la revisión de un abogado, notario o profesional legal.',
+    };
+  }
+
   async reviewWithAi(id: string): Promise<ContractAiReview> {
     const contract = await this.repository.findById(id);
     if (!contract) throw new Error(`Contract ${id} not found`);

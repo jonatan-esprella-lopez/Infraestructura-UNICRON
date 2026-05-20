@@ -1,7 +1,10 @@
+import { randomUUID } from 'node:crypto';
 import { ModuleName } from '../../core/enums/module.enum.js';
 import type { AppServices } from '../../core/types/api.types.js';
 import { createFeatureModule } from '../_shared/feature-module.factory.js';
 import { ok, badRequest } from '../../shared/interceptors/response.interceptor.js';
+
+const TENANT_ID = 'tenant_intersim';
 
 interface DemoUser {
   id: string;
@@ -119,18 +122,6 @@ export function createAuthModule(services: AppServices) {
         },
 
         /* ── Me ─────────────────────────────────────────────────────────── */
-=======
-          handler: (ctx) => {
-            const body = ctx.body as Record<string, string>;
-            const email = body['email']?.toLowerCase().trim();
-            const password = body['password'];
-            const user = DEMO_USERS.find((u) => u.email === email && u.password === password);
-            if (!user) return badRequest('Credenciales incorrectas');
-            const { password: _pw, ...safeUser } = user;
-            return ok({ token: createToken(safeUser), user: safeUser });
-          },
-        },
->>>>>>> origin/exp/pres
         {
           method: 'GET',
           path: '/auth/me',
