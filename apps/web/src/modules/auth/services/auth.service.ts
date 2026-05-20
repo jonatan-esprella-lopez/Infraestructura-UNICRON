@@ -12,6 +12,7 @@ interface LoginApiResponse {
   };
 }
 
+<<<<<<< HEAD
 interface RegisterPayload {
   firstName: string; lastName: string; email: string;
   password: string; phone?: string; agency?: string;
@@ -32,6 +33,9 @@ export const authService = {
     return { token, user: appUser };
   },
 
+=======
+export const authService = {
+>>>>>>> origin/exp/pres
   async login(email: string, password: string): Promise<{ token: string; user: AppUser }> {
     const res = await fetch(`${BASE}/login`, {
       method: 'POST',

@@ -1,4 +1,5 @@
 import os
+<<<<<<< HEAD
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -50,6 +51,16 @@ DEEPSEEK_API_KEY = _required_env("DEEPSEEK_API_KEY")
 VOYAGE_API_KEY = _required_env("VOYAGE_API_KEY")
 TELEGRAM_BOT_TOKEN = _required_env("TELEGRAM_BOT_TOKEN")
 DATABASE_URL = _required_env("DATABASE_URL")
+=======
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DEEPSEEK_API_KEY = os.environ["DEEPSEEK_API_KEY"]
+VOYAGE_API_KEY = os.environ["VOYAGE_API_KEY"]
+TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
+DATABASE_URL = os.environ["DATABASE_URL"]
+>>>>>>> origin/exp/pres
 
 LEAD_MODEL = os.getenv("LEAD_MODEL", "deepseek-chat")
 MATCH_MODEL = os.getenv("MATCH_MODEL", "deepseek-chat")

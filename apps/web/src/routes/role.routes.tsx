@@ -20,7 +20,10 @@ import {
   Users,
   WalletCards,
   Workflow,
+<<<<<<< HEAD
   PieChart,
+=======
+>>>>>>> origin/exp/pres
   type LucideIcon,
 } from 'lucide-react';
 import type { FeatureFlagKey } from '@bootstrap/environment';
@@ -61,11 +64,18 @@ export const roleRoutes: RoleRoute[] = [
   { key: ModuleKey.ProptechClients, label: 'Clientes', path: ROUTES.proptechClients, icon: Users, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
   { key: ModuleKey.ProptechVisits, label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
   { key: ModuleKey.ProptechMatching, label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech', permissions: [Permission.PropMatchingGenerate], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent] },
+<<<<<<< HEAD
   { key: ModuleKey.ProptechValuations, label: 'Avalúo', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
+=======
+  { key: ModuleKey.ProptechValuations, label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
+>>>>>>> origin/exp/pres
   { key: ModuleKey.ProptechContracts, label: 'Contratos', path: ROUTES.proptechContracts, icon: FileSignature, featureFlag: 'proptech', permissions: [Permission.PropContractReviewAi], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.LegalReviewer] },
   { key: ModuleKey.ProptechAnalytics, label: 'Mercado', path: ROUTES.proptechAnalytics, icon: TrendingUp, featureFlag: 'proptech', permissions: [Permission.PropMarketInsightsRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
   { key: ModuleKey.ProptechSales, label: 'Ventas', path: ROUTES.proptechSales, icon: Receipt, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
   { key: ModuleKey.ProptechReports, label: 'Reportes', path: ROUTES.proptechReports, icon: BarChart3, featureFlag: 'proptech', permissions: [Permission.PropMarketInsightsRead], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin] },
   { key: ModuleKey.ProptechMySales, label: 'Mis ventas', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Agent] },
+<<<<<<< HEAD
   { key: ModuleKey.ProptechFinancialTools, label: 'Centro Financiero', path: ROUTES.proptechFinancialTools, icon: PieChart, featureFlag: 'proptech', permissions: [Permission.AccessProptech], roles: [Role.Admin, Role.Manager, Role.AgencyAdmin, Role.Agent, Role.Owner, Role.Client] },
+=======
+>>>>>>> origin/exp/pres
 ];

@@ -20,7 +20,11 @@ export class ApiLandValuationRepository implements LandValuationRepository {
     });
 
     if (!response.ok) {
+<<<<<<< HEAD
       throw new Error("No se pudo calcular el avalúo del terreno.");
+=======
+      throw new Error("No se pudo calcular la valuación del terreno.");
+>>>>>>> origin/exp/pres
     }
 
     return response.json();

@@ -26,5 +26,8 @@ export enum ModuleKey {
   ProptechSales = 'proptech-sales',
   ProptechReports = 'proptech-reports',
   ProptechMySales = 'proptech-my-sales',
+<<<<<<< HEAD
   ProptechFinancialTools = 'proptech-financial-tools',
+=======
+>>>>>>> origin/exp/pres
 }

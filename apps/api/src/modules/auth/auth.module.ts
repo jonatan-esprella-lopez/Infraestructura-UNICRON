@@ -1,10 +1,14 @@
+<<<<<<< HEAD
 import { randomUUID } from 'node:crypto';
+=======
+>>>>>>> origin/exp/pres
 import { ModuleName } from '../../core/enums/module.enum.js';
 import type { AppServices } from '../../core/types/api.types.js';
 import { createFeatureModule } from '../_shared/feature-module.factory.js';
 import { ok, badRequest } from '../../shared/interceptors/response.interceptor.js';
 
 interface DemoUser {
+<<<<<<< HEAD
   id: string; email: string; password: string;
   name: string; roles: string[]; tenantId: string;
 }
@@ -23,6 +27,28 @@ function createToken(user: { id: string; email: string; name: string; roles: str
 
 const TENANT_ID = 'intersim-default';
 
+=======
+  id: string;
+  email: string;
+  password: string;
+  name: string;
+  roles: string[];
+  tenantId: string;
+}
+
+const DEMO_USERS: DemoUser[] = [
+  { id: 'usr_admin_01', email: 'admin@intersim.bo', password: 'admin123', name: 'Carlos Mendoza', roles: ['admin'], tenantId: 'tenant_intersim' },
+  { id: 'usr_agent_01', email: 'agente@intersim.bo', password: 'agente123', name: 'María García', roles: ['agent'], tenantId: 'tenant_intersim' },
+  { id: 'usr_owner_01', email: 'propietario@intersim.bo', password: 'prop123', name: 'Roberto Vargas', roles: ['owner'], tenantId: 'tenant_intersim' },
+  { id: 'usr_client_01', email: 'cliente@intersim.bo', password: 'cliente123', name: 'Ana López', roles: ['client'], tenantId: 'tenant_intersim' },
+];
+
+function createToken(user: Omit<DemoUser, 'password'>): string {
+  const payload = { id: user.id, email: user.email, name: user.name, roles: user.roles, tenantId: user.tenantId, permissions: [] };
+  return Buffer.from(JSON.stringify(payload)).toString('base64');
+}
+
+>>>>>>> origin/exp/pres
 export function createAuthModule(services: AppServices) {
   return createFeatureModule(
     {
@@ -31,11 +57,15 @@ export function createAuthModule(services: AppServices) {
       description: 'Authentication and session boundary for users and integrations.',
       name: ModuleName.Auth,
       routes: [
+<<<<<<< HEAD
         /* ── Login ──────────────────────────────────────────────────────── */
+=======
+>>>>>>> origin/exp/pres
         {
           method: 'POST',
           path: '/auth/login',
           public: true,
+<<<<<<< HEAD
           handler: async (ctx) => {
             const body = ctx.body as Record<string, string>;
             const email = body['email']?.toLowerCase().trim();
@@ -120,6 +150,18 @@ export function createAuthModule(services: AppServices) {
         },
 
         /* ── Me ─────────────────────────────────────────────────────────── */
+=======
+          handler: (ctx) => {
+            const body = ctx.body as Record<string, string>;
+            const email = body['email']?.toLowerCase().trim();
+            const password = body['password'];
+            const user = DEMO_USERS.find((u) => u.email === email && u.password === password);
+            if (!user) return badRequest('Credenciales incorrectas');
+            const { password: _pw, ...safeUser } = user;
+            return ok({ token: createToken(safeUser), user: safeUser });
+          },
+        },
+>>>>>>> origin/exp/pres
         {
           method: 'GET',
           path: '/auth/me',
@@ -128,8 +170,11 @@ export function createAuthModule(services: AppServices) {
             return ok(ctx.user);
           },
         },
+<<<<<<< HEAD
 
         /* ── Logout ─────────────────────────────────────────────────────── */
+=======
+>>>>>>> origin/exp/pres
         {
           method: 'POST',
           path: '/auth/logout',

@@ -18,8 +18,12 @@
     "@libsql/client": "^0.17.3"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@types/node": "^22.10.2",
     "tsx": "^4.22.0",
     "typescript": "^5.7.2"
+=======
+    "tsx": "^4.22.0"
+>>>>>>> origin/exp/pres
   }
 }

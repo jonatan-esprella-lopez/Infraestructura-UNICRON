@@ -161,8 +161,11 @@ CREATE TABLE IF NOT EXISTS leads (
   id TEXT PRIMARY KEY,
   tenant_id TEXT NOT NULL DEFAULT '',
   agent_id TEXT,
+<<<<<<< HEAD
   property_id TEXT,
   property_title TEXT,
+=======
+>>>>>>> origin/exp/pres
   first_name TEXT NOT NULL,
   last_name TEXT NOT NULL,
   email TEXT,

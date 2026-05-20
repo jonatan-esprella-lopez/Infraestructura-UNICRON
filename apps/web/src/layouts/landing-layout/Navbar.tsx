@@ -25,8 +25,12 @@ export function Navbar() {
   };
 
   const isAuthPage = location.pathname.includes('login') || location.pathname.includes('register');
+<<<<<<< HEAD
   const isDetailPage = /^\/propiedades\/.+/.test(location.pathname);
   const isSolid = scrolled || isAuthPage || location.pathname.includes('mapa') || isDetailPage;
+=======
+  const isSolid = scrolled || isAuthPage || location.pathname.includes('mapa');
+>>>>>>> origin/exp/pres
 
   return (
     <nav className={`lp-nav ${isSolid ? 'scrolled' : ''}`}>
@@ -43,8 +47,13 @@ export function Navbar() {
           <Link to={ROUTES.propiedades} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Propiedades</Link>
           <Link to={ROUTES.servicios} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Servicios</Link>
           <Link to={ROUTES.nosotros} className="lp-nav-link" onClick={() => setMenuOpen(false)}>Nosotros</Link>
+<<<<<<< HEAD
           <Link to={ROUTES.avaluoPropiedad} className="lp-nav-link lp-nav-link--valuation" onClick={() => setMenuOpen(false)}>Avalúo de propiedad</Link>
           <Link to={ROUTES.agente} className="lp-nav-link lp-nav-link--agent" onClick={() => setMenuOpen(false)}>¿Agente Inmobiliario?</Link>
+=======
+          <Link to={ROUTES.valorizaPropiedad} className="lp-nav-link lp-nav-link--valuation" onClick={() => setMenuOpen(false)}>Valoriza tu propiedad</Link>
+          <Link to={ROUTES.agente} className="lp-nav-link lp-nav-link--agent" onClick={() => setMenuOpen(false)}>Agente Inmobiliario</Link>
+>>>>>>> origin/exp/pres
         </div>
 
         <div className="lp-nav-actions">

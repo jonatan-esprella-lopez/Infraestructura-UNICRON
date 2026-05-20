@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # INTERSIM PropTech
 
 **INTERSIM PropTech** es una plataforma integral de gestión inmobiliaria de próxima generación. Diseñada para unificar todo el ciclo de vida de los bienes raíces, conecta a compradores, propietarios, agentes y administradores en un ecosistema centralizado, impulsado por Inteligencia Artificial y herramientas financieras avanzadas.
@@ -80,3 +81,49 @@ El proyecto está construido bajo una arquitectura modular y escalable, prioriza
    npm run dev
    ```
 4. Navega a `http://localhost:5173`. Para acceder a los módulos de prueba, usa las rutas del dashboard (`/app/proptech`), el portal financiero (`/finanzas`) o el landing público (`/`).
+=======
+# Hackathon Base
+
+Monorepo enterprise para hackathons, MVPs y pilotos SaaS.
+
+## Estructura
+
+```plaintext
+apps/
+  web/
+  api/
+packages/
+  ui/
+  types/
+  config/
+  utils/
+  core/
+  ai/
+infra/
+tools/
+```
+
+## Desarrollo
+
+```bash
+npm run dev:web
+npm run start:api
+```
+
+## Demo local con infraestructura
+
+```bash
+npm run infra:up
+```
+
+Levanta web, api, postgres, redis, nginx, prometheus, grafana y loki.
+
+## Herramientas internas
+
+```bash
+npm run generate:module -- crm
+npm run validate:architecture
+npm run typecheck:all
+npm run build:all
+```
+>>>>>>> origin/exp/pres

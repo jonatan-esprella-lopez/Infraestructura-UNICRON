@@ -3,7 +3,11 @@ import {
   BarChart3, Bot, BriefcaseBusiness, Building2, CalendarCheck,
   Calculator, ChevronLeft, ChevronRight, FileSignature, FileText, Gauge,
   Megaphone, QrCode, Receipt, Settings, Shield, Sparkles,
+<<<<<<< HEAD
   TrendingUp, UserRound, UserRoundSearch, Users, WalletCards, Workflow, PieChart, Wand2,
+=======
+  TrendingUp, UserRound, UserRoundSearch, Users, WalletCards, Workflow,
+>>>>>>> origin/exp/pres
   type LucideIcon,
 } from 'lucide-react';
 import { appConfig } from '@bootstrap/app-config';
@@ -47,10 +51,15 @@ const AGENT_GROUPS: NavGroup[] = [
     label: 'Herramientas',
     items: [
       { label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech' },
+<<<<<<< HEAD
       { label: 'Avalúo', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Centro Financiero', path: ROUTES.proptechFinancialTools, icon: PieChart, featureFlag: 'proptech' },
       { label: 'Mi Producción', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech' },
       { label: 'Auto Generaciones', path: ROUTES.proptechAutoPost, icon: Wand2, featureFlag: 'proptech' },
+=======
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
+      { label: 'Mi Producción', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech' },
+>>>>>>> origin/exp/pres
     ],
   },
 ];
@@ -74,8 +83,12 @@ const AGENCY_ADMIN_GROUPS: NavGroup[] = [
     label: 'Gestión',
     items: [
       { label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech' },
+<<<<<<< HEAD
       { label: 'Avalúo', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Centro Financiero', path: ROUTES.proptechFinancialTools, icon: PieChart, featureFlag: 'proptech' },
+=======
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
+>>>>>>> origin/exp/pres
       { label: 'Contratos', path: ROUTES.proptechContracts, icon: FileSignature, featureFlag: 'proptech' },
       { label: 'Ventas', path: ROUTES.proptechSales, icon: Receipt, featureFlag: 'proptech' },
       { label: 'Reportes', path: ROUTES.proptechReports, icon: BarChart3, featureFlag: 'proptech' },
@@ -90,8 +103,12 @@ const OWNER_GROUPS: NavGroup[] = [
       { label: 'Mi panel', path: ROUTES.proptech, icon: Building2, featureFlag: 'proptech', end: true },
       { label: 'Perfil', path: ROUTES.proptechProfile, icon: UserRound, featureFlag: 'proptech' },
       { label: 'Mis propiedades', path: ROUTES.proptechProperties, icon: Building2, featureFlag: 'proptech' },
+<<<<<<< HEAD
       { label: 'Centro Financiero', path: ROUTES.proptechFinancialTools, icon: PieChart, featureFlag: 'proptech' },
       { label: 'Avalúo', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
+=======
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
+>>>>>>> origin/exp/pres
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
       { label: 'Marketplace de agentes', path: ROUTES.proptechAgents, icon: UserRoundSearch, featureFlag: 'proptech' },
     ],
@@ -103,8 +120,12 @@ const CLIENT_GROUPS: NavGroup[] = [
     items: [
       { label: 'Mi panel', path: ROUTES.proptech, icon: Building2, featureFlag: 'proptech', end: true },
       { label: 'Perfil', path: ROUTES.proptechProfile, icon: UserRound, featureFlag: 'proptech' },
+<<<<<<< HEAD
       { label: 'Centro Financiero', path: ROUTES.proptechFinancialTools, icon: PieChart, featureFlag: 'proptech' },
       { label: 'Avalúo', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
+=======
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
+>>>>>>> origin/exp/pres
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
     ],
   },
@@ -120,8 +141,12 @@ const ADMIN_GROUPS: NavGroup[] = [
       { label: 'Clientes', path: ROUTES.proptechClients, icon: Users, featureFlag: 'proptech' },
       { label: 'Visitas', path: ROUTES.proptechVisits, icon: CalendarCheck, featureFlag: 'proptech' },
       { label: 'Matching IA', path: ROUTES.proptechMatching, icon: Sparkles, featureFlag: 'proptech' },
+<<<<<<< HEAD
       { label: 'Avalúo', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Centro Financiero', path: ROUTES.proptechFinancialTools, icon: PieChart, featureFlag: 'proptech' },
+=======
+      { label: 'Valoración', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
+>>>>>>> origin/exp/pres
       { label: 'Contratos', path: ROUTES.proptechContracts, icon: FileSignature, featureFlag: 'proptech' },
       { label: 'Ventas', path: ROUTES.proptechSales, icon: Receipt, featureFlag: 'proptech' },
       { label: 'Reportes', path: ROUTES.proptechReports, icon: BarChart3, featureFlag: 'proptech' },

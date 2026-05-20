@@ -49,7 +49,11 @@ export function Footer() {
             <h4>Contacto</h4>
             <ul>
               <li>📞 +591 3 333 4444</li>
+<<<<<<< HEAD
               <li>📧 info@intersim.bo</li>
+=======
+              <li>📧 info@wasi.bo</li>
+>>>>>>> origin/exp/pres
               <li>📍 Santa Cruz, Bolivia</li>
             </ul>
           </div>

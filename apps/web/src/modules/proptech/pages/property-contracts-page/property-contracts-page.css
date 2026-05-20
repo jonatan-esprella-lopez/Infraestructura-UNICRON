@@ -44,7 +44,11 @@
 .property-contracts-page__form {
   display: flex;
   gap: 1rem;
+<<<<<<< HEAD
   align-items: flex-start;
+=======
+  align-items: flex-end;
+>>>>>>> origin/exp/pres
   max-width: 640px;
 }
 
@@ -61,18 +65,25 @@
   color: var(--color-muted, #6b7280);
 }
 
+<<<<<<< HEAD
 .property-contracts-page__field input,
 .property-contracts-page__field textarea {
+=======
+.property-contracts-page__field input {
+>>>>>>> origin/exp/pres
   padding: 0.5rem 0.75rem;
   border: 1px solid var(--color-border, #e5e7eb);
   border-radius: 0.375rem;
   font-size: 0.875rem;
+<<<<<<< HEAD
   font: inherit;
 }
 
 .property-contracts-page__field textarea {
   min-height: 14rem;
   resize: vertical;
+=======
+>>>>>>> origin/exp/pres
 }
 
 .property-contracts-page__submit {

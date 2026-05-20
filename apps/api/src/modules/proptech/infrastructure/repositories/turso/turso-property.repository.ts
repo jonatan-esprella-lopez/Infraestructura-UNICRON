@@ -55,6 +55,7 @@ export class TursoPropertyRepository implements IPropertyRepository {
   constructor(private readonly db: TursoService) {}
 
   async findAll(filters: PropertyFilters): Promise<{ items: Property[]; total: number }> {
+<<<<<<< HEAD
     let sql = `SELECT p.*,
                  u.first_name AS agent_first_name, u.last_name AS agent_last_name,
                  u.phone AS agent_phone, u.agency AS agent_agency, u.email AS agent_email
@@ -82,13 +83,42 @@ export class TursoPropertyRepository implements IPropertyRepository {
     }
     if (filters.query) {
       sql += ' AND (p.title LIKE :query OR p.address LIKE :query OR p.city LIKE :query OR p.zone LIKE :query)';
+=======
+    let sql = 'SELECT * FROM properties WHERE deleted_at IS NULL';
+    const args: Record<string, unknown> = {};
+
+    if (filters.tenantId) { sql += ' AND tenant_id = :tenantId'; args['tenantId'] = filters.tenantId; }
+    if (filters.ownerId) { sql += ' AND owner_id = :ownerId'; args['ownerId'] = filters.ownerId; }
+    if (filters.operationType) { sql += ' AND operation_type = :opType'; args['opType'] = filters.operationType; }
+    if (filters.propertyType) { sql += ' AND property_type = :propType'; args['propType'] = filters.propertyType; }
+    if (filters.status) { sql += ' AND status = :status'; args['status'] = filters.status; }
+    if (filters.city) { sql += ' AND city = :city'; args['city'] = filters.city; }
+    if (filters.zone) { sql += ' AND zone LIKE :zone'; args['zone'] = `%${filters.zone}%`; }
+    if (filters.publicationStatus) { sql += ' AND publication_status = :pubStatus'; args['pubStatus'] = filters.publicationStatus; }
+    if (filters.agentId) { sql += ' AND agent_id = :agentId'; args['agentId'] = filters.agentId; }
+    if (filters.minPrice !== undefined) { sql += ' AND price >= :minPrice'; args['minPrice'] = filters.minPrice; }
+    if (filters.maxPrice !== undefined) { sql += ' AND price <= :maxPrice'; args['maxPrice'] = filters.maxPrice; }
+    if (filters.minBedrooms !== undefined) { sql += ' AND bedrooms >= :minBedrooms'; args['minBedrooms'] = filters.minBedrooms; }
+    if (filters.maxBedrooms !== undefined) { sql += ' AND bedrooms <= :maxBedrooms'; args['maxBedrooms'] = filters.maxBedrooms; }
+    if (filters.petsAllowed !== undefined) {
+      if (filters.petsAllowed) {
+        sql += ' AND features LIKE :pets'; args['pets'] = '%pets_allowed%';
+      }
+    }
+    if (filters.query) {
+      sql += ' AND (title LIKE :query OR address LIKE :query OR city LIKE :query OR zone LIKE :query)';
+>>>>>>> origin/exp/pres
       args['query'] = `%${filters.query}%`;
     }
 
     const countRes = await this.db.execute(`SELECT COUNT(*) as cnt FROM (${sql})`, args);
     const total = Number((countRes.rows[0] as Record<string, unknown>)['cnt'] ?? 0);
 
+<<<<<<< HEAD
     sql += ' ORDER BY p.created_at DESC';
+=======
+    sql += ' ORDER BY created_at DESC';
+>>>>>>> origin/exp/pres
     if (filters.limit !== undefined) { sql += ' LIMIT :limit'; args['limit'] = filters.limit; }
     if (filters.offset !== undefined) { sql += ' OFFSET :offset'; args['offset'] = filters.offset; }
 

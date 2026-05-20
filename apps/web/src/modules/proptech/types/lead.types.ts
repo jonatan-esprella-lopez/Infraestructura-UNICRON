@@ -5,8 +5,11 @@ export interface Lead {
   id: string;
   tenantId: string;
   agentId?: string;
+<<<<<<< HEAD
   propertyId?: string;
   propertyTitle?: string;
+=======
+>>>>>>> origin/exp/pres
   firstName: string;
   lastName: string;
   email?: string;

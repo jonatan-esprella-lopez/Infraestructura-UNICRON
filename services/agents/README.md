@@ -14,9 +14,13 @@ cp .env.example .env           # completar con keys reales
 
 ## Variables de entorno requeridas
 
+<<<<<<< HEAD
 Ver `.env.example`. Las obligatorias son: `DEEPSEEK_API_KEY`, `VOYAGE_API_KEY`, `TELEGRAM_BOT_TOKEN` y `DATABASE_URL`.
 
 `LANGSMITH_TRACING` es opcional. Dejalo en `false` si no tenes una clave valida de LangSmith.
+=======
+Ver `.env.example`. Las obligatorias son: `ANTHROPIC_API_KEY`, `TELEGRAM_BOT_TOKEN`, `DATABASE_URL`.
+>>>>>>> origin/exp/pres
 
 ## Infra (desde el root del monorepo)
 
@@ -55,6 +59,7 @@ docker exec -it $(docker ps -qf "name=postgres") \
 docker exec -it $(docker ps -qf "name=postgres") \
   psql -U unicron -d unicron -c "SELECT id, title, zone FROM properties LIMIT 5;"
 ```
+<<<<<<< HEAD
 
 
 
@@ -194,3 +199,5 @@ Terminal D  →  4. Bot Telegram (python -m app.telegram.bot)
 
 
 La infra debe estar healthy antes de levantar FastAPI o el bot.
+=======
+>>>>>>> origin/exp/pres

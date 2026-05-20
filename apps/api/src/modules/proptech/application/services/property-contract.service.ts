@@ -35,17 +35,27 @@ export class PropertyContractService {
     if (!contract) throw new Error(`Contract ${id} not found`);
 
     const textToAnalyze = contract.draftText ?? `Contrato de ${contract.contractType} por ${contract.totalAmount} ${contract.currency}`;
+<<<<<<< HEAD
     return this.reviewTextWithAi(textToAnalyze);
   }
 
   async reviewTextWithAi(textToAnalyze: string): Promise<ContractAiReview> {
     const { text } = await this.services.ai.generate({
       prompt: `Analiza el siguiente contrato inmobiliario y proporciona: nivel de riesgo (low/medium/high), resumen, campos faltantes, clausulas detectadas, advertencias y recomendaciones. Responde en JSON.\n\n${textToAnalyze}`,
+=======
+
+    const { text } = await this.services.ai.generate({
+      prompt: `Analiza el siguiente contrato inmobiliario y proporciona: nivel de riesgo (low/medium/high), resumen, campos faltantes, cláusulas detectadas, advertencias y recomendaciones. Responde en JSON.\n\n${textToAnalyze}`,
+>>>>>>> origin/exp/pres
     });
 
     let review: Partial<ContractAiReview>;
     try {
+<<<<<<< HEAD
       review = JSON.parse(stripJsonFence(text)) as Partial<ContractAiReview>;
+=======
+      review = JSON.parse(text) as Partial<ContractAiReview>;
+>>>>>>> origin/exp/pres
     } catch {
       review = {
         riskLevel: 'medium',
@@ -59,12 +69,17 @@ export class PropertyContractService {
 
     return {
       riskLevel: review.riskLevel ?? 'medium',
+<<<<<<< HEAD
       summary: review.summary ?? 'Revision preliminar completada',
+=======
+      summary: review.summary ?? 'Revisión preliminar completada',
+>>>>>>> origin/exp/pres
       missingFields: review.missingFields ?? [],
       detectedClauses: review.detectedClauses ?? [],
       warnings: review.warnings ?? [],
       recommendations: review.recommendations ?? [],
       disclaimer:
+<<<<<<< HEAD
         'La revision con IA es preliminar y no reemplaza la revision de un abogado, notario o profesional legal.',
     };
   }
@@ -78,3 +93,9 @@ function stripJsonFence(text: string): string {
     .replace(/```$/, '')
     .trim();
 }
+=======
+        'La revisión con IA es preliminar y no reemplaza la revisión de un abogado, notario o profesional legal.',
+    };
+  }
+}
+>>>>>>> origin/exp/pres

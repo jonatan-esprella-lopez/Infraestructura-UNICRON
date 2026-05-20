@@ -3,7 +3,11 @@ export const ROUTES = {
   propiedades: '/propiedades',
   servicios: '/servicios',
   nosotros: '/nosotros',
+<<<<<<< HEAD
   avaluoPropiedad: '/avaluo-de-propiedad',
+=======
+  valorizaPropiedad: '/valoriza-tu-propiedad',
+>>>>>>> origin/exp/pres
   login: '/login',
   register: '/register',
   app: '/app',
@@ -37,14 +41,20 @@ export const ROUTES = {
   proptechReports: '/app/proptech/reports',
   proptechMySales: '/app/proptech/my-sales',
   proptechAgents: '/app/proptech/agents',
+<<<<<<< HEAD
   proptechAutoPost: '/app/proptech/auto-post',
+=======
+>>>>>>> origin/exp/pres
   // Agent promo
   propiedadDetalle: '/propiedades/:id',
   agente: '/agente-inmobiliario',
   agentePago: '/agente-inmobiliario/pago',
+<<<<<<< HEAD
   // Propietario landing
   propietario: '/propietario',
   // Financial Tools
   proptechFinancialTools: '/app/proptech/financial-tools',
   financialCalculators: '/finanzas',
+=======
+>>>>>>> origin/exp/pres
 } as const;
