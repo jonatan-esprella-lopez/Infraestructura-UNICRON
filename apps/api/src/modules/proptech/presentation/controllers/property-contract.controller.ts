@@ -1,6 +1,6 @@
 import type { RouteDefinition, RequestContext, ApiResponse } from '../../../../core/types/api.types.js';
 import type { PropertyContractService } from '../../application/services/property-contract.service.js';
-import { ok, created, notFound } from '../../../../shared/interceptors/response.interceptor.js';
+import { ok, created, notFound, badRequest } from '../../../../shared/interceptors/response.interceptor.js';
 
 export class PropertyContractController {
   constructor(private readonly service: PropertyContractService) {}
@@ -16,6 +16,11 @@ export class PropertyContractController {
         method: 'POST',
         path: '/proptech/contracts',
         handler: (ctx) => this.create(ctx),
+      },
+      {
+        method: 'POST',
+        path: '/proptech/contracts/review-ai',
+        handler: (ctx) => this.reviewTextWithAi(ctx),
       },
       {
         method: 'GET',
@@ -62,6 +67,18 @@ export class PropertyContractController {
 
   private async reviewWithAi(ctx: RequestContext): Promise<ApiResponse> {
     const review = await this.service.reviewWithAi(ctx.params['id']);
+    return ok(review);
+  }
+
+  private async reviewTextWithAi(ctx: RequestContext): Promise<ApiResponse> {
+    const body = ctx.body as Record<string, unknown> | undefined;
+    const draftText = typeof body?.['draftText'] === 'string' ? body['draftText'].trim() : '';
+
+    if (!draftText) {
+      return badRequest('El texto del contrato es obligatorio');
+    }
+
+    const review = await this.service.reviewTextWithAi(draftText);
     return ok(review);
   }
 }

@@ -17,12 +17,12 @@ const RISK_LABELS: Record<ContractRiskLevel, string> = {
 
 export function PropertyContractsPage() {
   const { review, loading, error, reviewWithAi } = usePropertyContractReview();
-  const [contractId, setContractId] = useState('');
+  const [contractText, setContractText] = useState('');
 
   const handleReview = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!contractId) return;
-    await reviewWithAi(contractId);
+    if (!contractText.trim()) return;
+    await reviewWithAi(contractText);
   };
 
   return (
@@ -41,11 +41,12 @@ export function PropertyContractsPage() {
 
       <form className="property-contracts-page__form" onSubmit={handleReview}>
         <div className="property-contracts-page__field">
-          <label>ID del contrato</label>
-          <input
-            value={contractId}
-            onChange={(e) => setContractId(e.target.value)}
-            placeholder="UUID del contrato"
+          <label>Texto del contrato</label>
+          <textarea
+            value={contractText}
+            onChange={(e) => setContractText(e.target.value)}
+            placeholder="Pega aqui el contrato completo"
+            rows={10}
             required
           />
         </div>

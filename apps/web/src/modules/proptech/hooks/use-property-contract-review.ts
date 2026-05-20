@@ -7,11 +7,11 @@ export function usePropertyContractReview() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const reviewWithAi = async (contractId: string) => {
+  const reviewWithAi = async (draftText: string) => {
     setLoading(true);
     setError(null);
     try {
-      const data = await propertyContractService.reviewWithAi(contractId);
+      const data = await propertyContractService.reviewTextWithAi(draftText);
       setReview(data);
       return data;
     } catch (err) {

@@ -35,14 +35,17 @@ export class PropertyContractService {
     if (!contract) throw new Error(`Contract ${id} not found`);
 
     const textToAnalyze = contract.draftText ?? `Contrato de ${contract.contractType} por ${contract.totalAmount} ${contract.currency}`;
+    return this.reviewTextWithAi(textToAnalyze);
+  }
 
+  async reviewTextWithAi(textToAnalyze: string): Promise<ContractAiReview> {
     const { text } = await this.services.ai.generate({
-      prompt: `Analiza el siguiente contrato inmobiliario y proporciona: nivel de riesgo (low/medium/high), resumen, campos faltantes, cláusulas detectadas, advertencias y recomendaciones. Responde en JSON.\n\n${textToAnalyze}`,
+      prompt: `Analiza el siguiente contrato inmobiliario y proporciona: nivel de riesgo (low/medium/high), resumen, campos faltantes, clausulas detectadas, advertencias y recomendaciones. Responde en JSON.\n\n${textToAnalyze}`,
     });
 
     let review: Partial<ContractAiReview>;
     try {
-      review = JSON.parse(text) as Partial<ContractAiReview>;
+      review = JSON.parse(stripJsonFence(text)) as Partial<ContractAiReview>;
     } catch {
       review = {
         riskLevel: 'medium',
@@ -56,13 +59,22 @@ export class PropertyContractService {
 
     return {
       riskLevel: review.riskLevel ?? 'medium',
-      summary: review.summary ?? 'Revisión preliminar completada',
+      summary: review.summary ?? 'Revision preliminar completada',
       missingFields: review.missingFields ?? [],
       detectedClauses: review.detectedClauses ?? [],
       warnings: review.warnings ?? [],
       recommendations: review.recommendations ?? [],
       disclaimer:
-        'La revisión con IA es preliminar y no reemplaza la revisión de un abogado, notario o profesional legal.',
+        'La revision con IA es preliminar y no reemplaza la revision de un abogado, notario o profesional legal.',
     };
   }
+}
+
+function stripJsonFence(text: string): string {
+  const trimmed = text.trim();
+  if (!trimmed.startsWith('```')) return trimmed;
+  return trimmed
+    .replace(/^```(?:json)?/i, '')
+    .replace(/```$/, '')
+    .trim();
 }
