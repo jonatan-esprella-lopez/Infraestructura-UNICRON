@@ -3,7 +3,7 @@ import {
   BarChart3, Bot, BriefcaseBusiness, Building2, CalendarCheck,
   Calculator, ChevronLeft, ChevronRight, FileSignature, FileText, Gauge,
   Megaphone, QrCode, Receipt, Settings, Shield, Sparkles,
-  TrendingUp, UserRound, UserRoundSearch, Users, WalletCards, Workflow, PieChart,
+  TrendingUp, UserRound, UserRoundSearch, Users, WalletCards, Workflow, PieChart, Wand2,
   type LucideIcon,
 } from 'lucide-react';
 import { appConfig } from '@bootstrap/app-config';
@@ -50,6 +50,7 @@ const AGENT_GROUPS: NavGroup[] = [
       { label: 'Avalúo', path: ROUTES.proptechValuations, icon: Calculator, featureFlag: 'proptech' },
       { label: 'Centro Financiero', path: ROUTES.proptechFinancialTools, icon: PieChart, featureFlag: 'proptech' },
       { label: 'Mi Producción', path: ROUTES.proptechMySales, icon: Receipt, featureFlag: 'proptech' },
+      { label: 'Auto Generaciones', path: ROUTES.proptechAutoPost, icon: Wand2, featureFlag: 'proptech' },
     ],
   },
 ];
