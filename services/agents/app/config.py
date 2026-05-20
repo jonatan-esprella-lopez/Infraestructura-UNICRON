@@ -52,14 +52,28 @@ SERVICE_PUBLIC_URL = os.getenv("SERVICE_PUBLIC_URL", "")
 BACKEND_API_URL = os.getenv("BACKEND_API_URL", "")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "")
 WEB_BASE_URL = os.getenv("WEB_BASE_URL", FRONTEND_URL or "https://wasi.pages.dev")
-CORS_ORIGINS = [
-    origin.strip()
-    for origin in os.getenv(
-        "CORS_ORIGINS",
-        "https://wasi.pages.dev,http://localhost:5173,http://127.0.0.1:5173",
-    ).split(",")
-    if origin.strip()
+
+
+def _csv_env(name: str) -> list[str]:
+    return [item.strip() for item in os.getenv(name, "").split(",") if item.strip()]
+
+
+_default_cors_origins = [
+    "https://wasi.pages.dev",
+    "https://infraestructura-unicron-api.vercel.app",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
 ]
+
+CORS_ORIGINS = list(
+    dict.fromkeys(
+        [
+            *_default_cors_origins,
+            *[origin for origin in (FRONTEND_URL, WEB_BASE_URL) if origin],
+            *_csv_env("CORS_ORIGINS"),
+        ]
+    )
+)
 
 LEAD_MODEL = os.getenv("LEAD_MODEL", "deepseek-chat")
 MATCH_MODEL = os.getenv("MATCH_MODEL", "deepseek-chat")
