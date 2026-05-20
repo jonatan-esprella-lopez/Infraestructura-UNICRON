@@ -34,7 +34,20 @@
       "Bash(taskkill *)",
       "PowerShell(Stop-Process *)",
       "PowerShell(Get-Item *)",
-      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('total:', d['data']['total'], '| primer titulo:', d['data']['items'][0]['title'][:50]\\)\")"
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('total:', d['data']['total'], '| primer titulo:', d['data']['items'][0]['title'][:50]\\)\")",
+      "Bash(RAILWAY_TOKEN=f67a3f57-5d56-4249-9430-6b615ec2ab53 node \"C:/Users/rolda/AppData/Roaming/npm/node_modules/@railway/cli/bin/railway.js\" up --service 0bdbc83e-80ab-4e7e-9a28-6365af2323c1 --detach)",
+      "WebFetch(domain:status.railway.com)",
+      "Bash(\"C:/Users/rolda/AppData/Local/Programs/Python/Python313/python.exe\" -m venv .venv)",
+      "Bash(.venv/Scripts/python.exe -m pip install --upgrade pip)",
+      "Bash(.venv/Scripts/python.exe -m pip install -e .)",
+      "Bash(.venv/Scripts/python.exe -m app.data.synthetic_properties)",
+      "Read(//tmp/**)",
+      "Bash(DATABASE_URL='postgresql://neondb_owner:npg_4SJNQB0sHqpc@ep-solitary-leaf-ap681lat-pooler.c-7.us-east-1.aws.neon.tech/neondb?sslmode=require' node smoke-test.js)",
+      "Bash(grep -E \"^\\\\.env$|services/agents/\\\\.env\" .gitignore)",
+      "Read(//c/Users/rolda/**)",
+      "Bash(RAILWAY_TOKEN=f67a3f57-5d56-4249-9430-6b615ec2ab53 railway up --service 0bdbc83e-80ab-4e7e-9a28-6365af2323c1 --detach)",
+      "PowerShell(Get-Command *)",
+      "WebFetch(domain:api.github.com)"
     ]
   }
 }
