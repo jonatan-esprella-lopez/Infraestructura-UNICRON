@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { environment } from '@bootstrap/environment';
 import './ChatModal.css';
 
-const API = 'http://localhost:8000';
+const API = environment.agentsApiUrl;
 
 export type ChatOperationType = 'alquiler' | 'anticretico' | 'compra';
 

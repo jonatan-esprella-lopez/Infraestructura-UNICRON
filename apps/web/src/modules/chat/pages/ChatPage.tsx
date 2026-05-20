@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { environment } from '@bootstrap/environment';
 import './ChatPage.css';
 
-const API = 'http://localhost:8000';
+const API = environment.agentsApiUrl;
 
 interface Message {
   id: number;

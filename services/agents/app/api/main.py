@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from app.db.connection import get_pool, save_lead, save_financial_profile
 from app.agents.property_matcher import search_properties, rerank_with_llm
 from app.agents.contract_reviewer import analyze_contract
+from app.config import CORS_ORIGINS
 from app.graphs.lead_graph import lead_graph
 from app.graphs.financial_graph import financial_graph
 from langchain_core.messages import HumanMessage
@@ -13,7 +14,7 @@ app = FastAPI(title="CasaLens Agents API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
+    allow_origins=CORS_ORIGINS,
     allow_methods=["*"],
     allow_headers=["*"],
 )

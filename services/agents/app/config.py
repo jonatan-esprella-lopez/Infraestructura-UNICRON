@@ -51,6 +51,15 @@ DATABASE_URL = _required_env("DATABASE_URL")
 SERVICE_PUBLIC_URL = os.getenv("SERVICE_PUBLIC_URL", "")
 BACKEND_API_URL = os.getenv("BACKEND_API_URL", "")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "")
+WEB_BASE_URL = os.getenv("WEB_BASE_URL", FRONTEND_URL or "https://wasi.pages.dev")
+CORS_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CORS_ORIGINS",
+        "https://wasi.pages.dev,http://localhost:5173,http://127.0.0.1:5173",
+    ).split(",")
+    if origin.strip()
+]
 
 LEAD_MODEL = os.getenv("LEAD_MODEL", "deepseek-chat")
 MATCH_MODEL = os.getenv("MATCH_MODEL", "deepseek-chat")

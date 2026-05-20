@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { environment } from '@bootstrap/environment';
 import './MatcherPage.css';
 
-const API = 'http://localhost:8000';
+const API = environment.agentsApiUrl;
 
 interface Lead {
   id: string;
@@ -133,7 +134,7 @@ export function MatcherPage() {
         setMatches(matchData.matches ?? []);
         setMessage(matchData.message ?? '');
       })
-      .catch(() => setError('No se pudo conectar con el servidor de agentes (localhost:8000).'))
+      .catch(() => setError('No se pudo conectar con el servidor de agentes.'))
       .finally(() => setLoading(false));
   }, [leadId]);
 

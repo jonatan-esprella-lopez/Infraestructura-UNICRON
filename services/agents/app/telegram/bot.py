@@ -1,12 +1,9 @@
-import os
 from telegram import Update
 from telegram.ext import Application, MessageHandler, CommandHandler, filters, ContextTypes
 from langchain_core.messages import HumanMessage
 from app.graphs.lead_graph import lead_graph
 from app.db.connection import save_lead
-from app.config import TELEGRAM_BOT_TOKEN
-
-WEB_BASE_URL = os.getenv("WEB_BASE_URL", "http://localhost:5173")
+from app.config import TELEGRAM_BOT_TOKEN, WEB_BASE_URL
 
 
 async def start(update: Update, ctx: ContextTypes.DEFAULT_TYPE) -> None:

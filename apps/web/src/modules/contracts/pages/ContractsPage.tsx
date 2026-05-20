@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { environment } from '@bootstrap/environment';
 import './ContractsPage.css';
 
-const API = 'http://localhost:8000';
+const API = environment.agentsApiUrl;
 
 interface Flag {
   clause_id: string;
@@ -41,7 +42,7 @@ export function ContractsPage() {
       if (!resp.ok) throw new Error(`Error ${resp.status}`);
       setAnalysis(await resp.json());
     } catch {
-      setError('No se pudo conectar con el servidor (localhost:8000).');
+      setError('No se pudo conectar con el servidor de agentes.');
     } finally {
       setLoading(false);
     }

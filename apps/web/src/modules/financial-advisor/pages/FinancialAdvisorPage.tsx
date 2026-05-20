@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import { environment } from '@bootstrap/environment';
 import './FinancialAdvisorPage.css';
 
-const API = 'http://localhost:8000';
+const API = environment.agentsApiUrl;
 
 interface Evaluation {
   verdict: 'apto' | 'condicionado' | 'no_apto';
