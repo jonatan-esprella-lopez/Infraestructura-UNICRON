@@ -3,6 +3,7 @@ import type { IncomingMessage, ServerResponse } from 'node:http';
 import { AppError } from './core/errors/app.error.js';
 import { ValidationError } from './core/errors/validation.error.js';
 import { REQUEST_ID_HEADER, TENANT_ID_HEADER } from './core/constants/headers.constants.js';
+import type { ApiRuntime } from './server.js';
 import type {
   ApiResponse,
   AppConfig,
@@ -155,6 +156,38 @@ export class ApiApplication {
       },
     });
   }
+}
+
+let runtimePromise: Promise<ApiRuntime> | null = null;
+
+export default async function handler(req: IncomingMessage, res: ServerResponse): Promise<void> {
+  runtimePromise ??= import('./bootstrap/bootstrap-app.js').then(({ bootstrapApp }) => bootstrapApp());
+  const runtime = await runtimePromise;
+  const responseDone = waitForResponse(res);
+  runtime.server.emit('request', req, res);
+  await responseDone;
+}
+
+function waitForResponse(res: ServerResponse): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const cleanup = () => {
+      res.off('finish', onDone);
+      res.off('close', onDone);
+      res.off('error', onError);
+    };
+    const onDone = () => {
+      cleanup();
+      resolve();
+    };
+    const onError = (error: Error) => {
+      cleanup();
+      reject(error);
+    };
+
+    res.once('finish', onDone);
+    res.once('close', onDone);
+    res.once('error', onError);
+  });
 }
 
 function normalizeMethod(method?: string): HttpMethod {
