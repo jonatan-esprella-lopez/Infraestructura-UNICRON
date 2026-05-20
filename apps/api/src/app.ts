@@ -1,5 +1,6 @@
 import { randomUUID } from 'node:crypto';
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import './bootstrap/load-env.js';
 import { AppError } from './core/errors/app.error.js';
 import { ValidationError } from './core/errors/validation.error.js';
 import { REQUEST_ID_HEADER, TENANT_ID_HEADER } from './core/constants/headers.constants.js';

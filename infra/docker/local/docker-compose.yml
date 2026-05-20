@@ -61,11 +61,7 @@ services:
       timeout: 5s
       retries: 5
     ports:
-<<<<<<< HEAD
       - "55432:5432"
-=======
-      - "5432:5432"
->>>>>>> origin/exp/pres
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:

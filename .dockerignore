@@ -11,8 +11,14 @@ apps/web/dist
 apps/api/local.db
 apps/api/*.db
 
+# Environment files / secrets
+.env
+.env.*
+**/.env
+**/.env.*
+!**/.env.example
+
 # Archivos de desarrollo
-**/.env.local
 **/*.log
 **/.DS_Store
 **/Thumbs.db

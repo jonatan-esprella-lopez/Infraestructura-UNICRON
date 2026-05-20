@@ -5,7 +5,7 @@ metadata:
   namespace: unicron
 spec:
   rules:
-    - host: app.example.com
+    - host: wasi.pages.dev
       http:
         paths:
           - path: /api

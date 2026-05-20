@@ -15,7 +15,8 @@
     "test:watch": "node --import tsx/esm --test --watch src/tests/auth.test.ts src/tests/turso.test.ts"
   },
   "dependencies": {
-    "@libsql/client": "^0.17.3"
+    "@libsql/client": "^0.17.3",
+    "dotenv": "^16.4.7"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",

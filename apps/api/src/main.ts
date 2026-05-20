@@ -1,3 +1,4 @@
+import './bootstrap/load-env.js';
 import { bootstrapApp } from './bootstrap/bootstrap-app.js';
 
 const runtime = await bootstrapApp();

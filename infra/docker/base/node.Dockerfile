@@ -18,11 +18,8 @@ FROM node:22-alpine AS api
 WORKDIR /workspace
 ENV NODE_ENV=production
 
-<<<<<<< HEAD
 COPY --from=api-build /workspace/node_modules node_modules
 COPY --from=api-build /workspace/apps/api/package.json apps/api/package.json
-=======
->>>>>>> origin/exp/pres
 COPY --from=api-build /workspace/apps/api/dist apps/api/dist
 
 EXPOSE 4000

@@ -1,5 +1,4 @@
 import os
-<<<<<<< HEAD
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -26,9 +25,7 @@ def _required_env(name: str) -> str:
     if not value:
         raise RuntimeError(f"Missing required environment variable: {name}")
     if _looks_like_placeholder(name, value):
-        raise RuntimeError(
-            f"{name} looks like a placeholder. Set a real value in {ENV_FILE}."
-        )
+        raise RuntimeError(f"{name} looks like a placeholder. Set a real value in {ENV_FILE}.")
     return value
 
 
@@ -36,12 +33,11 @@ def _truthy_env(name: str) -> bool:
     return os.getenv(name, "").strip().lower() in {"1", "true", "yes", "on"}
 
 
-_langsmith_tracing_enabled = _truthy_env("LANGSMITH_TRACING") or _truthy_env(
-    "LANGCHAIN_TRACING_V2"
-)
+_langsmith_tracing_enabled = _truthy_env("LANGSMITH_TRACING") or _truthy_env("LANGCHAIN_TRACING_V2")
 
 if _langsmith_tracing_enabled and _looks_like_placeholder(
-    "LANGSMITH_API_KEY", os.getenv("LANGSMITH_API_KEY", "")
+    "LANGSMITH_API_KEY",
+    os.getenv("LANGSMITH_API_KEY", ""),
 ):
     os.environ["LANGSMITH_TRACING"] = "false"
     os.environ["LANGCHAIN_TRACING_V2"] = "false"
@@ -51,16 +47,10 @@ DEEPSEEK_API_KEY = _required_env("DEEPSEEK_API_KEY")
 VOYAGE_API_KEY = _required_env("VOYAGE_API_KEY")
 TELEGRAM_BOT_TOKEN = _required_env("TELEGRAM_BOT_TOKEN")
 DATABASE_URL = _required_env("DATABASE_URL")
-=======
-from dotenv import load_dotenv
 
-load_dotenv()
-
-DEEPSEEK_API_KEY = os.environ["DEEPSEEK_API_KEY"]
-VOYAGE_API_KEY = os.environ["VOYAGE_API_KEY"]
-TELEGRAM_BOT_TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
-DATABASE_URL = os.environ["DATABASE_URL"]
->>>>>>> origin/exp/pres
+SERVICE_PUBLIC_URL = os.getenv("SERVICE_PUBLIC_URL", "")
+BACKEND_API_URL = os.getenv("BACKEND_API_URL", "")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "")
 
 LEAD_MODEL = os.getenv("LEAD_MODEL", "deepseek-chat")
 MATCH_MODEL = os.getenv("MATCH_MODEL", "deepseek-chat")

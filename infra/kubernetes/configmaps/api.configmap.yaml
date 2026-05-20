@@ -4,6 +4,11 @@ metadata:
   name: api-config
   namespace: unicron
 data:
+  API_NAME: unicron-api
   API_PREFIX: /api/v1
   API_HOST: 0.0.0.0
   API_PORT: "4000"
+  PUBLIC_API_URL: https://infraestructura-unicron-api.vercel.app
+  FRONTEND_URL: https://wasi.pages.dev
+  AGENTS_API_URL: https://casalens-agents-production.up.railway.app
+  CORS_ORIGINS: https://wasi.pages.dev,https://infraestructura-unicron-api.vercel.app,http://localhost:5173,http://127.0.0.1:5173
